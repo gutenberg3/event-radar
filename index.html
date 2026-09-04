@@ -39,7 +39,7 @@
     <div class="flex items-center gap-2">
       <span class="inline-block w-2.5 h-2.5 bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]"></span>
       <span class="font-pixel text-xs tracking-wider text-[#00ffcc]">RADAR://NET</span>
-      <span class="text-[11px] text-[#38bdf8]/60 font-mono tracking-wide ml-1">[CHRONOLOGICAL ROLLCALL]</span>
+      <span id="sync-banner" class="text-[10px] text-[#38bdf8]/60 font-mono tracking-wide ml-1">[SYNCING...]</span>
     </div>
 
     <div class="flex items-center gap-2">
@@ -73,7 +73,7 @@
   <!-- EVENT STREAM -->
   <main class="w-full max-w-5xl px-3 py-3">
     <div id="event-list" class="space-y-2">
-      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live sheet data...</div>
+      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live events from sheet...</div>
     </div>
   </main>
 
@@ -106,11 +106,11 @@
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Date Display</label>
-            <input id="modal-date-str" type="text" placeholder="e.g. Oct 1–3, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+            <input id="modal-date-str" type="text" placeholder="e.g. Sep 30 – Oct 2, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
           </div>
           <div>
             <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Start Date (Sort)</label>
-            <input id="modal-start-date" type="date" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc] text-[11px]">
+            <input id="modal-start-date" type="text" placeholder="YYYY-MM-DD" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc] text-[11px]">
           </div>
         </div>
 
@@ -154,7 +154,7 @@
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyLOxhsA3a86NO0A3MLrqg5fNVb0Tb_MGwUMb3wamgdSJyiyh9om0ritl8j5VODZz_z/exec";
 
     let eventsData = [];
-    let userInitials = localStorage.getItem('radar_initials') || '';
+    let userInitials = (localStorage.getItem('radar_initials') || '').trim().toUpperCase();
 
     const initialsInput = document.getElementById('user-initials');
     initialsInput.value = userInitials;
@@ -164,17 +164,32 @@
       renderEvents();
     });
 
+    function cleanArray(str) {
+      return String(str || '')
+        .replace(/['"]/g, '')
+        .split(';')
+        .map(s => s.trim().toUpperCase())
+        .filter(Boolean);
+    }
+
     async function loadEvents() {
+      const banner = document.getElementById('sync-banner');
+      banner.textContent = '[SYNCING...]';
+      banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
+      
       try {
         const res = await fetch(SHEET_API_URL);
         if (res.ok) {
           const liveRows = await res.json();
-          if (Array.isArray(liveRows)) {
+          if (Array.isArray(liveRows) && liveRows.length > 0) {
             eventsData = liveRows;
+            banner.textContent = '[LIVE]';
+            banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
           }
         }
       } catch (err) {
-        console.error('Fetch error:', err);
+        banner.textContent = '[OFFLINE]';
+        banner.className = 'text-[10px] text-red-400 font-mono tracking-wide ml-1';
       }
       renderEvents();
     }
@@ -186,16 +201,19 @@
         return;
       }
 
-      const sorted = [...eventsData].sort((a, b) => (String(a.startDate || '')).localeCompare(String(b.startDate || '')));
+      // Safe clone to prevent mutating original order
+      const displayList = eventsData.slice().sort((a, b) => {
+        return String(a.startDate || '').localeCompare(String(b.startDate || ''));
+      });
 
-      list.innerHTML = sorted.map(ev => {
-        const yArr = String(ev.yAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
-        const mArr = String(ev.mAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
-        const nArr = String(ev.nAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
+      list.innerHTML = displayList.map(ev => {
+        const yArr = cleanArray(ev.yAttendees);
+        const mArr = cleanArray(ev.mAttendees);
+        const nArr = cleanArray(ev.nAttendees);
 
-        const isY = userInitials && yArr.includes(userInitials);
-        const isM = userInitials && mArr.includes(userInitials);
-        const isN = userInitials && nArr.includes(userInitials);
+        const isY = userInitials !== '' && yArr.includes(userInitials);
+        const isM = userInitials !== '' && mArr.includes(userInitials);
+        const isN = userInitials !== '' && nArr.includes(userInitials);
 
         return `
           <div class="bg-[#081321] border border-[#122842] hover:border-[#1d426d] px-3.5 py-2.5 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 transition-colors">
@@ -210,7 +228,7 @@
                   ${ev.dateStr || ev.startDate || 'TBD'}
                 </span>
                 <button 
-                  onclick="openEditByRow('${ev.sheetRow}')" 
+                  onclick="openEditByRow(${Number(ev.sheetRow)})" 
                   class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline"
                 >
                   [edit]
@@ -253,15 +271,15 @@
             <div class="shrink-0 self-end md:self-center">
               <div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden">
                 <button 
-                  onclick="setRSVPByRow('${ev.sheetRow}', 'Y')" 
+                  onclick="setRSVPByRow(${Number(ev.sheetRow)}, 'Y')" 
                   class="px-2.5 py-1 text-xs font-bold transition-colors ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
                 >Y</button>
                 <button 
-                  onclick="setRSVPByRow('${ev.sheetRow}', 'M')" 
+                  onclick="setRSVPByRow(${Number(ev.sheetRow)}, 'M')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
                 >M</button>
                 <button 
-                  onclick="setRSVPByRow('${ev.sheetRow}', 'N')" 
+                  onclick="setRSVPByRow(${Number(ev.sheetRow)}, 'N')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
                 >N</button>
               </div>
@@ -272,8 +290,8 @@
       }).join('');
     }
 
-    function openEditByRow(rowId) {
-      const ev = eventsData.find(e => String(e.sheetRow) === String(rowId));
+    function openEditByRow(targetRow) {
+      const ev = eventsData.find(e => Number(e.sheetRow) === Number(targetRow));
       if (!ev) return;
 
       document.getElementById('modal-sheet-row').value = ev.sheetRow;
@@ -309,19 +327,38 @@
       document.getElementById('event-modal').classList.add('hidden');
     }
 
+    function postToSheet(payload) {
+      const banner = document.getElementById('sync-banner');
+      banner.textContent = '[SAVING...]';
+      banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
+
+      fetch(SHEET_API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      }).then(() => {
+        banner.textContent = '[SAVED]';
+        banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
+        setTimeout(() => {
+          banner.textContent = '[LIVE]';
+        }, 2000);
+      });
+    }
+
     function saveEventChanges() {
       const sheetRow = document.getElementById('modal-sheet-row').value;
       const url = document.getElementById('modal-url').value.trim();
       let title = document.getElementById('modal-title').value.trim() || 'New Event';
       let dateStr = document.getElementById('modal-date-str').value.trim();
-      let startDate = document.getElementById('modal-start-date').value || '2026-12-31';
+      let startDate = document.getElementById('modal-start-date').value.trim() || '2026-12-31';
       let location = document.getElementById('modal-location').value.trim();
       let sponsors = document.getElementById('modal-sponsors').value.trim();
 
       if (!dateStr) dateStr = startDate;
 
       if (sheetRow) {
-        const ev = eventsData.find(e => String(e.sheetRow) === String(sheetRow));
+        const ev = eventsData.find(e => Number(e.sheetRow) === Number(sheetRow));
         if (ev) {
           ev.url = url;
           ev.title = title;
@@ -329,46 +366,38 @@
           ev.startDate = startDate;
           ev.location = location;
           ev.sponsors = sponsors;
+          
           renderEvents();
           closeModal();
 
-          fetch(SHEET_API_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({
-              action: 'edit_row',
-              sheetRow: parseInt(sheetRow, 10),
-              title,
-              startDate,
-              dateStr,
-              location,
-              url,
-              sponsors
-            })
-          });
-        }
-      } else {
-        closeModal();
-        fetch(SHEET_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'add',
+          postToSheet({
+            action: 'edit_row',
+            sheetRow: Number(sheetRow),
             title,
             startDate,
             dateStr,
             location,
             url,
-            sponsors,
-            yAttendees: userInitials || ''
-          })
-        }).then(() => setTimeout(loadEvents, 1200));
+            sponsors
+          });
+        }
+      } else {
+        closeModal();
+        postToSheet({
+          action: 'add',
+          title,
+          startDate,
+          dateStr,
+          location,
+          url,
+          sponsors,
+          yAttendees: userInitials || ''
+        });
+        setTimeout(loadEvents, 1500);
       }
     }
 
-    function setRSVPByRow(rowId, status) {
+    function setRSVPByRow(targetRow, status) {
       if (!userInitials) {
         initialsInput.focus();
         initialsInput.classList.add('ring-2', 'ring-[#00ffcc]');
@@ -376,23 +405,23 @@
         return;
       }
 
-      const ev = eventsData.find(e => String(e.sheetRow) === String(rowId));
+      const ev = eventsData.find(e => Number(e.sheetRow) === Number(targetRow));
       if (!ev) return;
 
-      let y = String(ev.yAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
-      let m = String(ev.mAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
-      let n = String(ev.nAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
+      let y = cleanArray(ev.yAttendees);
+      let m = cleanArray(ev.mAttendees);
+      let n = cleanArray(ev.nAttendees);
 
       const isCurrentY = y.includes(userInitials);
       const isCurrentM = m.includes(userInitials);
       const isCurrentN = n.includes(userInitials);
 
-      // Clean removal from all
+      // Strip user from all 3 arrays
       y = y.filter(i => i !== userInitials);
       m = m.filter(i => i !== userInitials);
       n = n.filter(i => i !== userInitials);
 
-      // Toggle off if clicking the currently active status, otherwise switch to new status
+      // Toggle off if clicking active choice; otherwise apply new choice
       if (status === 'Y' && !isCurrentY) y.push(userInitials);
       if (status === 'M' && !isCurrentM) m.push(userInitials);
       if (status === 'N' && !isCurrentN) n.push(userInitials);
@@ -403,17 +432,12 @@
 
       renderEvents();
 
-      fetch(SHEET_API_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
-          action: 'rsvp_row',
-          sheetRow: parseInt(ev.sheetRow, 10),
-          yAttendees: ev.yAttendees,
-          mAttendees: ev.mAttendees,
-          nAttendees: ev.nAttendees
-        })
+      postToSheet({
+        action: 'rsvp_row',
+        sheetRow: Number(ev.sheetRow),
+        yAttendees: ev.yAttendees,
+        mAttendees: ev.mAttendees,
+        nAttendees: ev.nAttendees
       });
     }
 
