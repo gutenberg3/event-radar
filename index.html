@@ -73,7 +73,7 @@
   <!-- EVENT STREAM -->
   <main class="w-full max-w-5xl px-3 py-3">
     <div id="event-list" class="space-y-2">
-      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live events from sheet...</div>
+      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live sheet data...</div>
     </div>
   </main>
 
@@ -85,7 +85,7 @@
         <button onclick="closeModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
       </div>
 
-      <input type="hidden" id="modal-sheet-row" value="">
+      <input type="hidden" id="modal-event-index" value="">
 
       <div>
         <label class="block text-[10px] text-[#38bdf8] uppercase font-bold mb-1">Web Address</label>
@@ -183,6 +183,8 @@
           const liveRows = await res.json();
           if (Array.isArray(liveRows) && liveRows.length > 0) {
             eventsData = liveRows;
+            // Sort once on initial load
+            eventsData.sort((a, b) => String(a.startDate || '').localeCompare(String(b.startDate || '')));
             banner.textContent = '[LIVE]';
             banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
           }
@@ -197,16 +199,11 @@
     function renderEvents() {
       const list = document.getElementById('event-list');
       if (!eventsData || eventsData.length === 0) {
-        list.innerHTML = `<div class="text-xs text-slate-500 py-12 text-center">No events found in Google Sheet. Click [+ EVENT] to add one.</div>`;
+        list.innerHTML = `<div class="text-xs text-slate-500 py-12 text-center">No events loaded. Check connection.</div>`;
         return;
       }
 
-      // Safe clone to prevent mutating original order
-      const displayList = eventsData.slice().sort((a, b) => {
-        return String(a.startDate || '').localeCompare(String(b.startDate || ''));
-      });
-
-      list.innerHTML = displayList.map(ev => {
+      list.innerHTML = eventsData.map((ev, index) => {
         const yArr = cleanArray(ev.yAttendees);
         const mArr = cleanArray(ev.mAttendees);
         const nArr = cleanArray(ev.nAttendees);
@@ -228,7 +225,7 @@
                   ${ev.dateStr || ev.startDate || 'TBD'}
                 </span>
                 <button 
-                  onclick="openEditByRow(${Number(ev.sheetRow)})" 
+                  onclick="openEdit(${index})" 
                   class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline"
                 >
                   [edit]
@@ -271,15 +268,15 @@
             <div class="shrink-0 self-end md:self-center">
               <div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden">
                 <button 
-                  onclick="setRSVPByRow(${Number(ev.sheetRow)}, 'Y')" 
+                  onclick="setRSVP(${index}, 'Y')" 
                   class="px-2.5 py-1 text-xs font-bold transition-colors ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
                 >Y</button>
                 <button 
-                  onclick="setRSVPByRow(${Number(ev.sheetRow)}, 'M')" 
+                  onclick="setRSVP(${index}, 'M')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
                 >M</button>
                 <button 
-                  onclick="setRSVPByRow(${Number(ev.sheetRow)}, 'N')" 
+                  onclick="setRSVP(${index}, 'N')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
                 >N</button>
               </div>
@@ -290,12 +287,12 @@
       }).join('');
     }
 
-    function openEditByRow(targetRow) {
-      const ev = eventsData.find(e => Number(e.sheetRow) === Number(targetRow));
+    function openEdit(index) {
+      const ev = eventsData[index];
       if (!ev) return;
 
-      document.getElementById('modal-sheet-row').value = ev.sheetRow;
-      document.getElementById('modal-heading').textContent = `EDIT EVENT (ROW ${ev.sheetRow})`;
+      document.getElementById('modal-event-index').value = String(index);
+      document.getElementById('modal-heading').textContent = 'EDIT EVENT';
       document.getElementById('modal-save-btn').textContent = 'SAVE TO SHEET';
 
       document.getElementById('modal-url').value = ev.url || '';
@@ -309,7 +306,7 @@
     }
 
     function openAddModal() {
-      document.getElementById('modal-sheet-row').value = '';
+      document.getElementById('modal-event-index').value = '';
       document.getElementById('modal-heading').textContent = 'ADD NEW EVENT';
       document.getElementById('modal-save-btn').textContent = 'ADD TO SHEET';
 
@@ -347,7 +344,7 @@
     }
 
     function saveEventChanges() {
-      const sheetRow = document.getElementById('modal-sheet-row').value;
+      const idxStr = document.getElementById('modal-event-index').value;
       const url = document.getElementById('modal-url').value.trim();
       let title = document.getElementById('modal-title').value.trim() || 'New Event';
       let dateStr = document.getElementById('modal-date-str').value.trim();
@@ -357,8 +354,8 @@
 
       if (!dateStr) dateStr = startDate;
 
-      if (sheetRow) {
-        const ev = eventsData.find(e => Number(e.sheetRow) === Number(sheetRow));
+      if (idxStr !== '') {
+        const ev = eventsData[Number(idxStr)];
         if (ev) {
           ev.url = url;
           ev.title = title;
@@ -371,8 +368,8 @@
           closeModal();
 
           postToSheet({
-            action: 'edit_row',
-            sheetRow: Number(sheetRow),
+            action: 'edit',
+            id: ev.id,
             title,
             startDate,
             dateStr,
@@ -397,7 +394,7 @@
       }
     }
 
-    function setRSVPByRow(targetRow, status) {
+    function setRSVP(index, status) {
       if (!userInitials) {
         initialsInput.focus();
         initialsInput.classList.add('ring-2', 'ring-[#00ffcc]');
@@ -405,7 +402,7 @@
         return;
       }
 
-      const ev = eventsData.find(e => Number(e.sheetRow) === Number(targetRow));
+      const ev = eventsData[index];
       if (!ev) return;
 
       let y = cleanArray(ev.yAttendees);
@@ -416,12 +413,12 @@
       const isCurrentM = m.includes(userInitials);
       const isCurrentN = n.includes(userInitials);
 
-      // Strip user from all 3 arrays
+      // Strip user from all arrays
       y = y.filter(i => i !== userInitials);
       m = m.filter(i => i !== userInitials);
       n = n.filter(i => i !== userInitials);
 
-      // Toggle off if clicking active choice; otherwise apply new choice
+      // Toggle off if active choice, or set new choice
       if (status === 'Y' && !isCurrentY) y.push(userInitials);
       if (status === 'M' && !isCurrentM) m.push(userInitials);
       if (status === 'N' && !isCurrentN) n.push(userInitials);
@@ -433,8 +430,9 @@
       renderEvents();
 
       postToSheet({
-        action: 'rsvp_row',
-        sheetRow: Number(ev.sheetRow),
+        action: 'rsvp',
+        id: ev.id,
+        title: ev.title,
         yAttendees: ev.yAttendees,
         mAttendees: ev.mAttendees,
         nAttendees: ev.nAttendees
