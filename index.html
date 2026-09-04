@@ -30,11 +30,28 @@
     input, button, textarea {
       font-family: 'JetBrains Mono', monospace;
     }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.active {
+      display: flex !important;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center pb-12">
 
-  <!-- COMMAND HEADER -->
+  <!-- TOP COMMAND HEADER -->
   <header class="w-full max-w-5xl px-3 py-2.5 flex items-center justify-between border-b border-[#0f2338] sticky top-0 bg-[#050b14]/95 backdrop-blur z-20">
     <div class="flex items-center gap-2">
       <span class="inline-block w-2.5 h-2.5 bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]"></span>
@@ -55,14 +72,16 @@
       </div>
 
       <button 
-        onclick="openAddModal()" 
+        id="btn-add-event"
+        type="button"
         class="bg-[#00e699] hover:bg-[#00ffab] text-[#050b14] font-bold text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-all active:scale-95"
       >
         <span>+</span> EVENT
       </button>
 
       <button 
-        onclick="openWhoDis()" 
+        id="btn-who-dis"
+        type="button"
         class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1"
       >
         <span>📇</span> WHO DIS?
@@ -73,16 +92,16 @@
   <!-- EVENT STREAM -->
   <main class="w-full max-w-5xl px-3 py-3">
     <div id="event-list" class="space-y-2">
-      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live sheet data...</div>
+      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live events from sheet...</div>
     </div>
   </main>
 
   <!-- EDIT / ADD MODAL -->
-  <div id="event-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3">
+  <div id="event-modal" class="modal-overlay">
     <div class="bg-[#081526] border border-[#163860] w-full max-w-md p-4 rounded-lg shadow-2xl space-y-3">
       <div class="flex justify-between items-center border-b border-[#163860] pb-2">
         <span id="modal-heading" class="font-pixel text-[10px] text-[#00ffcc]">EDIT EVENT</span>
-        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+        <button id="modal-close-x" type="button" class="text-slate-400 hover:text-white text-sm">✕</button>
       </div>
 
       <input type="hidden" id="modal-event-index" value="">
@@ -126,8 +145,8 @@
       </div>
 
       <div class="pt-2 flex justify-end gap-2 border-t border-[#163860]">
-        <button onclick="closeModal()" class="px-3 py-1 text-xs text-slate-400 hover:text-white">CANCEL</button>
-        <button id="modal-save-btn" onclick="saveEventChanges()" class="bg-[#00e699] text-[#050b14] font-bold px-4 py-1 text-xs rounded hover:bg-[#00ffab]">
+        <button id="modal-cancel-btn" type="button" class="px-3 py-1 text-xs text-slate-400 hover:text-white">CANCEL</button>
+        <button id="modal-save-btn" type="button" class="bg-[#00e699] text-[#050b14] font-bold px-4 py-1 text-xs rounded hover:bg-[#00ffab]">
           SAVE TO SHEET
         </button>
       </div>
@@ -135,11 +154,11 @@
   </div>
 
   <!-- WHO DIS MODAL -->
-  <div id="who-dis-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3">
+  <div id="who-dis-modal" class="modal-overlay">
     <div class="bg-[#081526] border border-[#163860] w-full max-w-sm p-4 rounded-lg space-y-3 shadow-2xl">
       <div class="flex justify-between items-center border-b border-[#163860] pb-2">
         <span class="font-pixel text-[10px] text-[#38bdf8]">WHO DIS? // RADAR OPERATOR</span>
-        <button onclick="closeWhoDis()" class="text-slate-400 hover:text-white text-base">✕</button>
+        <button id="who-dis-close" type="button" class="text-slate-400 hover:text-white text-base">✕</button>
       </div>
       <div class="space-y-2 text-xs text-slate-300">
         <p>Attendees use 2-letter initials or nicknames for lightweight network rollcall.</p>
@@ -183,7 +202,6 @@
           const liveRows = await res.json();
           if (Array.isArray(liveRows) && liveRows.length > 0) {
             eventsData = liveRows;
-            // Sort once on initial load
             eventsData.sort((a, b) => String(a.startDate || '').localeCompare(String(b.startDate || '')));
             banner.textContent = '[LIVE]';
             banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
@@ -217,7 +235,7 @@
             
             <div class="min-w-0 flex-1">
               <div class="flex flex-wrap items-center gap-2">
-                <a href="${ev.url || '#'}" target="_blank" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1">
+                <a href="${ev.url || '#'}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1">
                   ${ev.title || 'Untitled'}
                   <span class="text-[10px] text-slate-400">↗</span>
                 </a>
@@ -225,8 +243,10 @@
                   ${ev.dateStr || ev.startDate || 'TBD'}
                 </span>
                 <button 
-                  onclick="openEdit(${index})" 
-                  class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline"
+                  type="button"
+                  data-action="edit"
+                  data-index="${index}"
+                  class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline cursor-pointer"
                 >
                   [edit]
                 </button>
@@ -268,16 +288,25 @@
             <div class="shrink-0 self-end md:self-center">
               <div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden">
                 <button 
-                  onclick="setRSVP(${index}, 'Y')" 
-                  class="px-2.5 py-1 text-xs font-bold transition-colors ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
+                  type="button"
+                  data-action="rsvp"
+                  data-status="Y"
+                  data-index="${index}"
+                  class="px-2.5 py-1 text-xs font-bold transition-colors cursor-pointer ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
                 >Y</button>
                 <button 
-                  onclick="setRSVP(${index}, 'M')" 
-                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
+                  type="button"
+                  data-action="rsvp"
+                  data-status="M"
+                  data-index="${index}"
+                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors cursor-pointer ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
                 >M</button>
                 <button 
-                  onclick="setRSVP(${index}, 'N')" 
-                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
+                  type="button"
+                  data-action="rsvp"
+                  data-status="N"
+                  data-index="${index}"
+                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors cursor-pointer ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
                 >N</button>
               </div>
             </div>
@@ -286,6 +315,22 @@
         `;
       }).join('');
     }
+
+    // Direct event delegation for all list clicks
+    document.getElementById('event-list').addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+
+      const action = btn.dataset.action;
+      const index = Number(btn.dataset.index);
+
+      if (action === 'edit') {
+        openEdit(index);
+      } else if (action === 'rsvp') {
+        const status = btn.dataset.status;
+        setRSVP(index, status);
+      }
+    });
 
     function openEdit(index) {
       const ev = eventsData[index];
@@ -302,7 +347,7 @@
       document.getElementById('modal-location').value = ev.location || '';
       document.getElementById('modal-sponsors').value = ev.sponsors || '';
 
-      document.getElementById('event-modal').classList.remove('hidden');
+      document.getElementById('event-modal').classList.add('active');
     }
 
     function openAddModal() {
@@ -317,11 +362,11 @@
       document.getElementById('modal-location').value = '';
       document.getElementById('modal-sponsors').value = '';
 
-      document.getElementById('event-modal').classList.remove('hidden');
+      document.getElementById('event-modal').classList.add('active');
     }
 
     function closeModal() {
-      document.getElementById('event-modal').classList.add('hidden');
+      document.getElementById('event-modal').classList.remove('active');
     }
 
     function postToSheet(payload) {
@@ -413,12 +458,12 @@
       const isCurrentM = m.includes(userInitials);
       const isCurrentN = n.includes(userInitials);
 
-      // Strip user from all arrays
+      // Remove from all 3
       y = y.filter(i => i !== userInitials);
       m = m.filter(i => i !== userInitials);
       n = n.filter(i => i !== userInitials);
 
-      // Toggle off if active choice, or set new choice
+      // Toggle off if clicking the active one, else set new
       if (status === 'Y' && !isCurrentY) y.push(userInitials);
       if (status === 'M' && !isCurrentM) m.push(userInitials);
       if (status === 'N' && !isCurrentN) n.push(userInitials);
@@ -439,12 +484,17 @@
       });
     }
 
-    function openWhoDis() {
-      document.getElementById('who-dis-modal').classList.remove('hidden');
-    }
-    function closeWhoDis() {
-      document.getElementById('who-dis-modal').classList.add('hidden');
-    }
+    // Modal triggers & closes
+    document.getElementById('btn-add-event').addEventListener('click', openAddModal);
+    document.getElementById('btn-who-dis').addEventListener('click', () => {
+      document.getElementById('who-dis-modal').classList.add('active');
+    });
+    document.getElementById('modal-close-x').addEventListener('click', closeModal);
+    document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
+    document.getElementById('modal-save-btn').addEventListener('click', saveEventChanges);
+    document.getElementById('who-dis-close').addEventListener('click', () => {
+      document.getElementById('who-dis-modal').classList.remove('active');
+    });
 
     loadEvents();
   </script>
