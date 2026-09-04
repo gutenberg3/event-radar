@@ -30,23 +30,6 @@
     input, button, textarea {
       font-family: 'JetBrains Mono', monospace;
     }
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(4px);
-      z-index: 50;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-    .modal-overlay.active {
-      display: flex !important;
-    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center pb-12">
@@ -56,7 +39,7 @@
     <div class="flex items-center gap-2">
       <span class="inline-block w-2.5 h-2.5 bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]"></span>
       <span class="font-pixel text-xs tracking-wider text-[#00ffcc]">RADAR://NET</span>
-      <span id="sync-banner" class="text-[10px] text-[#38bdf8]/60 font-mono tracking-wide ml-1">[SYNCING...]</span>
+      <span id="sync-banner" class="text-[10px] text-[#38bdf8]/60 font-mono tracking-wide ml-1">[READY]</span>
     </div>
 
     <div class="flex items-center gap-2">
@@ -74,7 +57,7 @@
       <button 
         id="btn-add-event"
         type="button"
-        class="bg-[#00e699] hover:bg-[#00ffab] text-[#050b14] font-bold text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-all active:scale-95"
+        class="bg-[#00e699] hover:bg-[#00ffab] text-[#050b14] font-bold text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
       >
         <span>+</span> EVENT
       </button>
@@ -82,7 +65,7 @@
       <button 
         id="btn-who-dis"
         type="button"
-        class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1"
+        class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer"
       >
         <span>📇</span> WHO DIS?
       </button>
@@ -92,16 +75,16 @@
   <!-- EVENT STREAM -->
   <main class="w-full max-w-5xl px-3 py-3">
     <div id="event-list" class="space-y-2">
-      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live events from sheet...</div>
+      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Initializing rollcall radar...</div>
     </div>
   </main>
 
   <!-- EDIT / ADD MODAL -->
-  <div id="event-modal" class="modal-overlay">
+  <div id="event-modal" style="display: none;" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 items-center justify-center p-3">
     <div class="bg-[#081526] border border-[#163860] w-full max-w-md p-4 rounded-lg shadow-2xl space-y-3">
       <div class="flex justify-between items-center border-b border-[#163860] pb-2">
         <span id="modal-heading" class="font-pixel text-[10px] text-[#00ffcc]">EDIT EVENT</span>
-        <button id="modal-close-x" type="button" class="text-slate-400 hover:text-white text-sm">✕</button>
+        <button id="modal-close-x" type="button" class="text-slate-400 hover:text-white text-sm cursor-pointer">✕</button>
       </div>
 
       <input type="hidden" id="modal-event-index" value="">
@@ -145,8 +128,8 @@
       </div>
 
       <div class="pt-2 flex justify-end gap-2 border-t border-[#163860]">
-        <button id="modal-cancel-btn" type="button" class="px-3 py-1 text-xs text-slate-400 hover:text-white">CANCEL</button>
-        <button id="modal-save-btn" type="button" class="bg-[#00e699] text-[#050b14] font-bold px-4 py-1 text-xs rounded hover:bg-[#00ffab]">
+        <button id="modal-cancel-btn" type="button" class="px-3 py-1 text-xs text-slate-400 hover:text-white cursor-pointer">CANCEL</button>
+        <button id="modal-save-btn" type="button" class="bg-[#00e699] text-[#050b14] font-bold px-4 py-1 text-xs rounded hover:bg-[#00ffab] cursor-pointer">
           SAVE TO SHEET
         </button>
       </div>
@@ -154,11 +137,11 @@
   </div>
 
   <!-- WHO DIS MODAL -->
-  <div id="who-dis-modal" class="modal-overlay">
+  <div id="who-dis-modal" style="display: none;" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 items-center justify-center p-3">
     <div class="bg-[#081526] border border-[#163860] w-full max-w-sm p-4 rounded-lg space-y-3 shadow-2xl">
       <div class="flex justify-between items-center border-b border-[#163860] pb-2">
         <span class="font-pixel text-[10px] text-[#38bdf8]">WHO DIS? // RADAR OPERATOR</span>
-        <button id="who-dis-close" type="button" class="text-slate-400 hover:text-white text-base">✕</button>
+        <button id="who-dis-close" type="button" class="text-slate-400 hover:text-white text-base cursor-pointer">✕</button>
       </div>
       <div class="space-y-2 text-xs text-slate-300">
         <p>Attendees use 2-letter initials or nicknames for lightweight network rollcall.</p>
@@ -172,16 +155,29 @@
   <script>
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyLOxhsA3a86NO0A3MLrqg5fNVb0Tb_MGwUMb3wamgdSJyiyh9om0ritl8j5VODZz_z/exec";
 
-    let eventsData = [];
-    let userInitials = (localStorage.getItem('radar_initials') || '').trim().toUpperCase();
+    const FALLBACK_EVENTS = [
+      { id: "ignite-pdx", title: "Ignite PDX Hackathon (Brilliance Labs)", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Portland, OR", url: "https://brilliancelabs.org/ignite-pdx.html", sponsors: "Brilliance Labs, Ignite AI, Frontier Labs", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "missio-nexus-2026", title: "Missio Nexus Annual Leaders Conference", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Orlando, FL (Caribe Royale) & Virtual", url: "https://web.cvent.com/event/654a1d2b-f757-4491-a480-fc3f68a2ccc5/websitePage:3bf16a10-e965-4de4-88df-84d98c5be47d?environment=P2&RefId=homepage", sponsors: "World Vision, Crossworld, Pioneer Bible", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "gloo-hackathon-2026", title: "Gloo AI Hackathon 2026", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Boulder, CO", url: "https://www.gloo.com/hackathon", sponsors: "Gloo, AI Innovation Guild, Kingdom Ops", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "missionary-2026", title: "Missionary 2026 National Conference", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Dallas-Fort Worth, TX (SWBTS)", url: "https://www.missionary.com/2026", sponsors: "Missionary.com, Radius International, John Piper, Mark Dever, Kevin DeYoung", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "indigitous-hack-2026", title: "Indigitous #HACK 2026", startDate: "2026-10-16", dateStr: "Oct 16–18, 2026", location: "Global (50+ Cities & Online)", url: "https://indigitous.org/hack", sponsors: "Indigitous, Cru, Global Tech Networks", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "emnlp-2026", title: "EMNLP 2026 (Empirical Methods in NLP)", startDate: "2026-10-24", dateStr: "Oct 24–29, 2026", location: "Budapest, Hungary", url: "https://2026.emnlp.org/", sponsors: "ACL, SIGDAT, Google, Meta", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "the-builder-2026", title: "The Builder Conference (Stackhouse Ventures)", startDate: "2026-11-02", dateStr: "Nov 2–5, 2026", location: "Jackson Hole, WY (SpringHill Suites)", url: "https://stackhouseventures.com/builder-conference", sponsors: "Stackhouse Ventures, Igniter Media, Church Media Squad", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "reach-2026", title: "Reach Conference 2026", startDate: "2026-11-05", dateStr: "Nov 5–7, 2026", location: "Orlando, FL", url: "https://www.reachconf.org/", sponsors: "Reach Network", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "web-summit-2026", title: "Web Summit 2026", startDate: "2026-11-09", dateStr: "Nov 9–12, 2026", location: "Lisbon, Portugal", url: "https://websummit.com/", sponsors: "Web Summit, Global Tech & Ventures", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "neurips-2026", title: "NeurIPS 2026 (Neural Information Processing)", startDate: "2026-12-06", dateStr: "Dec 6–12, 2026", location: "Vancouver, BC, Canada", url: "https://neurips.cc/", sponsors: "NeurIPS Foundation, DeepMind, OpenAI", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "crosscon", title: "Cross Con 2027", startDate: "2027-01-01", dateStr: "Jan 1–3, 2027", location: "Louisville, KY (KICC)", url: "https://crosscon.com/", sponsors: "Cross Network", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "ces-2027", title: "CES 2027", startDate: "2027-01-05", dateStr: "Jan 5–8, 2027", location: "Las Vegas, NV", url: "https://www.ces.tech/", sponsors: "CTA", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "eth-denver-2027", title: "ETHDenver 2027", startDate: "2027-02-23", dateStr: "Feb 2027", location: "Denver, CO", url: "https://www.ethdenver.com/", sponsors: "SporkDAO", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "exponential-2027", title: "Exponential Global 2027", startDate: "2027-03-01", dateStr: "Mar 1–4, 2027", location: "Orlando, FL (First Baptist)", url: "https://exponential.org/events", sponsors: "Exponential, Church Multiplication Networks", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "sxsw-2027", title: "SXSW Interactive 2027", startDate: "2027-03-12", dateStr: "Mar 12–20, 2027", location: "Austin, TX", url: "https://www.sxsw.com/", sponsors: "SXSW, Tech & Media Sponsors", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "missional-ai-2027", title: "Missional AI Summit 2027", startDate: "2027-03-30", dateStr: "Mar 30 – Apr 1, 2027", location: "Hyatt Regency SFO, SF Bay Area, CA", url: "https://missional.ai/", sponsors: "Missional.ai", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "cla-outcomes-2027", title: "Outcomes Conference 2027 (CLA)", startDate: "2027-04-13", dateStr: "Apr 13–15, 2027", location: "Dallas / Fort Worth, TX", url: "https://outcomesconference.org/", sponsors: "Christian Leadership Alliance", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "consensus-2027", title: "Consensus 2027", startDate: "2027-05-18", dateStr: "May 18–20, 2027", location: "Toronto, Canada", url: "https://consensus.coindesk.com/", sponsors: "CoinDesk, Institutional Web3", yAttendees: "", mAttendees: "", nAttendees: "" }
+    ];
 
-    const initialsInput = document.getElementById('user-initials');
-    initialsInput.value = userInitials;
-    initialsInput.addEventListener('input', (e) => {
-      userInitials = e.target.value.trim().toUpperCase();
-      localStorage.setItem('radar_initials', userInitials);
-      renderEvents();
-    });
+    let eventsData = [...FALLBACK_EVENTS];
+    let userInitials = (localStorage.getItem('radar_initials') || '').trim().toUpperCase();
 
     function cleanArray(str) {
       return String(str || '')
@@ -191,35 +187,9 @@
         .filter(Boolean);
     }
 
-    async function loadEvents() {
-      const banner = document.getElementById('sync-banner');
-      banner.textContent = '[SYNCING...]';
-      banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
-      
-      try {
-        const res = await fetch(SHEET_API_URL);
-        if (res.ok) {
-          const liveRows = await res.json();
-          if (Array.isArray(liveRows) && liveRows.length > 0) {
-            eventsData = liveRows;
-            eventsData.sort((a, b) => String(a.startDate || '').localeCompare(String(b.startDate || '')));
-            banner.textContent = '[LIVE]';
-            banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
-          }
-        }
-      } catch (err) {
-        banner.textContent = '[OFFLINE]';
-        banner.className = 'text-[10px] text-red-400 font-mono tracking-wide ml-1';
-      }
-      renderEvents();
-    }
-
     function renderEvents() {
       const list = document.getElementById('event-list');
-      if (!eventsData || eventsData.length === 0) {
-        list.innerHTML = `<div class="text-xs text-slate-500 py-12 text-center">No events loaded. Check connection.</div>`;
-        return;
-      }
+      if (!list) return;
 
       list.innerHTML = eventsData.map((ev, index) => {
         const yArr = cleanArray(ev.yAttendees);
@@ -316,21 +286,29 @@
       }).join('');
     }
 
-    // Direct event delegation for all list clicks
-    document.getElementById('event-list').addEventListener('click', (e) => {
-      const btn = e.target.closest('button');
-      if (!btn) return;
-
-      const action = btn.dataset.action;
-      const index = Number(btn.dataset.index);
-
-      if (action === 'edit') {
-        openEdit(index);
-      } else if (action === 'rsvp') {
-        const status = btn.dataset.status;
-        setRSVP(index, status);
+    async function loadEvents() {
+      const banner = document.getElementById('sync-banner');
+      try {
+        const res = await fetch(SHEET_API_URL);
+        if (res.ok) {
+          const liveRows = await res.json();
+          if (Array.isArray(liveRows) && liveRows.length > 0) {
+            eventsData = liveRows;
+            eventsData.sort((a, b) => String(a.startDate || '').localeCompare(String(b.startDate || '')));
+            if (banner) {
+              banner.textContent = '[LIVE]';
+              banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
+            }
+          }
+        }
+      } catch (err) {
+        if (banner) {
+          banner.textContent = '[OFFLINE / SEED]';
+          banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
+        }
       }
-    });
+      renderEvents();
+    }
 
     function openEdit(index) {
       const ev = eventsData[index];
@@ -347,7 +325,8 @@
       document.getElementById('modal-location').value = ev.location || '';
       document.getElementById('modal-sponsors').value = ev.sponsors || '';
 
-      document.getElementById('event-modal').classList.add('active');
+      const modal = document.getElementById('event-modal');
+      modal.style.display = 'flex';
     }
 
     function openAddModal() {
@@ -362,17 +341,20 @@
       document.getElementById('modal-location').value = '';
       document.getElementById('modal-sponsors').value = '';
 
-      document.getElementById('event-modal').classList.add('active');
+      const modal = document.getElementById('event-modal');
+      modal.style.display = 'flex';
     }
 
     function closeModal() {
-      document.getElementById('event-modal').classList.remove('active');
+      document.getElementById('event-modal').style.display = 'none';
     }
 
     function postToSheet(payload) {
       const banner = document.getElementById('sync-banner');
-      banner.textContent = '[SAVING...]';
-      banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
+      if (banner) {
+        banner.textContent = '[SAVING...]';
+        banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
+      }
 
       fetch(SHEET_API_URL, {
         method: 'POST',
@@ -380,11 +362,11 @@
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
       }).then(() => {
-        banner.textContent = '[SAVED]';
-        banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
-        setTimeout(() => {
-          banner.textContent = '[LIVE]';
-        }, 2000);
+        if (banner) {
+          banner.textContent = '[SAVED]';
+          banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
+          setTimeout(() => { banner.textContent = '[LIVE]'; }, 2000);
+        }
       });
     }
 
@@ -440,10 +422,13 @@
     }
 
     function setRSVP(index, status) {
+      const initialsBox = document.getElementById('user-initials');
       if (!userInitials) {
-        initialsInput.focus();
-        initialsInput.classList.add('ring-2', 'ring-[#00ffcc]');
-        setTimeout(() => initialsInput.classList.remove('ring-2', 'ring-[#00ffcc]'), 1500);
+        if (initialsBox) {
+          initialsBox.focus();
+          initialsBox.classList.add('ring-2', 'ring-[#00ffcc]');
+          setTimeout(() => initialsBox.classList.remove('ring-2', 'ring-[#00ffcc]'), 1500);
+        }
         return;
       }
 
@@ -458,12 +443,10 @@
       const isCurrentM = m.includes(userInitials);
       const isCurrentN = n.includes(userInitials);
 
-      // Remove from all 3
       y = y.filter(i => i !== userInitials);
       m = m.filter(i => i !== userInitials);
       n = n.filter(i => i !== userInitials);
 
-      // Toggle off if clicking the active one, else set new
       if (status === 'Y' && !isCurrentY) y.push(userInitials);
       if (status === 'M' && !isCurrentM) m.push(userInitials);
       if (status === 'N' && !isCurrentN) n.push(userInitials);
@@ -484,19 +467,63 @@
       });
     }
 
-    // Modal triggers & closes
-    document.getElementById('btn-add-event').addEventListener('click', openAddModal);
-    document.getElementById('btn-who-dis').addEventListener('click', () => {
-      document.getElementById('who-dis-modal').classList.add('active');
-    });
-    document.getElementById('modal-close-x').addEventListener('click', closeModal);
-    document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
-    document.getElementById('modal-save-btn').addEventListener('click', saveEventChanges);
-    document.getElementById('who-dis-close').addEventListener('click', () => {
-      document.getElementById('who-dis-modal').classList.remove('active');
-    });
+    // Attach all event handlers once DOM is fully parsed
+    window.addEventListener('DOMContentLoaded', () => {
+      const initialsInput = document.getElementById('user-initials');
+      if (initialsInput) {
+        initialsInput.value = userInitials;
+        initialsInput.addEventListener('input', (e) => {
+          userInitials = e.target.value.trim().toUpperCase();
+          localStorage.setItem('radar_initials', userInitials);
+          renderEvents();
+        });
+      }
 
-    loadEvents();
+      const listContainer = document.getElementById('event-list');
+      if (listContainer) {
+        listContainer.addEventListener('click', (e) => {
+          const btn = e.target.closest('button');
+          if (!btn) return;
+
+          const action = btn.dataset.action;
+          const index = Number(btn.dataset.index);
+
+          if (action === 'edit') {
+            openEdit(index);
+          } else if (action === 'rsvp') {
+            const status = btn.dataset.status;
+            setRSVP(index, status);
+          }
+        });
+      }
+
+      const btnAdd = document.getElementById('btn-add-event');
+      if (btnAdd) btnAdd.addEventListener('click', openAddModal);
+
+      const btnWhoDis = document.getElementById('btn-who-dis');
+      const whoDisModal = document.getElementById('who-dis-modal');
+      if (btnWhoDis && whoDisModal) {
+        btnWhoDis.addEventListener('click', () => { whoDisModal.style.display = 'flex'; });
+      }
+
+      const whoDisClose = document.getElementById('who-dis-close');
+      if (whoDisClose && whoDisModal) {
+        whoDisClose.addEventListener('click', () => { whoDisModal.style.display = 'none'; });
+      }
+
+      const modalCloseX = document.getElementById('modal-close-x');
+      if (modalCloseX) modalCloseX.addEventListener('click', closeModal);
+
+      const modalCancelBtn = document.getElementById('modal-cancel-btn');
+      if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
+
+      const modalSaveBtn = document.getElementById('modal-save-btn');
+      if (modalSaveBtn) modalSaveBtn.addEventListener('click', saveEventChanges);
+
+      // Render default seed data immediately, then sync with Sheets
+      renderEvents();
+      loadEvents();
+    });
   </script>
 </body>
 </html>
