@@ -349,26 +349,34 @@
       document.getElementById('event-modal').style.display = 'none';
     }
 
-    function postToSheet(payload) {
-      const banner = document.getElementById('sync-banner');
-      if (banner) {
-        banner.textContent = '[SAVING...]';
-        banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
-      }
+   function postToSheet(payload) {
+  const banner = document.getElementById('sync-banner');
+  if (banner) {
+    banner.textContent = '[SAVING...]';
+    banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
+  }
 
-      fetch(SHEET_API_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
-      }).then(() => {
-        if (banner) {
-          banner.textContent = '[SAVED]';
-          banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
-          setTimeout(() => { banner.textContent = '[LIVE]'; }, 2000);
-        }
-      });
+  // Use URL-encoded parameters to guarantee Google Apps Script receives the full body
+  const formData = new URLSearchParams();
+  formData.append('payload', JSON.stringify(payload));
+
+  fetch(SHEET_API_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  }).then(() => {
+    if (banner) {
+      banner.textContent = '[SAVED]';
+      banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
+      setTimeout(() => { banner.textContent = '[LIVE]'; }, 2000);
     }
+  }).catch(err => {
+    if (banner) {
+      banner.textContent = '[SYNC ERROR]';
+      banner.className = 'text-[10px] text-red-400 font-mono tracking-wide ml-1';
+    }
+  });
+}
 
     function saveEventChanges() {
       const idxStr = document.getElementById('modal-event-index').value;
