@@ -73,7 +73,7 @@
   <!-- EVENT STREAM -->
   <main class="w-full max-w-5xl px-3 py-3">
     <div id="event-list" class="space-y-2">
-      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Scanning live sheet data...</div>
+      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Loading live sheet data...</div>
     </div>
   </main>
 
@@ -85,19 +85,16 @@
         <button onclick="closeModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
       </div>
 
-      <!-- Hidden tracking row -->
       <input type="hidden" id="modal-sheet-row" value="">
 
       <div>
         <label class="block text-[10px] text-[#38bdf8] uppercase font-bold mb-1">Web Address</label>
-        <div class="flex gap-1.5">
-          <input 
-            id="modal-url" 
-            type="url" 
-            placeholder="https://conference.org" 
-            class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1.5 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
-          />
-        </div>
+        <input 
+          id="modal-url" 
+          type="url" 
+          placeholder="https://conference.org" 
+          class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1.5 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
+        />
       </div>
 
       <div class="space-y-2 pt-1 border-t border-[#163860]/50 text-xs">
@@ -112,7 +109,7 @@
             <input id="modal-date-str" type="text" placeholder="e.g. Oct 1–3, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
           </div>
           <div>
-            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Start Date (YYYY-MM-DD)</label>
+            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Start Date (Sort)</label>
             <input id="modal-start-date" type="date" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc] text-[11px]">
           </div>
         </div>
@@ -145,7 +142,7 @@
         <button onclick="closeWhoDis()" class="text-slate-400 hover:text-white text-base">✕</button>
       </div>
       <div class="space-y-2 text-xs text-slate-300">
-        <p>Attendees use 2-letter initials or nicknames for lightweight anonymity.</p>
+        <p>Attendees use 2-letter initials or nicknames for lightweight network rollcall.</p>
         <div class="bg-[#050b14] border border-[#163860] rounded p-2 text-[#00ffcc] font-mono text-[11px]">
           &gt; Message Cobb via Text, Signal, WhatsApp, or Telegram.
         </div>
@@ -172,29 +169,29 @@
         const res = await fetch(SHEET_API_URL);
         if (res.ok) {
           const liveRows = await res.json();
-          if (Array.isArray(liveRows) && liveRows.length > 0) {
+          if (Array.isArray(liveRows)) {
             eventsData = liveRows;
           }
         }
       } catch (err) {
-        console.error('Fetch failed:', err);
+        console.error('Fetch error:', err);
       }
       renderEvents();
     }
 
     function renderEvents() {
       const list = document.getElementById('event-list');
-      if (eventsData.length === 0) {
+      if (!eventsData || eventsData.length === 0) {
         list.innerHTML = `<div class="text-xs text-slate-500 py-12 text-center">No events found in Google Sheet. Click [+ EVENT] to add one.</div>`;
         return;
       }
 
-      const sorted = [...eventsData].sort((a, b) => (a.startDate || '').localeCompare(b.startDate || ''));
+      const sorted = [...eventsData].sort((a, b) => (String(a.startDate || '')).localeCompare(String(b.startDate || '')));
 
       list.innerHTML = sorted.map(ev => {
-        const yArr = (ev.yAttendees || '').split(';').filter(Boolean);
-        const mArr = (ev.mAttendees || '').split(';').filter(Boolean);
-        const nArr = (ev.nAttendees || '').split(';').filter(Boolean);
+        const yArr = String(ev.yAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
+        const mArr = String(ev.mAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
+        const nArr = String(ev.nAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
 
         const isY = userInitials && yArr.includes(userInitials);
         const isM = userInitials && mArr.includes(userInitials);
@@ -205,7 +202,7 @@
             
             <div class="min-w-0 flex-1">
               <div class="flex flex-wrap items-center gap-2">
-                <a href="${ev.url}" target="_blank" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1">
+                <a href="${ev.url || '#'}" target="_blank" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1">
                   ${ev.title || 'Untitled'}
                   <span class="text-[10px] text-slate-400">↗</span>
                 </a>
@@ -213,7 +210,7 @@
                   ${ev.dateStr || ev.startDate || 'TBD'}
                 </span>
                 <button 
-                  onclick="openEditByRow(${ev.sheetRow})" 
+                  onclick="openEditByRow('${ev.sheetRow}')" 
                   class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline"
                 >
                   [edit]
@@ -256,15 +253,15 @@
             <div class="shrink-0 self-end md:self-center">
               <div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden">
                 <button 
-                  onclick="setRSVPByRow(${ev.sheetRow}, 'Y')" 
+                  onclick="setRSVPByRow('${ev.sheetRow}', 'Y')" 
                   class="px-2.5 py-1 text-xs font-bold transition-colors ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
                 >Y</button>
                 <button 
-                  onclick="setRSVPByRow(${ev.sheetRow}, 'M')" 
+                  onclick="setRSVPByRow('${ev.sheetRow}', 'M')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
                 >M</button>
                 <button 
-                  onclick="setRSVPByRow(${ev.sheetRow}, 'N')" 
+                  onclick="setRSVPByRow('${ev.sheetRow}', 'N')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
                 >N</button>
               </div>
@@ -275,8 +272,8 @@
       }).join('');
     }
 
-    function openEditByRow(sheetRow) {
-      const ev = eventsData.find(e => e.sheetRow === sheetRow);
+    function openEditByRow(rowId) {
+      const ev = eventsData.find(e => String(e.sheetRow) === String(rowId));
       if (!ev) return;
 
       document.getElementById('modal-sheet-row').value = ev.sheetRow;
@@ -324,8 +321,7 @@
       if (!dateStr) dateStr = startDate;
 
       if (sheetRow) {
-        // DIRECT ROW EDIT
-        const ev = eventsData.find(e => e.sheetRow === parseInt(sheetRow, 10));
+        const ev = eventsData.find(e => String(e.sheetRow) === String(sheetRow));
         if (ev) {
           ev.url = url;
           ev.title = title;
@@ -353,7 +349,6 @@
           });
         }
       } else {
-        // ADD NEW ROW
         closeModal();
         fetch(SHEET_API_URL, {
           method: 'POST',
@@ -373,30 +368,34 @@
       }
     }
 
-    function setRSVPByRow(sheetRow, status) {
+    function setRSVPByRow(rowId, status) {
       if (!userInitials) {
         initialsInput.focus();
+        initialsInput.classList.add('ring-2', 'ring-[#00ffcc]');
+        setTimeout(() => initialsInput.classList.remove('ring-2', 'ring-[#00ffcc]'), 1500);
         return;
       }
 
-      const ev = eventsData.find(e => e.sheetRow === sheetRow);
+      const ev = eventsData.find(e => String(e.sheetRow) === String(rowId));
       if (!ev) return;
 
-      let y = (ev.yAttendees || '').split(';').filter(Boolean);
-      let m = (ev.mAttendees || '').split(';').filter(Boolean);
-      let n = (ev.nAttendees || '').split(';').filter(Boolean);
+      let y = String(ev.yAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
+      let m = String(ev.mAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
+      let n = String(ev.nAttendees || '').split(';').map(s => s.trim()).filter(Boolean);
 
-      const currentStatus = y.includes(userInitials) ? 'Y' : m.includes(userInitials) ? 'M' : n.includes(userInitials) ? 'N' : null;
+      const isCurrentY = y.includes(userInitials);
+      const isCurrentM = m.includes(userInitials);
+      const isCurrentN = n.includes(userInitials);
 
+      // Clean removal from all
       y = y.filter(i => i !== userInitials);
       m = m.filter(i => i !== userInitials);
       n = n.filter(i => i !== userInitials);
 
-      if (currentStatus !== status) {
-        if (status === 'Y') y.push(userInitials);
-        if (status === 'M') m.push(userInitials);
-        if (status === 'N') n.push(userInitials);
-      }
+      // Toggle off if clicking the currently active status, otherwise switch to new status
+      if (status === 'Y' && !isCurrentY) y.push(userInitials);
+      if (status === 'M' && !isCurrentM) m.push(userInitials);
+      if (status === 'N' && !isCurrentN) n.push(userInitials);
 
       ev.yAttendees = y.join(';');
       ev.mAttendees = m.join(';');
@@ -410,7 +409,7 @@
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
           action: 'rsvp_row',
-          sheetRow: ev.sheetRow,
+          sheetRow: parseInt(ev.sheetRow, 10),
           yAttendees: ev.yAttendees,
           mAttendees: ev.mAttendees,
           nAttendees: ev.nAttendees
