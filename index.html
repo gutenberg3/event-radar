@@ -34,7 +34,7 @@
 </head>
 <body class="min-h-screen flex flex-col items-center pb-12">
 
-  <!-- TOP COMMAND HEADER -->
+  <!-- COMMAND HEADER -->
   <header class="w-full max-w-5xl px-3 py-2.5 flex items-center justify-between border-b border-[#0f2338] sticky top-0 bg-[#050b14]/95 backdrop-blur z-20">
     <div class="flex items-center gap-2">
       <span class="inline-block w-2.5 h-2.5 bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]"></span>
@@ -51,12 +51,11 @@
           maxlength="10" 
           placeholder="INITIALS" 
           class="w-20 bg-transparent text-[#00ffcc] font-bold uppercase outline-none focus:text-white"
-          title="Enter 2-letter initials or short nickname"
         />
       </div>
 
       <button 
-        onclick="openModal()" 
+        onclick="openAddModal()" 
         class="bg-[#00e699] hover:bg-[#00ffab] text-[#050b14] font-bold text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-all active:scale-95"
       >
         <span>+</span> EVENT
@@ -64,7 +63,7 @@
 
       <button 
         onclick="openWhoDis()" 
-        class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-colors"
+        class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1"
       >
         <span>📇</span> WHO DIS?
       </button>
@@ -74,73 +73,66 @@
   <!-- EVENT STREAM -->
   <main class="w-full max-w-5xl px-3 py-3">
     <div id="event-list" class="space-y-2">
-      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Scanning events feed...</div>
+      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Scanning live sheet data...</div>
     </div>
   </main>
 
-  <!-- ADD / EDIT EVENT MODAL -->
+  <!-- EDIT / ADD MODAL -->
   <div id="event-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3">
     <div class="bg-[#081526] border border-[#163860] w-full max-w-md p-4 rounded-lg shadow-2xl space-y-3">
       <div class="flex justify-between items-center border-b border-[#163860] pb-2">
-        <span id="modal-heading" class="font-pixel text-[10px] text-[#00ffcc]">ADD EVENT</span>
+        <span id="modal-heading" class="font-pixel text-[10px] text-[#00ffcc]">EDIT EVENT</span>
         <button onclick="closeModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
       </div>
 
-      <input type="hidden" id="modal-event-id" value="">
+      <!-- Hidden tracking row -->
+      <input type="hidden" id="modal-sheet-row" value="">
 
       <div>
-        <label class="block text-[10px] text-[#38bdf8] uppercase font-bold mb-1">Web Address (Required)</label>
+        <label class="block text-[10px] text-[#38bdf8] uppercase font-bold mb-1">Web Address</label>
         <div class="flex gap-1.5">
           <input 
             id="modal-url" 
             type="url" 
             placeholder="https://conference.org" 
             class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1.5 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
-            onkeydown="if(event.key==='Enter') autoFetchMetadata()"
           />
-          <button 
-            type="button" 
-            onclick="autoFetchMetadata()" 
-            class="bg-[#0e2746] border border-[#19497e] text-xs px-2.5 py-1.5 rounded text-[#38bdf8] hover:bg-[#38bdf8] hover:text-black font-bold shrink-0"
-          >
-            SCAN
-          </button>
         </div>
       </div>
-
-      <div id="scan-status" class="text-[10px] text-[#38bdf8]/70 font-mono hidden"></div>
 
       <div class="space-y-2 pt-1 border-t border-[#163860]/50 text-xs">
         <div>
           <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Title</label>
-          <input id="modal-title" type="text" placeholder="Event title" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+          <input id="modal-title" type="text" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Date Display</label>
-            <input id="modal-date-str" type="text" placeholder="e.g. Sep 30 – Oct 2, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+            <input id="modal-date-str" type="text" placeholder="e.g. Oct 1–3, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
           </div>
           <div>
-            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Start Date (For Sort)</label>
+            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Start Date (YYYY-MM-DD)</label>
             <input id="modal-start-date" type="date" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc] text-[11px]">
           </div>
         </div>
 
         <div>
           <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Location</label>
-          <input id="modal-location" type="text" placeholder="City, State / Country" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+          <input id="modal-location" type="text" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
         </div>
 
         <div>
           <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Key Sponsors / Hosts</label>
-          <input id="modal-sponsors" type="text" placeholder="Key sponsors / hosts" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+          <input id="modal-sponsors" type="text" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
         </div>
       </div>
 
       <div class="pt-2 flex justify-end gap-2 border-t border-[#163860]">
         <button onclick="closeModal()" class="px-3 py-1 text-xs text-slate-400 hover:text-white">CANCEL</button>
-        <button id="modal-submit-btn" onclick="saveEvent()" class="bg-[#00e699] text-[#050b14] font-bold px-3.5 py-1 text-xs rounded hover:bg-[#00ffab]">PUBLISH</button>
+        <button id="modal-save-btn" onclick="saveEventChanges()" class="bg-[#00e699] text-[#050b14] font-bold px-4 py-1 text-xs rounded hover:bg-[#00ffab]">
+          SAVE TO SHEET
+        </button>
       </div>
     </div>
   </div>
@@ -152,38 +144,11 @@
         <span class="font-pixel text-[10px] text-[#38bdf8]">WHO DIS? // RADAR OPERATOR</span>
         <button onclick="closeWhoDis()" class="text-slate-400 hover:text-white text-base">✕</button>
       </div>
-      
-      <div class="space-y-2 text-xs leading-relaxed text-slate-300">
-        <p>Attendees are listed by initials or short nicknames for lightweight anonymity.</p>
-        <p class="text-slate-400">If someone's initials are unknown, message Cobb:</p>
+      <div class="space-y-2 text-xs text-slate-300">
+        <p>Attendees use 2-letter initials or nicknames for lightweight anonymity.</p>
         <div class="bg-[#050b14] border border-[#163860] rounded p-2 text-[#00ffcc] font-mono text-[11px]">
           &gt; Message Cobb via Text, Signal, WhatsApp, or Telegram.
         </div>
-      </div>
-
-      <div class="border-t border-[#163860] pt-2.5 space-y-2">
-        <div class="text-[10px] text-[#38bdf8] uppercase font-bold">Or transmit email via webhook:</div>
-        <input 
-          id="email-sender-contact" 
-          type="text" 
-          placeholder="Your return contact (optional)" 
-          class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
-        />
-        <textarea 
-          id="email-message-body" 
-          rows="2" 
-          placeholder="Hey, who is 'MK' on Ignite PDX?" 
-          class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
-        ></textarea>
-        
-        <button 
-          id="btn-send-relay" 
-          onclick="sendRelayMessage()" 
-          class="w-full bg-[#0e2746] border border-[#19497e] hover:bg-[#38bdf8] hover:text-black text-white text-xs font-bold py-1.5 rounded transition-colors"
-        >
-          TRANSMIT MESSAGE
-        </button>
-        <div id="email-relay-status" class="text-[10px] text-center font-mono hidden"></div>
       </div>
     </div>
   </div>
@@ -191,28 +156,7 @@
   <script>
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyLOxhsA3a86NO0A3MLrqg5fNVb0Tb_MGwUMb3wamgdSJyiyh9om0ritl8j5VODZz_z/exec";
 
-    const SEED_EVENTS = [
-      { id: "ignite-pdx", title: "Ignite PDX Hackathon (Brilliance Labs)", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Portland, OR", url: "https://brilliancelabs.org/ignite-pdx.html", sponsors: "Brilliance Labs, Ignite AI, Frontier Labs", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "missio-nexus-2026", title: "Missio Nexus Annual Leaders Conference", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Orlando, FL (Caribe Royale) & Virtual", url: "https://web.cvent.com/event/654a1d2b-f757-4491-a480-fc3f68a2ccc5/websitePage:3bf16a10-e965-4de4-88df-84d98c5be47d?environment=P2&RefId=homepage", sponsors: "World Vision, Crossworld, Pioneer Bible", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "gloo-hackathon-2026", title: "Gloo AI Hackathon 2026", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Boulder, CO", url: "https://www.gloo.com/hackathon", sponsors: "Gloo, AI Innovation Guild, Kingdom Ops", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "missionary-2026", title: "Missionary 2026 National Conference", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Dallas-Fort Worth, TX (SWBTS)", url: "https://www.missionary.com/2026", sponsors: "Missionary.com, Radius International, John Piper, Mark Dever, Kevin DeYoung", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "indigitous-hack-2026", title: "Indigitous #HACK 2026", startDate: "2026-10-16", dateStr: "Oct 16–18, 2026", location: "Global (50+ Cities & Online)", url: "https://indigitous.org/hack", sponsors: "Indigitous, Cru, Global Tech Networks", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "emnlp-2026", title: "EMNLP 2026 (Empirical Methods in NLP)", startDate: "2026-10-24", dateStr: "Oct 24–29, 2026", location: "Budapest, Hungary", url: "https://2026.emnlp.org/", sponsors: "ACL, SIGDAT, Google, Meta", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "the-builder-2026", title: "The Builder Conference (Stackhouse Ventures)", startDate: "2026-11-02", dateStr: "Nov 2–5, 2026", location: "Jackson Hole, WY (SpringHill Suites)", url: "https://stackhouseventures.com/builder-conference", sponsors: "Stackhouse Ventures, Igniter Media, Church Media Squad", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "reach-2026", title: "Reach Conference 2026", startDate: "2026-11-05", dateStr: "Nov 5–7, 2026", location: "Orlando, FL", url: "https://www.reachconf.org/", sponsors: "Reach Network", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "web-summit-2026", title: "Web Summit 2026", startDate: "2026-11-09", dateStr: "Nov 9–12, 2026", location: "Lisbon, Portugal", url: "https://websummit.com/", sponsors: "Web Summit, Global Tech & Ventures", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "neurips-2026", title: "NeurIPS 2026 (Neural Information Processing)", startDate: "2026-12-06", dateStr: "Dec 6–12, 2026", location: "Vancouver, BC, Canada", url: "https://neurips.cc/", sponsors: "NeurIPS Foundation, DeepMind, OpenAI", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "crosscon", title: "Cross Con 2027", startDate: "2027-01-01", dateStr: "Jan 1–3, 2027", location: "Louisville, KY (KICC)", url: "https://crosscon.com/", sponsors: "Cross Network", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "ces-2027", title: "CES 2027", startDate: "2027-01-05", dateStr: "Jan 5–8, 2027", location: "Las Vegas, NV", url: "https://www.ces.tech/", sponsors: "CTA", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "eth-denver-2027", title: "ETHDenver 2027", startDate: "2027-02-23", dateStr: "Feb 2027", location: "Denver, CO", url: "https://www.ethdenver.com/", sponsors: "SporkDAO", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "exponential-2027", title: "Exponential Global 2027", startDate: "2027-03-01", dateStr: "Mar 1–4, 2027", location: "Orlando, FL (First Baptist)", url: "https://exponential.org/events", sponsors: "Exponential, Church Multiplication Networks", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "sxsw-2027", title: "SXSW Interactive 2027", startDate: "2027-03-12", dateStr: "Mar 12–20, 2027", location: "Austin, TX", url: "https://www.sxsw.com/", sponsors: "SXSW, Tech & Media Sponsors", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "missional-ai-2027", title: "Missional AI Summit 2027", startDate: "2027-03-30", dateStr: "Mar 30 – Apr 1, 2027", location: "Hyatt Regency SFO, SF Bay Area, CA", url: "https://missional.ai/", sponsors: "Missional.ai", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "cla-outcomes-2027", title: "Outcomes Conference 2027 (CLA)", startDate: "2027-04-13", dateStr: "Apr 13–15, 2027", location: "Dallas / Fort Worth, TX", url: "https://outcomesconference.org/", sponsors: "Christian Leadership Alliance", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "consensus-2027", title: "Consensus 2027", startDate: "2027-05-18", dateStr: "May 18–20, 2027", location: "Toronto, Canada", url: "https://consensus.coindesk.com/", sponsors: "CoinDesk, Institutional Web3", yAttendees: "", mAttendees: "", nAttendees: "" }
-    ];
-
-    let eventsData = [...SEED_EVENTS];
+    let eventsData = [];
     let userInitials = localStorage.getItem('radar_initials') || '';
 
     const initialsInput = document.getElementById('user-initials');
@@ -227,31 +171,24 @@
       try {
         const res = await fetch(SHEET_API_URL);
         if (res.ok) {
-          const remoteData = await res.json();
-          if (Array.isArray(remoteData) && remoteData.length > 0) {
-            eventsData = remoteData.map(e => ({
-              id: String(e.id || Date.now()),
-              title: e.title || 'Untitled Event',
-              startDate: e.startDate || '2026-12-31',
-              endDate: e.endDate || '',
-              dateStr: e.dateStr || '',
-              location: e.location || '',
-              url: e.url || '',
-              sponsors: e.sponsors || '',
-              yAttendees: e.yAttendees || '',
-              mAttendees: e.mAttendees || '',
-              nAttendees: e.nAttendees || ''
-            }));
+          const liveRows = await res.json();
+          if (Array.isArray(liveRows) && liveRows.length > 0) {
+            eventsData = liveRows;
           }
         }
       } catch (err) {
-        console.warn('Using seeded events fallback');
+        console.error('Fetch failed:', err);
       }
       renderEvents();
     }
 
     function renderEvents() {
       const list = document.getElementById('event-list');
+      if (eventsData.length === 0) {
+        list.innerHTML = `<div class="text-xs text-slate-500 py-12 text-center">No events found in Google Sheet. Click [+ EVENT] to add one.</div>`;
+        return;
+      }
+
       const sorted = [...eventsData].sort((a, b) => (a.startDate || '').localeCompare(b.startDate || ''));
 
       list.innerHTML = sorted.map(ev => {
@@ -264,21 +201,20 @@
         const isN = userInitials && nArr.includes(userInitials);
 
         return `
-          <div class="bg-[#081321] border border-[#122842] hover:border-[#1d426d] px-3.5 py-2.5 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 transition-colors group">
+          <div class="bg-[#081321] border border-[#122842] hover:border-[#1d426d] px-3.5 py-2.5 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 transition-colors">
             
             <div class="min-w-0 flex-1">
               <div class="flex flex-wrap items-center gap-2">
                 <a href="${ev.url}" target="_blank" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1">
-                  ${ev.title}
+                  ${ev.title || 'Untitled'}
                   <span class="text-[10px] text-slate-400">↗</span>
                 </a>
                 <span class="text-[10px] font-mono text-[#38bdf8] bg-[#0c2440] border border-[#164373] px-1.5 py-0.2 rounded">
-                  ${ev.dateStr || ev.startDate}
+                  ${ev.dateStr || ev.startDate || 'TBD'}
                 </span>
                 <button 
-                  onclick="openEditModal('${ev.id}')" 
+                  onclick="openEditByRow(${ev.sheetRow})" 
                   class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline"
-                  title="Edit event details"
                 >
                   [edit]
                 </button>
@@ -320,19 +256,16 @@
             <div class="shrink-0 self-end md:self-center">
               <div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden">
                 <button 
-                  onclick="setRSVP('${ev.id}', 'Y')" 
+                  onclick="setRSVPByRow(${ev.sheetRow}, 'Y')" 
                   class="px-2.5 py-1 text-xs font-bold transition-colors ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
-                  title="Going"
                 >Y</button>
                 <button 
-                  onclick="setRSVP('${ev.id}', 'M')" 
+                  onclick="setRSVPByRow(${ev.sheetRow}, 'M')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
-                  title="Maybe"
                 >M</button>
                 <button 
-                  onclick="setRSVP('${ev.id}', 'N')" 
+                  onclick="setRSVPByRow(${ev.sheetRow}, 'N')" 
                   class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
-                  title="Out"
                 >N</button>
               </div>
             </div>
@@ -342,15 +275,111 @@
       }).join('');
     }
 
-    async function setRSVP(eventId, status) {
+    function openEditByRow(sheetRow) {
+      const ev = eventsData.find(e => e.sheetRow === sheetRow);
+      if (!ev) return;
+
+      document.getElementById('modal-sheet-row').value = ev.sheetRow;
+      document.getElementById('modal-heading').textContent = `EDIT EVENT (ROW ${ev.sheetRow})`;
+      document.getElementById('modal-save-btn').textContent = 'SAVE TO SHEET';
+
+      document.getElementById('modal-url').value = ev.url || '';
+      document.getElementById('modal-title').value = ev.title || '';
+      document.getElementById('modal-date-str').value = ev.dateStr || '';
+      document.getElementById('modal-start-date').value = ev.startDate || '';
+      document.getElementById('modal-location').value = ev.location || '';
+      document.getElementById('modal-sponsors').value = ev.sponsors || '';
+
+      document.getElementById('event-modal').classList.remove('hidden');
+    }
+
+    function openAddModal() {
+      document.getElementById('modal-sheet-row').value = '';
+      document.getElementById('modal-heading').textContent = 'ADD NEW EVENT';
+      document.getElementById('modal-save-btn').textContent = 'ADD TO SHEET';
+
+      document.getElementById('modal-url').value = '';
+      document.getElementById('modal-title').value = '';
+      document.getElementById('modal-date-str').value = '';
+      document.getElementById('modal-start-date').value = '';
+      document.getElementById('modal-location').value = '';
+      document.getElementById('modal-sponsors').value = '';
+
+      document.getElementById('event-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('event-modal').classList.add('hidden');
+    }
+
+    function saveEventChanges() {
+      const sheetRow = document.getElementById('modal-sheet-row').value;
+      const url = document.getElementById('modal-url').value.trim();
+      let title = document.getElementById('modal-title').value.trim() || 'New Event';
+      let dateStr = document.getElementById('modal-date-str').value.trim();
+      let startDate = document.getElementById('modal-start-date').value || '2026-12-31';
+      let location = document.getElementById('modal-location').value.trim();
+      let sponsors = document.getElementById('modal-sponsors').value.trim();
+
+      if (!dateStr) dateStr = startDate;
+
+      if (sheetRow) {
+        // DIRECT ROW EDIT
+        const ev = eventsData.find(e => e.sheetRow === parseInt(sheetRow, 10));
+        if (ev) {
+          ev.url = url;
+          ev.title = title;
+          ev.dateStr = dateStr;
+          ev.startDate = startDate;
+          ev.location = location;
+          ev.sponsors = sponsors;
+          renderEvents();
+          closeModal();
+
+          fetch(SHEET_API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+              action: 'edit_row',
+              sheetRow: parseInt(sheetRow, 10),
+              title,
+              startDate,
+              dateStr,
+              location,
+              url,
+              sponsors
+            })
+          });
+        }
+      } else {
+        // ADD NEW ROW
+        closeModal();
+        fetch(SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'add',
+            title,
+            startDate,
+            dateStr,
+            location,
+            url,
+            sponsors,
+            yAttendees: userInitials || ''
+          })
+        }).then(() => setTimeout(loadEvents, 1200));
+      }
+    }
+
+    function setRSVPByRow(sheetRow, status) {
       if (!userInitials) {
         initialsInput.focus();
-        initialsInput.classList.add('ring-2', 'ring-[#00ffcc]');
-        setTimeout(() => initialsInput.classList.remove('ring-2', 'ring-[#00ffcc]'), 1500);
         return;
       }
 
-      const ev = eventsData.find(e => String(e.id) === String(eventId));
+      const ev = eventsData.find(e => e.sheetRow === sheetRow);
       if (!ev) return;
 
       let y = (ev.yAttendees || '').split(';').filter(Boolean);
@@ -375,212 +404,18 @@
 
       renderEvents();
 
-      try {
-        fetch(SHEET_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'rsvp',
-            id: ev.id,
-            yAttendees: ev.yAttendees,
-            mAttendees: ev.mAttendees,
-            nAttendees: ev.nAttendees
-          })
-        });
-      } catch (err) {
-        console.error('RSVP sync error:', err);
-      }
-    }
-
-    function autoFetchMetadata() {
-      const urlInput = document.getElementById('modal-url');
-      const val = urlInput.value.trim();
-      if (!val) return;
-
-      const statusEl = document.getElementById('scan-status');
-      statusEl.classList.remove('hidden');
-      statusEl.textContent = '> Scanning URL...';
-
-      try {
-        const u = new URL(val);
-        const host = u.hostname.replace('www.', '');
-        const slug = u.pathname.replace(/^\/|\/$/g, '').split('/').pop() || '';
-        
-        let derivedTitle = host.split('.')[0].toUpperCase();
-        if (slug && !slug.includes('event') && !slug.includes('websitePage')) {
-          derivedTitle += ' ' + slug.replace(/[-_]/g, ' ').toUpperCase();
-        }
-
-        const titleEl = document.getElementById('modal-title');
-        if (!titleEl.value) titleEl.value = derivedTitle;
-
-        statusEl.textContent = '> Extracted from URL';
-      } catch (e) {
-        statusEl.textContent = '> Manual entry mode';
-      }
-    }
-
-    function openEditModal(eventId) {
-      const ev = eventsData.find(e => String(e.id) === String(eventId));
-      if (!ev) return;
-
-      document.getElementById('modal-event-id').value = ev.id;
-      document.getElementById('modal-heading').textContent = 'EDIT EVENT';
-      document.getElementById('modal-submit-btn').textContent = 'SAVE CHANGES';
-
-      document.getElementById('modal-url').value = ev.url || '';
-      document.getElementById('modal-title').value = ev.title || '';
-      document.getElementById('modal-date-str').value = ev.dateStr || '';
-      document.getElementById('modal-start-date').value = ev.startDate || '';
-      document.getElementById('modal-location').value = ev.location || '';
-      document.getElementById('modal-sponsors').value = ev.sponsors || '';
-
-      document.getElementById('scan-status').classList.add('hidden');
-      document.getElementById('event-modal').classList.remove('hidden');
-    }
-
-    function openModal() {
-      document.getElementById('modal-event-id').value = '';
-      document.getElementById('modal-heading').textContent = 'ADD EVENT';
-      document.getElementById('modal-submit-btn').textContent = 'PUBLISH';
-
-      document.getElementById('modal-url').value = '';
-      document.getElementById('modal-title').value = '';
-      document.getElementById('modal-date-str').value = '';
-      document.getElementById('modal-start-date').value = '';
-      document.getElementById('modal-location').value = '';
-      document.getElementById('modal-sponsors').value = '';
-
-      document.getElementById('scan-status').classList.add('hidden');
-      document.getElementById('event-modal').classList.remove('hidden');
-      document.getElementById('modal-url').focus();
-    }
-
-    function closeModal() {
-      document.getElementById('event-modal').classList.add('hidden');
-    }
-
-    function saveEvent() {
-      const eventId = document.getElementById('modal-event-id').value;
-      const url = document.getElementById('modal-url').value.trim();
-      if (!url) return;
-
-      let title = document.getElementById('modal-title').value.trim();
-      let dateStr = document.getElementById('modal-date-str').value.trim();
-      let startDate = document.getElementById('modal-start-date').value;
-      let location = document.getElementById('modal-location').value.trim();
-      let sponsors = document.getElementById('modal-sponsors').value.trim();
-
-      if (!title) {
-        try { title = new URL(url).hostname.replace('www.', ''); } catch { title = "New Event"; }
-      }
-      if (!startDate) startDate = "2026-12-31";
-      if (!dateStr) dateStr = startDate;
-
-      if (eventId) {
-        const ev = eventsData.find(e => String(e.id) === String(eventId));
-        if (ev) {
-          ev.url = url;
-          ev.title = title;
-          ev.dateStr = dateStr;
-          ev.startDate = startDate;
-          ev.location = location;
-          ev.sponsors = sponsors;
-
-          renderEvents();
-          closeModal();
-
-          try {
-            fetch(SHEET_API_URL, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'text/plain' },
-              body: JSON.stringify({
-                action: 'edit',
-                id: ev.id,
-                title,
-                startDate,
-                dateStr,
-                location,
-                url,
-                sponsors
-              })
-            });
-          } catch (err) {
-            console.error('Failed to sync edit', err);
-          }
-        }
-      } else {
-        const newEv = {
-          id: 'ev-' + Date.now(),
-          title,
-          startDate,
-          endDate: '',
-          dateStr,
-          location,
-          url,
-          sponsors,
-          yAttendees: userInitials || '',
-          mAttendees: '',
-          nAttendees: ''
-        };
-
-        eventsData.push(newEv);
-        renderEvents();
-        closeModal();
-
-        try {
-          fetch(SHEET_API_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({ action: 'add', ...newEv })
-          });
-        } catch (err) {
-          console.error('Failed to append to Sheet', err);
-        }
-      }
-    }
-
-    async function sendRelayMessage() {
-      const msgInput = document.getElementById('email-message-body');
-      const contactInput = document.getElementById('email-sender-contact');
-      const statusEl = document.getElementById('email-relay-status');
-      const btn = document.getElementById('btn-send-relay');
-      
-      const message = msgInput.value.trim();
-      if (!message) return;
-
-      btn.disabled = true;
-      btn.textContent = 'TRANSMITTING...';
-      statusEl.classList.remove('hidden');
-      statusEl.textContent = 'Sending...';
-
-      try {
-        await fetch(SHEET_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'relay_email',
-            senderId: userInitials,
-            senderContact: contactInput.value.trim(),
-            message: message
-          })
-        });
-
-        statusEl.textContent = '✓ Message transmitted to Cobb.';
-        statusEl.className = 'text-[10px] text-center text-[#00ffcc] font-mono';
-        msgInput.value = '';
-        setTimeout(() => { closeWhoDis(); }, 1600);
-      } catch (e) {
-        statusEl.textContent = 'Transmission failed. Try again.';
-        statusEl.className = 'text-[10px] text-center text-red-400 font-mono';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'TRANSMIT MESSAGE';
-      }
+      fetch(SHEET_API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          action: 'rsvp_row',
+          sheetRow: ev.sheetRow,
+          yAttendees: ev.yAttendees,
+          mAttendees: ev.mAttendees,
+          nAttendees: ev.nAttendees
+        })
+      });
     }
 
     function openWhoDis() {
@@ -588,7 +423,6 @@
     }
     function closeWhoDis() {
       document.getElementById('who-dis-modal').classList.add('hidden');
-      document.getElementById('email-relay-status').classList.add('hidden');
     }
 
     loadEvents();
