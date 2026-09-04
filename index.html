@@ -1,0 +1,637 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;RADAR // NETWORK ROLLCALL&lt;/title&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Press+Start+2P&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>tailwind.config = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>theme: {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>extend: {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>fontFamily: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pixel: ['"Press Start 2P"', 'monospace'],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>mono: ['"JetBrains Mono"', 'monospace'],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>},</p>
+<p class="p1"><span class="Apple-converted-space">          </span>colors: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>term: {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>bg: '#080a0f',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>card: '#0f141f',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>border: '#1e293b',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>green: '#10b981',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>amber: '#f59e0b',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>blue: '#38bdf8',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>gray: '#64748b',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>dim: '#1e293b'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #080a0f;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #e2e8f0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'JetBrains Mono', monospace;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>-webkit-font-smoothing: antialiased;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input, button {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'JetBrains Mono', monospace;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.custom-scroll::-webkit-scrollbar {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.custom-scroll::-webkit-scrollbar-thumb {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #1e293b;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="min-h-screen flex flex-col items-center"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- COMMAND HEADER --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header class="w-full max-w-5xl border-b border-term-border px-3 py-2 flex items-center justify-between sticky top-0 bg-[#080a0f]/95 backdrop-blur z-20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="flex items-center gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="font-pixel text-[11px] tracking-wider text-term-green flex items-center gap-1.5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="inline-block w-2 h-2 bg-term-green animate-pulse"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>RADAR://NET</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span id="sync-status" class="text-[10px] text-term-gray border border-term-border px-1.5 py-0.5 rounded"&gt;SYNC: OK&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- INITIALS SELECTOR --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex items-center bg-term-card border border-term-border px-2 py-0.5 rounded text-xs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="text-term-gray mr-1 text-[11px]"&gt;ID:&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>id="user-initials"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>type="text"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>maxlength="3"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>placeholder="YOU"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>class="w-8 bg-transparent text-term-green font-bold text-center uppercase outline-none focus:text-white"</p>
+<p class="p1"><span class="Apple-converted-space">          </span>title="Your 2-3 letter initials"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- ADD EVENT --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>onclick="openModal()"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>class="bg-term-green text-black font-bold text-xs px-2.5 py-1 rounded hover:bg-emerald-400 active:scale-95 transition-all flex items-center gap-1"</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span&gt;+&lt;/span&gt; EVENT</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- WHO DIS CONTACT --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>onclick="openWhoDis()"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>class="border border-term-border hover:border-term-blue text-term-blue text-xs px-2 py-1 rounded transition-colors"</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>WHO DIS?</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- EVENT STREAM (SINGLE FLAT CHRONOLOGICAL LIST) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;main class="w-full max-w-5xl px-3 py-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="event-list" class="space-y-1.5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="text-xs text-term-gray py-8 text-center animate-pulse"&gt;Connecting to Google Sheet...&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- ADD EVENT MODAL (URL ONLY REQUIRED) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="add-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="bg-term-card border border-term-border w-full max-w-md p-4 rounded shadow-2xl space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center border-b border-term-border pb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="font-pixel text-[10px] text-term-green"&gt;NEW EVENT&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="closeModal()" class="text-term-gray hover:text-white text-sm"&gt;✕&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label class="block text-[10px] text-term-blue uppercase font-bold mb-1"&gt;Web Address (Required)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex gap-1.5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>id="modal-url"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>type="url"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>placeholder="https://conference.org"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>class="w-full bg-[#080a0f] border border-term-border px-2.5 py-1.5 rounded text-xs text-white outline-none focus:border-term-blue"</p>
+<p class="p1"><span class="Apple-converted-space">            </span>onkeydown="if(event.key==='Enter') autoFetchMetadata()"</p>
+<p class="p1"><span class="Apple-converted-space">          </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>type="button"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>onclick="autoFetchMetadata()"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>class="bg-term-border text-xs px-2.5 py-1.5 rounded text-white hover:bg-term-blue hover:text-black shrink-0 text-[11px]"</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>SCAN</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="scan-status" class="text-[10px] text-term-gray font-mono hidden"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-2 pt-1 border-t border-term-border/50 text-xs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="block text-[10px] text-term-gray uppercase mb-0.5"&gt;Title (Optional)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input id="modal-title" type="text" placeholder="Auto-fills from URL" class="w-full bg-[#080a0f] border border-term-border px-2 py-1 rounded text-white outline-none focus:border-term-green"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-2 gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="block text-[10px] text-term-gray uppercase mb-0.5"&gt;Date Display (Optional)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="modal-date-str" type="text" placeholder="e.g. Oct 14–16 2026" class="w-full bg-[#080a0f] border border-term-border px-2 py-1 rounded text-white outline-none focus:border-term-green"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="block text-[10px] text-term-gray uppercase mb-0.5"&gt;Start Date (For Sort)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input id="modal-start-date" type="date" class="w-full bg-[#080a0f] border border-term-border px-2 py-1 rounded text-white outline-none focus:border-term-green text-[11px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="block text-[10px] text-term-gray uppercase mb-0.5"&gt;Location (Optional)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input id="modal-location" type="text" placeholder="City, State / Country" class="w-full bg-[#080a0f] border border-term-border px-2 py-1 rounded text-white outline-none focus:border-term-green"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="block text-[10px] text-term-gray uppercase mb-0.5"&gt;Key Sponsors / Hosts (Optional)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input id="modal-sponsors" type="text" placeholder="Key sponsors / hosts" class="w-full bg-[#080a0f] border border-term-border px-2 py-1 rounded text-white outline-none focus:border-term-green"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="pt-2 flex justify-end gap-2 border-t border-term-border"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="closeModal()" class="px-3 py-1 text-xs text-term-gray hover:text-white"&gt;CANCEL&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="saveEvent()" class="bg-term-green text-black font-bold px-3 py-1 text-xs rounded hover:bg-emerald-400"&gt;PUBLISH&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- WHO DIS MODAL --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="who-dis-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="bg-term-card border border-term-border w-full max-w-sm p-4 rounded space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center border-b border-term-border pb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="font-pixel text-[10px] text-term-blue"&gt;WHO DIS? // DECODER&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="closeWhoDis()" class="text-term-gray hover:text-white text-sm"&gt;✕&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="text-xs text-slate-300"&gt;Don't recognize initials on an event? Ping the radar operator:&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-1.5 text-xs font-mono"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="https://t.me/yourusername" target="_blank" class="block border border-term-border p-2 rounded hover:border-term-green hover:text-term-green"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&amp;gt; TELEGRAM: @yourusername</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="mailto:operator@example.com" class="block border border-term-border p-2 rounded hover:border-term-blue hover:text-term-blue"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&amp;gt; EMAIL: operator@example.com</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// GOOGLE APPS SCRIPT WEB APP ENDPOINT</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyLOxhsA3a86NO0A3MLrqg5fNVb0Tb_MGwUMb3wamgdSJyiyh9om0ritl8j5VODZz_z/exec";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// FALLBACK SEED EVENTS</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const SEED_EVENTS = [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "missio-nexus-2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Missio Nexus Annual Conference 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-09-09",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Sep 9–11 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Orlando, FL",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://missionexus.org/",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Missio Nexus",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "MK",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: "JD"</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "gloo-hackathon-2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Gloo AI Hackathon 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-09-11",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Sep 11–13 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Boulder, CO",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://www.gloo.com/hackathon",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Gloo",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "JD;TC;MK",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "ignite-pdx",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Ignite PDX",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-09-15",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Sep 15–17 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Portland, OR",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://brilliancelabs.org/ignite-pdx.html",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Brilliance Labs",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "RL",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "TC",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "faithtech-awaken-2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "FaithTech Awaken 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-09-24",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Sep 24–26 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Monterey, CA",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://faithtech.com/awaken",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "FaithTech",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "MK;JD",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "BW",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "missionary-2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Missionary 2026 National Conference",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-10-14",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Oct 14–16 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Dallas-Fort Worth, TX",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://www.missionary.com/2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Radius Intl, Missionary.com",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "JD;MK",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "emnlp-2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "EMNLP 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-10-24",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Oct 24–29 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Budapest, Hungary",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://2026.emnlp.org/",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "ACL / SIGDAT",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "TC",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "JD",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "the-builder-2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "The Builder Conference",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-11-02",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Nov 2–5 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Jackson Hole, WY",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://stackhouseventures.com/builder-conference",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Stackhouse Ventures",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "MK",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "TC",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "reach-2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Reach Conference 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2026-11-05",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Nov 5–7 2026",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Orlando, FL",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://www.reachconf.org/",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Reach Network",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "JD;BW",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "AL",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "crosscon",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Cross Con",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2027-01-01",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Jan 1–3 2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Louisville, KY",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://crosscon.com/",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Cross Network",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "TC;AB",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "ces-2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "CES 2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2027-01-05",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Jan 5–8 2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Las Vegas, NV",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://www.ces.tech/",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "CTA",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "AB",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "JD;RL",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "eth-denver-2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "ETHDenver 2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2027-02-23",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Feb 2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Denver, CO",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://www.ethdenver.com/",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "SporkDAO",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "JD;TC",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: "missional-ai-2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title: "Missional AI Summit 2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate: "2027-03-30",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr: "Mar 30 – Apr 1 2027",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location: "Hyatt Regency SFO, SF Bay Area, CA",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url: "https://missional.ai/",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors: "Missional.ai",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: "JD;MK",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: "TC",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ""</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let eventsData = [...SEED_EVENTS];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let userInitials = localStorage.getItem('radar_initials') || 'JD';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Initials Sync</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const initialsInput = document.getElementById('user-initials');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>initialsInput.value = userInitials;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>initialsInput.addEventListener('input', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>userInitials = e.target.value.trim().toUpperCase();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('radar_initials', userInitials);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderEvents();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Fetch from Google Apps Script</p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function loadEvents() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const syncStatus = document.getElementById('sync-status');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>syncStatus.textContent = 'SYNC: ...';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const res = await fetch(SHEET_API_URL);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (res.ok) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const remoteData = await res.json();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (Array.isArray(remoteData) &amp;&amp; remoteData.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>eventsData = remoteData.map(e =&gt; ({</p>
+<p class="p1"><span class="Apple-converted-space">              </span>id: e.id || String(Date.now()),</p>
+<p class="p1"><span class="Apple-converted-space">              </span>title: e.title || 'Untitled Event',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>startDate: e.startDate || '2026-12-31',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>endDate: e.endDate || '',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>dateStr: e.dateStr || '',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>location: e.location || '',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>url: e.url || '',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>sponsors: e.sponsors || '',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>yAttendees: e.yAttendees || '',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>mAttendees: e.mAttendees || '',</p>
+<p class="p1"><span class="Apple-converted-space">              </span>nAttendees: e.nAttendees || ''</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>syncStatus.textContent = 'SYNC: LIVE';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>syncStatus.className = 'text-[10px] text-term-green border border-term-border px-1.5 py-0.5 rounded';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>console.warn('Using local seed events due to fetch err:', err);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>syncStatus.textContent = 'SYNC: LOCAL';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderEvents();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderEvents() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const list = document.getElementById('event-list');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const sorted = [...eventsData].sort((a, b) =&gt; (a.startDate || '').localeCompare(b.startDate || ''));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>list.innerHTML = sorted.map(ev =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const yArr = (ev.yAttendees || '').split(';').filter(Boolean);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const mArr = (ev.mAttendees || '').split(';').filter(Boolean);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const nArr = (ev.nAttendees || '').split(';').filter(Boolean);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const isY = userInitials &amp;&amp; yArr.includes(userInitials);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const isM = userInitials &amp;&amp; mArr.includes(userInitials);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const isN = userInitials &amp;&amp; nArr.includes(userInitials);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-term-card border border-term-border hover:border-slate-700 px-3 py-2 rounded flex flex-col md:flex-row items-start md:items-center justify-between gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Left Info --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="min-w-0 flex-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="flex items-baseline gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="${ev.url}" target="_blank" class="text-sm font-bold text-white hover:text-term-blue truncate flex items-center gap-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>${ev.title}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span class="text-[10px] text-term-gray font-normal"&gt;↗&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="flex flex-wrap items-center gap-x-3 text-[11px] text-slate-400 mt-0.5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="text-term-amber font-mono"&gt;${ev.dateStr || ev.startDate}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;•&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="truncate"&gt;${ev.location || 'TBD'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${ev.sponsors ? `&lt;span&gt;•&lt;/span&gt;&lt;span class="text-slate-500 truncate"&gt;${ev.sponsors}&lt;/span&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Right Attendees &amp; Quick Actions --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center gap-3 shrink-0 self-end md:self-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;!-- Attendee Chips --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="flex items-center gap-1 text-[10px] font-mono"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${yArr.length &gt; 0 ? `</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span class="border border-term-green/40 bg-emerald-950/40 text-term-green px-1.5 py-0.5 rounded" title="Going: ${yArr.join(', ')}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Y:${yArr.join(',')}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${mArr.length &gt; 0 ? `</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span class="border border-term-amber/40 bg-amber-950/40 text-term-amber px-1.5 py-0.5 rounded" title="Maybe: ${mArr.join(', ')}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>M:${mArr.join(',')}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>${nArr.length &gt; 0 ? `</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span class="border border-slate-800 bg-slate-900 text-slate-400 px-1.5 py-0.5 rounded" title="Out: ${nArr.join(', ')}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>N:${nArr.join(',')}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;!-- Action RSVP Buttons --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="flex items-center border border-term-border rounded overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>onclick="setRSVP('${ev.id}', 'Y')"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>class="px-2 py-0.5 text-[10px] font-bold transition-colors ${isY ? 'bg-term-green text-black' : 'hover:bg-slate-800 text-slate-400'}"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>title="Going"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&gt;Y&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>onclick="setRSVP('${ev.id}', 'M')"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>class="px-2 py-0.5 text-[10px] font-bold border-l border-term-border transition-colors ${isM ? 'bg-term-amber text-black' : 'hover:bg-slate-800 text-slate-400'}"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>title="Maybe"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&gt;M&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>onclick="setRSVP('${ev.id}', 'N')"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>class="px-2 py-0.5 text-[10px] font-bold border-l border-term-border transition-colors ${isN ? 'bg-slate-700 text-white' : 'hover:bg-slate-800 text-slate-500'}"</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>title="Out"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&gt;N&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}).join('');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Set RSVP and push update to Google Sheet</p>
+<p class="p1"><span class="Apple-converted-space">    </span>async function setRSVP(eventId, status) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!userInitials) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>initialsInput.focus();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ev = eventsData.find(e =&gt; e.id === eventId);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!ev) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let y = (ev.yAttendees || '').split(';').filter(Boolean);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let m = (ev.mAttendees || '').split(';').filter(Boolean);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let n = (ev.nAttendees || '').split(';').filter(Boolean);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Remove from all first</p>
+<p class="p1"><span class="Apple-converted-space">      </span>y = y.filter(i =&gt; i !== userInitials);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>m = m.filter(i =&gt; i !== userInitials);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>n = n.filter(i =&gt; i !== userInitials);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Add to selected</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (status === 'Y') y.push(userInitials);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (status === 'M') m.push(userInitials);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (status === 'N') n.push(userInitials);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>ev.yAttendees = y.join(';');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ev.mAttendees = m.join(';');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ev.nAttendees = n.join(';');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderEvents(); // Instant optimistic UI update</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Dispatch to Google Apps Script webhook</p>
+<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetch(SHEET_API_URL, {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">          </span>mode: 'no-cors',</p>
+<p class="p1"><span class="Apple-converted-space">          </span>headers: { 'Content-Type': 'text/plain' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>body: JSON.stringify({</p>
+<p class="p1"><span class="Apple-converted-space">            </span>action: 'rsvp',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>id: ev.id,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>yAttendees: ev.yAttendees,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>mAttendees: ev.mAttendees,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>nAttendees: ev.nAttendees</p>
+<p class="p1"><span class="Apple-converted-space">          </span>})</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>console.error('Failed to sync RSVP to Sheet', err);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Quick Metadata Auto-Scan from URL</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function autoFetchMetadata() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const urlInput = document.getElementById('modal-url');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const val = urlInput.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!val) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const statusEl = document.getElementById('scan-status');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>statusEl.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>statusEl.textContent = '&gt; Scanning URL...';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const u = new URL(val);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const host = u.hostname.replace('www.', '');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const slug = u.pathname.replace(/^\/|\/$/g, '').split('/').pop() || '';</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let derivedTitle = host.split('.')[0].toUpperCase();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (slug) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>derivedTitle += ' ' + slug.replace(/[-_]/g, ' ').toUpperCase();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const titleEl = document.getElementById('modal-title');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (!titleEl.value) titleEl.value = derivedTitle;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>statusEl.textContent = '&gt; Extracted from URL domain';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>statusEl.textContent = '&gt; Manual entry mode';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Save Event &amp; sync to Google Sheet</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function saveEvent() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const url = document.getElementById('modal-url').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!url) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let title = document.getElementById('modal-title').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let dateStr = document.getElementById('modal-date-str').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let startDate = document.getElementById('modal-start-date').value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let location = document.getElementById('modal-location').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let sponsors = document.getElementById('modal-sponsors').value.trim();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!title) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>title = new URL(url).hostname.replace('www.', '');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>title = "New Event";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!startDate) startDate = "2026-12-31";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!dateStr) dateStr = startDate;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const newEv = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>id: 'ev-' + Date.now(),</p>
+<p class="p1"><span class="Apple-converted-space">        </span>title,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startDate,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>endDate: '',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>dateStr,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>location,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>url,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sponsors,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>yAttendees: userInitials || '',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>mAttendees: '',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nAttendees: ''</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>eventsData.push(newEv);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderEvents();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>closeModal();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Dispatch to Google Apps Script webhook</p>
+<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetch(SHEET_API_URL, {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">          </span>mode: 'no-cors',</p>
+<p class="p1"><span class="Apple-converted-space">          </span>headers: { 'Content-Type': 'text/plain' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>body: JSON.stringify({</p>
+<p class="p1"><span class="Apple-converted-space">            </span>action: 'add',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>...newEv</p>
+<p class="p1"><span class="Apple-converted-space">          </span>})</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>console.error('Failed to append to Sheet', err);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function openModal() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('add-modal').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('modal-url').focus();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function closeModal() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('add-modal').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('modal-url').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('modal-title').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('modal-date-str').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('modal-location').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('modal-sponsors').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('scan-status').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function openWhoDis() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('who-dis-modal').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function closeWhoDis() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('who-dis-modal').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Start</p>
+<p class="p1"><span class="Apple-converted-space">    </span>loadEvents();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
