@@ -1,609 +1,590 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RADAR // CHRONOLOGICAL ROLLCALL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            pixel: ['"Press Start 2P"', 'monospace'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #050b14;
+      color: #cbd5e1;
+      font-family: 'JetBrains Mono', monospace;
+      -webkit-font-smoothing: antialiased;
+    }
+    input, button, textarea {
+      font-family: 'JetBrains Mono', monospace;
+    }
   </style>
 </head>
-<body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;RADAR // CHRONOLOGICAL ROLLCALL&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Press+Start+2P&amp;display=swap" rel="stylesheet"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>tailwind.config = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>theme: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>extend: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>fontFamily: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>pixel: ['"Press Start 2P"', 'monospace'],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>mono: ['"JetBrains Mono"', 'monospace'],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background-color: #050b14;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>color: #cbd5e1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-family: 'JetBrains Mono', monospace;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>-webkit-font-smoothing: antialiased;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input, button, textarea {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-family: 'JetBrains Mono', monospace;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body class="min-h-screen flex flex-col items-center pb-12"&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- TOP COMMAND HEADER --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;header class="w-full max-w-5xl px-3 py-2.5 flex items-center justify-between border-b border-[#0f2338] sticky top-0 bg-[#050b14]/95 backdrop-blur z-20"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="flex items-center gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;span class="inline-block w-2.5 h-2.5 bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]"&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;span class="font-pixel text-xs tracking-wider text-[#00ffcc]"&gt;RADAR://NET&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;span class="text-[11px] text-[#38bdf8]/60 font-mono tracking-wide ml-1"&gt;[CHRONOLOGICAL ROLLCALL]&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="flex items-center gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="flex items-center bg-[#071322] border border-[#163252] px-2 py-1 rounded text-xs"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span class="text-[#38bdf8] mr-1.5 text-[11px] font-bold"&gt;ID:&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>id="user-initials"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>type="text"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>maxlength="10"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>placeholder="INITIALS"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>class="w-20 bg-transparent text-[#00ffcc] font-bold uppercase outline-none focus:text-white"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>title="Enter 2-letter initials or short nickname"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>onclick="openModal()"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>class="bg-[#00e699] hover:bg-[#00ffab] text-[#050b14] font-bold text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-all active:scale-95"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span&gt;+&lt;/span&gt; EVENT</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>onclick="openWhoDis()"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-colors"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span&gt;📇&lt;/span&gt; WHO DIS?</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- EVENT STREAM --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;main class="w-full max-w-5xl px-3 py-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="event-list" class="space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse"&gt;Scanning events feed...&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- ADD / EDIT EVENT MODAL --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="event-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="bg-[#081526] border border-[#163860] w-full max-w-md p-4 rounded-lg shadow-2xl space-y-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center border-b border-[#163860] pb-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span id="modal-heading" class="font-pixel text-[10px] text-[#00ffcc]"&gt;ADD EVENT&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="closeModal()" class="text-slate-400 hover:text-white text-sm"&gt;✕&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;input type="hidden" id="modal-event-id" value=""&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label class="block text-[10px] text-[#38bdf8] uppercase font-bold mb-1"&gt;Web Address (Required)&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="flex gap-1.5"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>id="modal-url"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>type="url"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>placeholder="https://conference.org"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1.5 rounded text-xs text-white outline-none focus:border-[#00ffcc]"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>onkeydown="if(event.key==='Enter') autoFetchMetadata()"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>type="button"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>onclick="autoFetchMetadata()"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>class="bg-[#0e2746] border border-[#19497e] text-xs px-2.5 py-1.5 rounded text-[#38bdf8] hover:bg-[#38bdf8] hover:text-black font-bold shrink-0"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>SCAN</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div id="scan-status" class="text-[10px] text-[#38bdf8]/70 font-mono hidden"&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-2 pt-1 border-t border-[#163860]/50 text-xs"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label class="block text-[10px] text-slate-400 uppercase mb-0.5"&gt;Title&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input id="modal-title" type="text" placeholder="Event title" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-2 gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label class="block text-[10px] text-slate-400 uppercase mb-0.5"&gt;Date Display&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input id="modal-date-str" type="text" placeholder="e.g. Sep 30 – Oct 2, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;label class="block text-[10px] text-slate-400 uppercase mb-0.5"&gt;Start Date (For Sort)&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input id="modal-start-date" type="date" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc] text-[11px]"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label class="block text-[10px] text-slate-400 uppercase mb-0.5"&gt;Location&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input id="modal-location" type="text" placeholder="City, State / Country" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label class="block text-[10px] text-slate-400 uppercase mb-0.5"&gt;Key Sponsors / Hosts&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input id="modal-sponsors" type="text" placeholder="Key sponsors / hosts" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="pt-2 flex justify-end gap-2 border-t border-[#163860]"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="closeModal()" class="px-3 py-1 text-xs text-slate-400 hover:text-white"&gt;CANCEL&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button id="modal-submit-btn" onclick="saveEvent()" class="bg-[#00e699] text-[#050b14] font-bold px-3.5 py-1 text-xs rounded hover:bg-[#00ffab]"&gt;PUBLISH&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- WHO DIS MODAL --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="who-dis-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="bg-[#081526] border border-[#163860] w-full max-w-sm p-4 rounded-lg space-y-3 shadow-2xl"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="flex justify-between items-center border-b border-[#163860] pb-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span class="font-pixel text-[10px] text-[#38bdf8]"&gt;WHO DIS? // RADAR OPERATOR&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="closeWhoDis()" class="text-slate-400 hover:text-white text-base"&gt;✕&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="space-y-2 text-xs leading-relaxed text-slate-300"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;Attendees are listed by initials or short nicknames for lightweight anonymity.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="text-slate-400"&gt;If someone's initials are unknown, message Cobb:&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="bg-[#050b14] border border-[#163860] rounded p-2 text-[#00ffcc] font-mono text-[11px]"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&amp;gt; Message Cobb via Text, Signal, WhatsApp, or Telegram.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="border-t border-[#163860] pt-2.5 space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="text-[10px] text-[#38bdf8] uppercase font-bold"&gt;Or transmit email via webhook:&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>id="email-sender-contact"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>type="text"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>placeholder="Your return contact (optional)"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1 rounded text-xs text-white outline-none focus:border-[#00ffcc]"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;textarea<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>id="email-message-body"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>rows="2"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>placeholder="Hey, who is 'MK' on Ignite PDX?"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1 rounded text-xs text-white outline-none focus:border-[#00ffcc]"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&gt;&lt;/textarea&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>id="btn-send-relay"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>onclick="sendRelayMessage()"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>class="w-full bg-[#0e2746] border border-[#19497e] hover:bg-[#38bdf8] hover:text-black text-white text-xs font-bold py-1.5 rounded transition-colors"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>TRANSMIT MESSAGE</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="email-relay-status" class="text-[10px] text-center font-mono hidden"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyLOxhsA3a86NO0A3MLrqg5fNVb0Tb_MGwUMb3wamgdSJyiyh9om0ritl8j5VODZz_z/exec";</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const SEED_EVENTS = [</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "ignite-pdx", title: "Ignite PDX Hackathon (Brilliance Labs)", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Portland, OR", url: "https://brilliancelabs.org/ignite-pdx.html", sponsors: "Brilliance Labs, Ignite AI, Frontier Labs", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "missio-nexus-2026", title: "Missio Nexus Annual Leaders Conference", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Orlando, FL (Caribe Royale) &amp; Virtual", url: "https://web.cvent.com/event/654a1d2b-f757-4491-a480-fc3f68a2ccc5/websitePage:3bf16a10-e965-4de4-88df-84d98c5be47d?environment=P2&amp;RefId=homepage", sponsors: "World Vision, Crossworld, Pioneer Bible", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "gloo-hackathon-2026", title: "Gloo AI Hackathon 2026", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Boulder, CO", url: "https://www.gloo.com/hackathon", sponsors: "Gloo, AI Innovation Guild, Kingdom Ops", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "missionary-2026", title: "Missionary 2026 National Conference", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Dallas-Fort Worth, TX (SWBTS)", url: "https://www.missionary.com/2026", sponsors: "Missionary.com, Radius International, John Piper, Mark Dever, Kevin DeYoung", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "emnlp-2026", title: "EMNLP 2026 (Empirical Methods in NLP)", startDate: "2026-10-24", dateStr: "Oct 24–29, 2026", location: "Budapest, Hungary", url: "https://2026.emnlp.org/", sponsors: "ACL, SIGDAT, Google, Meta", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "the-builder-2026", title: "The Builder Conference (Stackhouse Ventures)", startDate: "2026-11-02", dateStr: "Nov 2–5, 2026", location: "Jackson Hole, WY (SpringHill Suites)", url: "https://stackhouseventures.com/builder-conference", sponsors: "Stackhouse Ventures, Igniter Media, Church Media Squad", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "reach-2026", title: "Reach Conference 2026", startDate: "2026-11-05", dateStr: "Nov 5–7, 2026", location: "Orlando, FL", url: "https://www.reachconf.org/", sponsors: "Reach Network", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "crosscon", title: "Cross Con 2027", startDate: "2027-01-01", dateStr: "Jan 1–3, 2027", location: "Louisville, KY (KICC)", url: "https://crosscon.com/", sponsors: "Cross Network", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "ces-2027", title: "CES 2027", startDate: "2027-01-05", dateStr: "Jan 5–8, 2027", location: "Las Vegas, NV", url: "https://www.ces.tech/", sponsors: "CTA", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "eth-denver-2027", title: "ETHDenver 2027", startDate: "2027-02-23", dateStr: "Feb 2027", location: "Denver, CO", url: "https://www.ethdenver.com/", sponsors: "SporkDAO", yAttendees: "", mAttendees: "", nAttendees: "" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>{ id: "missional-ai-2027", title: "Missional AI Summit 2027", startDate: "2027-03-30", dateStr: "Mar 30 – Apr 1, 2027", location: "Hyatt Regency SFO, SF Bay Area, CA", url: "https://missional.ai/", sponsors: "Missional.ai", yAttendees: "", mAttendees: "", nAttendees: "" }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let eventsData = [...SEED_EVENTS];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let userInitials = localStorage.getItem('radar_initials') || '';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const initialsInput = document.getElementById('user-initials');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>initialsInput.value = userInitials;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>initialsInput.addEventListener('input', (e) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>userInitials = e.target.value.trim().toUpperCase();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>localStorage.setItem('radar_initials', userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>renderEvents();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>async function loadEvents() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const res = await fetch(SHEET_API_URL);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (res.ok) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const remoteData = await res.json();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if (Array.isArray(remoteData) &amp;&amp; remoteData.length &gt; 0) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>eventsData = remoteData.map(e =&gt; ({</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>id: e.id || String(Date.now()),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>title: e.title || 'Untitled Event',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>startDate: e.startDate || '2026-12-31',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>endDate: e.endDate || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>dateStr: e.dateStr || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>location: e.location || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>url: e.url || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>sponsors: e.sponsors || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>yAttendees: e.yAttendees || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>mAttendees: e.mAttendees || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>nAttendees: e.nAttendees || ''</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} catch (err) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>console.warn('Using seeded events fallback');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>renderEvents();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function renderEvents() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const list = document.getElementById('event-list');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const sorted = [...eventsData].sort((a, b) =&gt; (a.startDate || '').localeCompare(b.startDate || ''));</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>list.innerHTML = sorted.map(ev =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const yArr = (ev.yAttendees || '').split(';').filter(Boolean);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const mArr = (ev.mAttendees || '').split(';').filter(Boolean);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const nArr = (ev.nAttendees || '').split(';').filter(Boolean);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const isY = userInitials &amp;&amp; yArr.includes(userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const isM = userInitials &amp;&amp; mArr.includes(userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const isN = userInitials &amp;&amp; nArr.includes(userInitials);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="bg-[#081321] border border-[#122842] hover:border-[#1d426d] px-3.5 py-2.5 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 transition-colors group"&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="min-w-0 flex-1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="flex flex-wrap items-center gap-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;a href="${ev.url}" target="_blank" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>${ev.title}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;span class="text-[10px] text-slate-400"&gt;↗&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="text-[10px] font-mono text-[#38bdf8] bg-[#0c2440] border border-[#164373] px-1.5 py-0.2 rounded"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>${ev.dateStr || ev.startDate}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>onclick="openEditModal('${ev.id}')"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>title="Edit event details"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>[edit]</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="flex flex-wrap items-center gap-x-2 text-[11px] text-slate-400 mt-1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="flex items-center gap-1 text-slate-300"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;span class="text-red-400 text-[10px]"&gt;📍&lt;/span&gt;${ev.location || 'TBD'}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>${ev.sponsors ? `&lt;span class="text-slate-600"&gt;•&lt;/span&gt;&lt;span class="text-slate-400 font-mono text-[10px]"&gt;INFO: ${ev.sponsors}&lt;/span&gt;` : ''}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="flex items-center gap-2 text-[10px] font-mono mt-1.5 border-t border-[#0e2136] pt-1.5"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center gap-1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;span class="text-slate-400"&gt;Y:&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>${yArr.length &gt; 0<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>? yArr.map(init =&gt; `&lt;span class="bg-[#0d2a29] border border-[#155e56] text-[#00ffcc] font-bold px-1.5 py-0.2 rounded text-[10px]"&gt;${init}&lt;/span&gt;`).join('')</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>: `&lt;span class="text-slate-600"&gt;--&lt;/span&gt;`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="text-slate-700"&gt;|&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center gap-1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;span class="text-slate-400"&gt;M:&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>${mArr.length &gt; 0<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>? mArr.map(init =&gt; `&lt;span class="bg-[#2c2214] border border-[#6b4715] text-[#f59e0b] font-bold px-1.5 py-0.2 rounded text-[10px]"&gt;${init}&lt;/span&gt;`).join('')</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>: `&lt;span class="text-slate-600"&gt;--&lt;/span&gt;`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>${nArr.length &gt; 0 ? `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;span class="text-slate-700"&gt;|&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;div class="flex items-center gap-1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;span class="text-slate-400"&gt;N:&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>${nArr.map(init =&gt; `&lt;span class="bg-[#1a2333] border border-[#2b3a55] text-slate-400 px-1.5 py-0.2 rounded text-[10px]"&gt;${init}&lt;/span&gt;`).join('')}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>` : ''}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="shrink-0 self-end md:self-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>onclick="setRSVP('${ev.id}', 'Y')"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>class="px-2.5 py-1 text-xs font-bold transition-colors ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>title="Going"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&gt;Y&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>onclick="setRSVP('${ev.id}', 'M')"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>title="Maybe"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&gt;M&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>onclick="setRSVP('${ev.id}', 'N')"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>title="Out"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&gt;N&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}).join('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>async function setRSVP(eventId, status) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!userInitials) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>initialsInput.focus();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>initialsInput.classList.add('ring-2', 'ring-[#00ffcc]');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; initialsInput.classList.remove('ring-2', 'ring-[#00ffcc]'), 1500);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const ev = eventsData.find(e =&gt; e.id === eventId);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!ev) return;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let y = (ev.yAttendees || '').split(';').filter(Boolean);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let m = (ev.mAttendees || '').split(';').filter(Boolean);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let n = (ev.nAttendees || '').split(';').filter(Boolean);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const currentStatus = y.includes(userInitials) ? 'Y' : m.includes(userInitials) ? 'M' : n.includes(userInitials) ? 'N' : null;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>y = y.filter(i =&gt; i !== userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>m = m.filter(i =&gt; i !== userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>n = n.filter(i =&gt; i !== userInitials);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (currentStatus !== status) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (status === 'Y') y.push(userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (status === 'M') m.push(userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (status === 'N') n.push(userInitials);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ev.yAttendees = y.join(';');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ev.mAttendees = m.join(';');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ev.nAttendees = n.join(';');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>renderEvents();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>fetch(SHEET_API_URL, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>method: 'POST',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>mode: 'no-cors',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>headers: { 'Content-Type': 'text/plain' },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>body: JSON.stringify({</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>action: 'rsvp',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>id: ev.id,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>yAttendees: ev.yAttendees,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>mAttendees: ev.mAttendees,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>nAttendees: ev.nAttendees</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>})</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} catch (err) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>console.error('RSVP sync error:', err);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function autoFetchMetadata() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const urlInput = document.getElementById('modal-url');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const val = urlInput.value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!val) return;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const statusEl = document.getElementById('scan-status');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>statusEl.classList.remove('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>statusEl.textContent = '&gt; Scanning URL...';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const u = new URL(val);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const host = u.hostname.replace('www.', '');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const slug = u.pathname.replace(/^\/|\/$/g, '').split('/').pop() || '';</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let derivedTitle = host.split('.')[0].toUpperCase();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (slug &amp;&amp; !slug.includes('event') &amp;&amp; !slug.includes('websitePage')) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>derivedTitle += ' ' + slug.replace(/[-_]/g, ' ').toUpperCase();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const titleEl = document.getElementById('modal-title');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (!titleEl.value) titleEl.value = derivedTitle;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>statusEl.textContent = '&gt; Extracted from URL';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} catch (e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>statusEl.textContent = '&gt; Manual entry mode';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function openEditModal(eventId) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const ev = eventsData.find(e =&gt; e.id === eventId);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!ev) return;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-event-id').value = ev.id;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-heading').textContent = 'EDIT EVENT';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-submit-btn').textContent = 'SAVE CHANGES';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-url').value = ev.url || '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-title').value = ev.title || '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-date-str').value = ev.dateStr || '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-start-date').value = ev.startDate || '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-location').value = ev.location || '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-sponsors').value = ev.sponsors || '';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('scan-status').classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('event-modal').classList.remove('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function openModal() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-event-id').value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-heading').textContent = 'ADD EVENT';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-submit-btn').textContent = 'PUBLISH';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-url').value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-title').value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-date-str').value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-start-date').value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-location').value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-sponsors').value = '';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('scan-status').classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('event-modal').classList.remove('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('modal-url').focus();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function closeModal() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('event-modal').classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function saveEvent() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const eventId = document.getElementById('modal-event-id').value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const url = document.getElementById('modal-url').value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!url) return;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let title = document.getElementById('modal-title').value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let dateStr = document.getElementById('modal-date-str').value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let startDate = document.getElementById('modal-start-date').value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let location = document.getElementById('modal-location').value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let sponsors = document.getElementById('modal-sponsors').value.trim();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!title) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>try { title = new URL(url).hostname.replace('www.', ''); } catch { title = "New Event"; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!startDate) startDate = "2026-12-31";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!dateStr) dateStr = startDate;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (eventId) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// EDIT EXISTING</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ev = eventsData.find(e =&gt; e.id === eventId);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (ev) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>ev.url = url;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>ev.title = title;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>ev.dateStr = dateStr;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>ev.startDate = startDate;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>ev.location = location;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>ev.sponsors = sponsors;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>renderEvents();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>closeModal();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>fetch(SHEET_API_URL, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>method: 'POST',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>mode: 'no-cors',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>headers: { 'Content-Type': 'text/plain' },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>body: JSON.stringify({</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>action: 'edit',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>id: ev.id,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>title,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startDate,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>dateStr,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>location,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>url,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>sponsors</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>})</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>} catch (err) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>console.error('Failed to sync edit', err);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// ADD NEW</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const newEv = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>id: 'ev-' + Date.now(),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>title,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>startDate,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>endDate: '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>dateStr,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>location,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>url,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>sponsors,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>yAttendees: userInitials || '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>mAttendees: '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>nAttendees: ''</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>eventsData.push(newEv);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>renderEvents();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>closeModal();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>fetch(SHEET_API_URL, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>method: 'POST',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>mode: 'no-cors',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>headers: { 'Content-Type': 'text/plain' },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>body: JSON.stringify({ action: 'add', ...newEv })</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} catch (err) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>console.error('Failed to append to Sheet', err);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>async function sendRelayMessage() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const msgInput = document.getElementById('email-message-body');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const contactInput = document.getElementById('email-sender-contact');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const statusEl = document.getElementById('email-relay-status');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const btn = document.getElementById('btn-send-relay');</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const message = msgInput.value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!message) return;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>btn.disabled = true;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>btn.textContent = 'TRANSMITTING...';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>statusEl.classList.remove('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>statusEl.textContent = 'Sending...';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>await fetch(SHEET_API_URL, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>method: 'POST',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>mode: 'no-cors',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>headers: { 'Content-Type': 'text/plain' },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>body: JSON.stringify({</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>action: 'relay_email',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>senderId: userInitials,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>senderContact: contactInput.value.trim(),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>message: message</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>})</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>statusEl.textContent = '✓ Message transmitted to Cobb.';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>statusEl.className = 'text-[10px] text-center text-[#00ffcc] font-mono';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>msgInput.value = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; { closeWhoDis(); }, 1600);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} catch (e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>statusEl.textContent = 'Transmission failed. Try again.';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>statusEl.className = 'text-[10px] text-center text-red-400 font-mono';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} finally {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>btn.disabled = false;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>btn.textContent = 'TRANSMIT MESSAGE';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function openWhoDis() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('who-dis-modal').classList.remove('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function closeWhoDis() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('who-dis-modal').classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('email-relay-status').classList.add('hidden');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>loadEvents();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+<body class="min-h-screen flex flex-col items-center pb-12">
+
+  <!-- TOP COMMAND HEADER -->
+  <header class="w-full max-w-5xl px-3 py-2.5 flex items-center justify-between border-b border-[#0f2338] sticky top-0 bg-[#050b14]/95 backdrop-blur z-20">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2.5 h-2.5 bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]"></span>
+      <span class="font-pixel text-xs tracking-wider text-[#00ffcc]">RADAR://NET</span>
+      <span class="text-[11px] text-[#38bdf8]/60 font-mono tracking-wide ml-1">[CHRONOLOGICAL ROLLCALL]</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <div class="flex items-center bg-[#071322] border border-[#163252] px-2 py-1 rounded text-xs">
+        <span class="text-[#38bdf8] mr-1.5 text-[11px] font-bold">ID:</span>
+        <input 
+          id="user-initials" 
+          type="text" 
+          maxlength="10" 
+          placeholder="INITIALS" 
+          class="w-20 bg-transparent text-[#00ffcc] font-bold uppercase outline-none focus:text-white"
+          title="Enter 2-letter initials or short nickname"
+        />
+      </div>
+
+      <button 
+        onclick="openModal()" 
+        class="bg-[#00e699] hover:bg-[#00ffab] text-[#050b14] font-bold text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-all active:scale-95"
+      >
+        <span>+</span> EVENT
+      </button>
+
+      <button 
+        onclick="openWhoDis()" 
+        class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-colors"
+      >
+        <span>📇</span> WHO DIS?
+      </button>
+    </div>
+  </header>
+
+  <!-- EVENT STREAM -->
+  <main class="w-full max-w-5xl px-3 py-3">
+    <div id="event-list" class="space-y-2">
+      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Scanning events feed...</div>
+    </div>
+  </main>
+
+  <!-- ADD / EDIT EVENT MODAL -->
+  <div id="event-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3">
+    <div class="bg-[#081526] border border-[#163860] w-full max-w-md p-4 rounded-lg shadow-2xl space-y-3">
+      <div class="flex justify-between items-center border-b border-[#163860] pb-2">
+        <span id="modal-heading" class="font-pixel text-[10px] text-[#00ffcc]">ADD EVENT</span>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+      </div>
+
+      <input type="hidden" id="modal-event-id" value="">
+
+      <div>
+        <label class="block text-[10px] text-[#38bdf8] uppercase font-bold mb-1">Web Address (Required)</label>
+        <div class="flex gap-1.5">
+          <input 
+            id="modal-url" 
+            type="url" 
+            placeholder="https://conference.org" 
+            class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1.5 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
+            onkeydown="if(event.key==='Enter') autoFetchMetadata()"
+          />
+          <button 
+            type="button" 
+            onclick="autoFetchMetadata()" 
+            class="bg-[#0e2746] border border-[#19497e] text-xs px-2.5 py-1.5 rounded text-[#38bdf8] hover:bg-[#38bdf8] hover:text-black font-bold shrink-0"
+          >
+            SCAN
+          </button>
+        </div>
+      </div>
+
+      <div id="scan-status" class="text-[10px] text-[#38bdf8]/70 font-mono hidden"></div>
+
+      <div class="space-y-2 pt-1 border-t border-[#163860]/50 text-xs">
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Title</label>
+          <input id="modal-title" type="text" placeholder="Event title" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Date Display</label>
+            <input id="modal-date-str" type="text" placeholder="e.g. Sep 30 – Oct 2, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Start Date (For Sort)</label>
+            <input id="modal-start-date" type="date" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc] text-[11px]">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Location</label>
+          <input id="modal-location" type="text" placeholder="City, State / Country" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+        </div>
+
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Key Sponsors / Hosts</label>
+          <input id="modal-sponsors" type="text" placeholder="Key sponsors / hosts" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end gap-2 border-t border-[#163860]">
+        <button onclick="closeModal()" class="px-3 py-1 text-xs text-slate-400 hover:text-white">CANCEL</button>
+        <button id="modal-submit-btn" onclick="saveEvent()" class="bg-[#00e699] text-[#050b14] font-bold px-3.5 py-1 text-xs rounded hover:bg-[#00ffab]">PUBLISH</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHO DIS MODAL -->
+  <div id="who-dis-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-30 hidden flex items-center justify-center p-3">
+    <div class="bg-[#081526] border border-[#163860] w-full max-w-sm p-4 rounded-lg space-y-3 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-[#163860] pb-2">
+        <span class="font-pixel text-[10px] text-[#38bdf8]">WHO DIS? // RADAR OPERATOR</span>
+        <button onclick="closeWhoDis()" class="text-slate-400 hover:text-white text-base">✕</button>
+      </div>
+      
+      <div class="space-y-2 text-xs leading-relaxed text-slate-300">
+        <p>Attendees are listed by initials or short nicknames for lightweight anonymity.</p>
+        <p class="text-slate-400">If someone's initials are unknown, message Cobb:</p>
+        <div class="bg-[#050b14] border border-[#163860] rounded p-2 text-[#00ffcc] font-mono text-[11px]">
+          &gt; Message Cobb via Text, Signal, WhatsApp, or Telegram.
+        </div>
+      </div>
+
+      <div class="border-t border-[#163860] pt-2.5 space-y-2">
+        <div class="text-[10px] text-[#38bdf8] uppercase font-bold">Or transmit email via webhook:</div>
+        <input 
+          id="email-sender-contact" 
+          type="text" 
+          placeholder="Your return contact (optional)" 
+          class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
+        />
+        <textarea 
+          id="email-message-body" 
+          rows="2" 
+          placeholder="Hey, who is 'MK' on Ignite PDX?" 
+          class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
+        ></textarea>
+        
+        <button 
+          id="btn-send-relay" 
+          onclick="sendRelayMessage()" 
+          class="w-full bg-[#0e2746] border border-[#19497e] hover:bg-[#38bdf8] hover:text-black text-white text-xs font-bold py-1.5 rounded transition-colors"
+        >
+          TRANSMIT MESSAGE
+        </button>
+        <div id="email-relay-status" class="text-[10px] text-center font-mono hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyLOxhsA3a86NO0A3MLrqg5fNVb0Tb_MGwUMb3wamgdSJyiyh9om0ritl8j5VODZz_z/exec";
+
+    const SEED_EVENTS = [
+      { id: "ignite-pdx", title: "Ignite PDX Hackathon (Brilliance Labs)", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Portland, OR", url: "https://brilliancelabs.org/ignite-pdx.html", sponsors: "Brilliance Labs, Ignite AI, Frontier Labs", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "missio-nexus-2026", title: "Missio Nexus Annual Leaders Conference", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Orlando, FL (Caribe Royale) & Virtual", url: "https://web.cvent.com/event/654a1d2b-f757-4491-a480-fc3f68a2ccc5/websitePage:3bf16a10-e965-4de4-88df-84d98c5be47d?environment=P2&RefId=homepage", sponsors: "World Vision, Crossworld, Pioneer Bible", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "gloo-hackathon-2026", title: "Gloo AI Hackathon 2026", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Boulder, CO", url: "https://www.gloo.com/hackathon", sponsors: "Gloo, AI Innovation Guild, Kingdom Ops", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "missionary-2026", title: "Missionary 2026 National Conference", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Dallas-Fort Worth, TX (SWBTS)", url: "https://www.missionary.com/2026", sponsors: "Missionary.com, Radius International, John Piper, Mark Dever, Kevin DeYoung", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "emnlp-2026", title: "EMNLP 2026 (Empirical Methods in NLP)", startDate: "2026-10-24", dateStr: "Oct 24–29, 2026", location: "Budapest, Hungary", url: "https://2026.emnlp.org/", sponsors: "ACL, SIGDAT, Google, Meta", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "the-builder-2026", title: "The Builder Conference (Stackhouse Ventures)", startDate: "2026-11-02", dateStr: "Nov 2–5, 2026", location: "Jackson Hole, WY (SpringHill Suites)", url: "https://stackhouseventures.com/builder-conference", sponsors: "Stackhouse Ventures, Igniter Media, Church Media Squad", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "reach-2026", title: "Reach Conference 2026", startDate: "2026-11-05", dateStr: "Nov 5–7, 2026", location: "Orlando, FL", url: "https://www.reachconf.org/", sponsors: "Reach Network", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "crosscon", title: "Cross Con 2027", startDate: "2027-01-01", dateStr: "Jan 1–3, 2027", location: "Louisville, KY (KICC)", url: "https://crosscon.com/", sponsors: "Cross Network", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "ces-2027", title: "CES 2027", startDate: "2027-01-05", dateStr: "Jan 5–8, 2027", location: "Las Vegas, NV", url: "https://www.ces.tech/", sponsors: "CTA", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "eth-denver-2027", title: "ETHDenver 2027", startDate: "2027-02-23", dateStr: "Feb 2027", location: "Denver, CO", url: "https://www.ethdenver.com/", sponsors: "SporkDAO", yAttendees: "", mAttendees: "", nAttendees: "" },
+      { id: "missional-ai-2027", title: "Missional AI Summit 2027", startDate: "2027-03-30", dateStr: "Mar 30 – Apr 1, 2027", location: "Hyatt Regency SFO, SF Bay Area, CA", url: "https://missional.ai/", sponsors: "Missional.ai", yAttendees: "", mAttendees: "", nAttendees: "" }
+    ];
+
+    let eventsData = [...SEED_EVENTS];
+    let userInitials = localStorage.getItem('radar_initials') || '';
+
+    const initialsInput = document.getElementById('user-initials');
+    initialsInput.value = userInitials;
+    initialsInput.addEventListener('input', (e) => {
+      userInitials = e.target.value.trim().toUpperCase();
+      localStorage.setItem('radar_initials', userInitials);
+      renderEvents();
+    });
+
+    async function loadEvents() {
+      try {
+        const res = await fetch(SHEET_API_URL);
+        if (res.ok) {
+          const remoteData = await res.json();
+          if (Array.isArray(remoteData) && remoteData.length > 0) {
+            eventsData = remoteData.map(e => ({
+              id: e.id || String(Date.now()),
+              title: e.title || 'Untitled Event',
+              startDate: e.startDate || '2026-12-31',
+              endDate: e.endDate || '',
+              dateStr: e.dateStr || '',
+              location: e.location || '',
+              url: e.url || '',
+              sponsors: e.sponsors || '',
+              yAttendees: e.yAttendees || '',
+              mAttendees: e.mAttendees || '',
+              nAttendees: e.nAttendees || ''
+            }));
+          }
+        }
+      } catch (err) {
+        console.warn('Using seeded events fallback');
+      }
+      renderEvents();
+    }
+
+    function renderEvents() {
+      const list = document.getElementById('event-list');
+      const sorted = [...eventsData].sort((a, b) => (a.startDate || '').localeCompare(b.startDate || ''));
+
+      list.innerHTML = sorted.map(ev => {
+        const yArr = (ev.yAttendees || '').split(';').filter(Boolean);
+        const mArr = (ev.mAttendees || '').split(';').filter(Boolean);
+        const nArr = (ev.nAttendees || '').split(';').filter(Boolean);
+
+        const isY = userInitials && yArr.includes(userInitials);
+        const isM = userInitials && mArr.includes(userInitials);
+        const isN = userInitials && nArr.includes(userInitials);
+
+        return `
+          <div class="bg-[#081321] border border-[#122842] hover:border-[#1d426d] px-3.5 py-2.5 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 transition-colors group">
+            
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <a href="${ev.url}" target="_blank" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1">
+                  ${ev.title}
+                  <span class="text-[10px] text-slate-400">↗</span>
+                </a>
+                <span class="text-[10px] font-mono text-[#38bdf8] bg-[#0c2440] border border-[#164373] px-1.5 py-0.2 rounded">
+                  ${ev.dateStr || ev.startDate}
+                </span>
+                <button 
+                  onclick="openEditModal('${ev.id}')" 
+                  class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline"
+                  title="Edit event details"
+                >
+                  [edit]
+                </button>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-x-2 text-[11px] text-slate-400 mt-1">
+                <span class="flex items-center gap-1 text-slate-300">
+                  <span class="text-red-400 text-[10px]">📍</span>${ev.location || 'TBD'}
+                </span>
+                ${ev.sponsors ? `<span class="text-slate-600">•</span><span class="text-slate-400 font-mono text-[10px]">INFO: ${ev.sponsors}</span>` : ''}
+              </div>
+
+              <div class="flex items-center gap-2 text-[10px] font-mono mt-1.5 border-t border-[#0e2136] pt-1.5">
+                <div class="flex items-center gap-1">
+                  <span class="text-slate-400">Y:</span>
+                  ${yArr.length > 0 
+                    ? yArr.map(init => `<span class="bg-[#0d2a29] border border-[#155e56] text-[#00ffcc] font-bold px-1.5 py-0.2 rounded text-[10px]">${init}</span>`).join('')
+                    : `<span class="text-slate-600">--</span>`
+                  }
+                </div>
+                <span class="text-slate-700">|</span>
+                <div class="flex items-center gap-1">
+                  <span class="text-slate-400">M:</span>
+                  ${mArr.length > 0 
+                    ? mArr.map(init => `<span class="bg-[#2c2214] border border-[#6b4715] text-[#f59e0b] font-bold px-1.5 py-0.2 rounded text-[10px]">${init}</span>`).join('')
+                    : `<span class="text-slate-600">--</span>`
+                  }
+                </div>
+                ${nArr.length > 0 ? `
+                  <span class="text-slate-700">|</span>
+                  <div class="flex items-center gap-1">
+                    <span class="text-slate-400">N:</span>
+                    ${nArr.map(init => `<span class="bg-[#1a2333] border border-[#2b3a55] text-slate-400 px-1.5 py-0.2 rounded text-[10px]">${init}</span>`).join('')}
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+
+            <div class="shrink-0 self-end md:self-center">
+              <div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden">
+                <button 
+                  onclick="setRSVP('${ev.id}', 'Y')" 
+                  class="px-2.5 py-1 text-xs font-bold transition-colors ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
+                  title="Going"
+                >Y</button>
+                <button 
+                  onclick="setRSVP('${ev.id}', 'M')" 
+                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
+                  title="Maybe"
+                >M</button>
+                <button 
+                  onclick="setRSVP('${ev.id}', 'N')" 
+                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
+                  title="Out"
+                >N</button>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function setRSVP(eventId, status) {
+      if (!userInitials) {
+        initialsInput.focus();
+        initialsInput.classList.add('ring-2', 'ring-[#00ffcc]');
+        setTimeout(() => initialsInput.classList.remove('ring-2', 'ring-[#00ffcc]'), 1500);
+        return;
+      }
+
+      const ev = eventsData.find(e => e.id === eventId);
+      if (!ev) return;
+
+      let y = (ev.yAttendees || '').split(';').filter(Boolean);
+      let m = (ev.mAttendees || '').split(';').filter(Boolean);
+      let n = (ev.nAttendees || '').split(';').filter(Boolean);
+
+      const currentStatus = y.includes(userInitials) ? 'Y' : m.includes(userInitials) ? 'M' : n.includes(userInitials) ? 'N' : null;
+
+      y = y.filter(i => i !== userInitials);
+      m = m.filter(i => i !== userInitials);
+      n = n.filter(i => i !== userInitials);
+
+      if (currentStatus !== status) {
+        if (status === 'Y') y.push(userInitials);
+        if (status === 'M') m.push(userInitials);
+        if (status === 'N') n.push(userInitials);
+      }
+
+      ev.yAttendees = y.join(';');
+      ev.mAttendees = m.join(';');
+      ev.nAttendees = n.join(';');
+
+      renderEvents();
+
+      try {
+        fetch(SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'rsvp',
+            id: ev.id,
+            yAttendees: ev.yAttendees,
+            mAttendees: ev.mAttendees,
+            nAttendees: ev.nAttendees
+          })
+        });
+      } catch (err) {
+        console.error('RSVP sync error:', err);
+      }
+    }
+
+    function autoFetchMetadata() {
+      const urlInput = document.getElementById('modal-url');
+      const val = urlInput.value.trim();
+      if (!val) return;
+
+      const statusEl = document.getElementById('scan-status');
+      statusEl.classList.remove('hidden');
+      statusEl.textContent = '> Scanning URL...';
+
+      try {
+        const u = new URL(val);
+        const host = u.hostname.replace('www.', '');
+        const slug = u.pathname.replace(/^\/|\/$/g, '').split('/').pop() || '';
+        
+        let derivedTitle = host.split('.')[0].toUpperCase();
+        if (slug && !slug.includes('event') && !slug.includes('websitePage')) {
+          derivedTitle += ' ' + slug.replace(/[-_]/g, ' ').toUpperCase();
+        }
+
+        const titleEl = document.getElementById('modal-title');
+        if (!titleEl.value) titleEl.value = derivedTitle;
+
+        statusEl.textContent = '> Extracted from URL';
+      } catch (e) {
+        statusEl.textContent = '> Manual entry mode';
+      }
+    }
+
+    function openEditModal(eventId) {
+      const ev = eventsData.find(e => e.id === eventId);
+      if (!ev) return;
+
+      document.getElementById('modal-event-id').value = ev.id;
+      document.getElementById('modal-heading').textContent = 'EDIT EVENT';
+      document.getElementById('modal-submit-btn').textContent = 'SAVE CHANGES';
+
+      document.getElementById('modal-url').value = ev.url || '';
+      document.getElementById('modal-title').value = ev.title || '';
+      document.getElementById('modal-date-str').value = ev.dateStr || '';
+      document.getElementById('modal-start-date').value = ev.startDate || '';
+      document.getElementById('modal-location').value = ev.location || '';
+      document.getElementById('modal-sponsors').value = ev.sponsors || '';
+
+      document.getElementById('scan-status').classList.add('hidden');
+      document.getElementById('event-modal').classList.remove('hidden');
+    }
+
+    function openModal() {
+      document.getElementById('modal-event-id').value = '';
+      document.getElementById('modal-heading').textContent = 'ADD EVENT';
+      document.getElementById('modal-submit-btn').textContent = 'PUBLISH';
+
+      document.getElementById('modal-url').value = '';
+      document.getElementById('modal-title').value = '';
+      document.getElementById('modal-date-str').value = '';
+      document.getElementById('modal-start-date').value = '';
+      document.getElementById('modal-location').value = '';
+      document.getElementById('modal-sponsors').value = '';
+
+      document.getElementById('scan-status').classList.add('hidden');
+      document.getElementById('event-modal').classList.remove('hidden');
+      document.getElementById('modal-url').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('event-modal').classList.add('hidden');
+    }
+
+    function saveEvent() {
+      const eventId = document.getElementById('modal-event-id').value;
+      const url = document.getElementById('modal-url').value.trim();
+      if (!url) return;
+
+      let title = document.getElementById('modal-title').value.trim();
+      let dateStr = document.getElementById('modal-date-str').value.trim();
+      let startDate = document.getElementById('modal-start-date').value;
+      let location = document.getElementById('modal-location').value.trim();
+      let sponsors = document.getElementById('modal-sponsors').value.trim();
+
+      if (!title) {
+        try { title = new URL(url).hostname.replace('www.', ''); } catch { title = "New Event"; }
+      }
+      if (!startDate) startDate = "2026-12-31";
+      if (!dateStr) dateStr = startDate;
+
+      if (eventId) {
+        const ev = eventsData.find(e => e.id === eventId);
+        if (ev) {
+          ev.url = url;
+          ev.title = title;
+          ev.dateStr = dateStr;
+          ev.startDate = startDate;
+          ev.location = location;
+          ev.sponsors = sponsors;
+
+          renderEvents();
+          closeModal();
+
+          try {
+            fetch(SHEET_API_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain' },
+              body: JSON.stringify({
+                action: 'edit',
+                id: ev.id,
+                title,
+                startDate,
+                dateStr,
+                location,
+                url,
+                sponsors
+              })
+            });
+          } catch (err) {
+            console.error('Failed to sync edit', err);
+          }
+        }
+      } else {
+        const newEv = {
+          id: 'ev-' + Date.now(),
+          title,
+          startDate,
+          endDate: '',
+          dateStr,
+          location,
+          url,
+          sponsors,
+          yAttendees: userInitials || '',
+          mAttendees: '',
+          nAttendees: ''
+        };
+
+        eventsData.push(newEv);
+        renderEvents();
+        closeModal();
+
+        try {
+          fetch(SHEET_API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({ action: 'add', ...newEv })
+          });
+        } catch (err) {
+          console.error('Failed to append to Sheet', err);
+        }
+      }
+    }
+
+    async function sendRelayMessage() {
+      const msgInput = document.getElementById('email-message-body');
+      const contactInput = document.getElementById('email-sender-contact');
+      const statusEl = document.getElementById('email-relay-status');
+      const btn = document.getElementById('btn-send-relay');
+      
+      const message = msgInput.value.trim();
+      if (!message) return;
+
+      btn.disabled = true;
+      btn.textContent = 'TRANSMITTING...';
+      statusEl.classList.remove('hidden');
+      statusEl.textContent = 'Sending...';
+
+      try {
+        await fetch(SHEET_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'relay_email',
+            senderId: userInitials,
+            senderContact: contactInput.value.trim(),
+            message: message
+          })
+        });
+
+        statusEl.textContent = '✓ Message transmitted to Cobb.';
+        statusEl.className = 'text-[10px] text-center text-[#00ffcc] font-mono';
+        msgInput.value = '';
+        setTimeout(() => { closeWhoDis(); }, 1600);
+      } catch (e) {
+        statusEl.textContent = 'Transmission failed. Try again.';
+        statusEl.className = 'text-[10px] text-center text-red-400 font-mono';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'TRANSMIT MESSAGE';
+      }
+    }
+
+    function openWhoDis() {
+      document.getElementById('who-dis-modal').classList.remove('hidden');
+    }
+    function closeWhoDis() {
+      document.getElementById('who-dis-modal').classList.add('hidden');
+      document.getElementById('email-relay-status').classList.add('hidden');
+    }
+
+    loadEvents();
+  </script>
 </body>
 </html>
