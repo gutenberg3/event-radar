@@ -1,537 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RADAR // CHRONOLOGICAL ROLLCALL</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            pixel: ['"Press Start 2P"', 'monospace'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    body {
-      background-color: #050b14;
-      color: #cbd5e1;
-      font-family: 'JetBrains Mono', monospace;
-      -webkit-font-smoothing: antialiased;
-    }
-    input, button, textarea {
-      font-family: 'JetBrains Mono', monospace;
-    }
-  </style>
-</head>
-<body class="min-h-screen flex flex-col items-center pb-12">
-
-  <!-- TOP COMMAND HEADER -->
-  <header class="w-full max-w-5xl px-3 py-2.5 flex items-center justify-between border-b border-[#0f2338] sticky top-0 bg-[#050b14]/95 backdrop-blur z-20">
-    <div class="flex items-center gap-2">
-      <span class="inline-block w-2.5 h-2.5 bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]"></span>
-      <span class="font-pixel text-xs tracking-wider text-[#00ffcc]">RADAR://NET</span>
-      <span id="sync-banner" class="text-[10px] text-[#38bdf8]/60 font-mono tracking-wide ml-1">[READY]</span>
-    </div>
-
-    <div class="flex items-center gap-2">
-      <div class="flex items-center bg-[#071322] border border-[#163252] px-2 py-1 rounded text-xs">
-        <span class="text-[#38bdf8] mr-1.5 text-[11px] font-bold">ID:</span>
-        <input 
-          id="user-initials" 
-          type="text" 
-          maxlength="10" 
-          placeholder="INITIALS" 
-          class="w-20 bg-transparent text-[#00ffcc] font-bold uppercase outline-none focus:text-white"
-        />
-      </div>
-
-      <button 
-        id="btn-add-event"
-        type="button"
-        class="bg-[#00e699] hover:bg-[#00ffab] text-[#050b14] font-bold text-xs px-2.5 py-1 rounded flex items-center gap-1 transition-all active:scale-95 cursor-pointer"
-      >
-        <span>+</span> EVENT
-      </button>
-
-      <button 
-        id="btn-who-dis"
-        type="button"
-        class="bg-[#081e36] border border-[#19406b] hover:border-[#38bdf8] text-[#38bdf8] text-xs px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer"
-      >
-        <span>📇</span> WHO DIS?
-      </button>
-    </div>
-  </header>
-
-  <!-- EVENT STREAM -->
-  <main class="w-full max-w-5xl px-3 py-3">
-    <div id="event-list" class="space-y-2">
-      <div class="text-xs text-[#38bdf8]/60 py-12 text-center animate-pulse">Initializing rollcall radar...</div>
-    </div>
-  </main>
-
-  <!-- EDIT / ADD MODAL -->
-  <div id="event-modal" style="display: none;" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 items-center justify-center p-3">
-    <div class="bg-[#081526] border border-[#163860] w-full max-w-md p-4 rounded-lg shadow-2xl space-y-3">
-      <div class="flex justify-between items-center border-b border-[#163860] pb-2">
-        <span id="modal-heading" class="font-pixel text-[10px] text-[#00ffcc]">EDIT EVENT</span>
-        <button id="modal-close-x" type="button" class="text-slate-400 hover:text-white text-sm cursor-pointer">✕</button>
-      </div>
-
-      <input type="hidden" id="modal-event-index" value="">
-
-      <div>
-        <label class="block text-[10px] text-[#38bdf8] uppercase font-bold mb-1">Web Address</label>
-        <input 
-          id="modal-url" 
-          type="url" 
-          placeholder="https://conference.org" 
-          class="w-full bg-[#050b14] border border-[#163860] px-2.5 py-1.5 rounded text-xs text-white outline-none focus:border-[#00ffcc]"
-        />
-      </div>
-
-      <div class="space-y-2 pt-1 border-t border-[#163860]/50 text-xs">
-        <div>
-          <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Title</label>
-          <input id="modal-title" type="text" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Date Display</label>
-            <input id="modal-date-str" type="text" placeholder="e.g. Sep 30 – Oct 2, 2026" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
-          </div>
-          <div>
-            <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Start Date (Sort)</label>
-            <input id="modal-start-date" type="text" placeholder="YYYY-MM-DD" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc] text-[11px]">
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Location</label>
-          <input id="modal-location" type="text" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
-        </div>
-
-        <div>
-          <label class="block text-[10px] text-slate-400 uppercase mb-0.5">Key Sponsors / Hosts</label>
-          <input id="modal-sponsors" type="text" class="w-full bg-[#050b14] border border-[#163860] px-2 py-1 rounded text-white outline-none focus:border-[#00ffcc]">
-        </div>
-      </div>
-
-      <div class="pt-2 flex justify-end gap-2 border-t border-[#163860]">
-        <button id="modal-cancel-btn" type="button" class="px-3 py-1 text-xs text-slate-400 hover:text-white cursor-pointer">CANCEL</button>
-        <button id="modal-save-btn" type="button" class="bg-[#00e699] text-[#050b14] font-bold px-4 py-1 text-xs rounded hover:bg-[#00ffab] cursor-pointer">
-          SAVE TO SHEET
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- WHO DIS MODAL -->
-  <div id="who-dis-modal" style="display: none;" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 items-center justify-center p-3">
-    <div class="bg-[#081526] border border-[#163860] w-full max-w-sm p-4 rounded-lg space-y-3 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-[#163860] pb-2">
-        <span class="font-pixel text-[10px] text-[#38bdf8]">WHO DIS? // RADAR OPERATOR</span>
-        <button id="who-dis-close" type="button" class="text-slate-400 hover:text-white text-base cursor-pointer">✕</button>
-      </div>
-      <div class="space-y-2 text-xs text-slate-300">
-        <p>Attendees use 2-letter initials or nicknames for lightweight network rollcall.</p>
-        <div class="bg-[#050b14] border border-[#163860] rounded p-2 text-[#00ffcc] font-mono text-[11px]">
-          &gt; Message Cobb via Text, Signal, WhatsApp, or Telegram.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyLOxhsA3a86NO0A3MLrqg5fNVb0Tb_MGwUMb3wamgdSJyiyh9om0ritl8j5VODZz_z/exec";
-
-    const FALLBACK_EVENTS = [
-      { id: "ignite-pdx", title: "Ignite PDX Hackathon (Brilliance Labs)", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Portland, OR", url: "https://brilliancelabs.org/ignite-pdx.html", sponsors: "Brilliance Labs, Ignite AI, Frontier Labs", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "missio-nexus-2026", title: "Missio Nexus Annual Leaders Conference", startDate: "2026-09-30", dateStr: "Sep 30 – Oct 2, 2026", location: "Orlando, FL (Caribe Royale) & Virtual", url: "https://web.cvent.com/event/654a1d2b-f757-4491-a480-fc3f68a2ccc5/websitePage:3bf16a10-e965-4de4-88df-84d98c5be47d?environment=P2&RefId=homepage", sponsors: "World Vision, Crossworld, Pioneer Bible", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "gloo-hackathon-2026", title: "Gloo AI Hackathon 2026", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Boulder, CO", url: "https://www.gloo.com/hackathon", sponsors: "Gloo, AI Innovation Guild, Kingdom Ops", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "missionary-2026", title: "Missionary 2026 National Conference", startDate: "2026-10-14", dateStr: "Oct 14–16, 2026", location: "Dallas-Fort Worth, TX (SWBTS)", url: "https://www.missionary.com/2026", sponsors: "Missionary.com, Radius International, John Piper, Mark Dever, Kevin DeYoung", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "indigitous-hack-2026", title: "Indigitous #HACK 2026", startDate: "2026-10-16", dateStr: "Oct 16–18, 2026", location: "Global (50+ Cities & Online)", url: "https://indigitous.org/hack", sponsors: "Indigitous, Cru, Global Tech Networks", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "emnlp-2026", title: "EMNLP 2026 (Empirical Methods in NLP)", startDate: "2026-10-24", dateStr: "Oct 24–29, 2026", location: "Budapest, Hungary", url: "https://2026.emnlp.org/", sponsors: "ACL, SIGDAT, Google, Meta", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "the-builder-2026", title: "The Builder Conference (Stackhouse Ventures)", startDate: "2026-11-02", dateStr: "Nov 2–5, 2026", location: "Jackson Hole, WY (SpringHill Suites)", url: "https://stackhouseventures.com/builder-conference", sponsors: "Stackhouse Ventures, Igniter Media, Church Media Squad", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "reach-2026", title: "Reach Conference 2026", startDate: "2026-11-05", dateStr: "Nov 5–7, 2026", location: "Orlando, FL", url: "https://www.reachconf.org/", sponsors: "Reach Network", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "web-summit-2026", title: "Web Summit 2026", startDate: "2026-11-09", dateStr: "Nov 9–12, 2026", location: "Lisbon, Portugal", url: "https://websummit.com/", sponsors: "Web Summit, Global Tech & Ventures", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "neurips-2026", title: "NeurIPS 2026 (Neural Information Processing)", startDate: "2026-12-06", dateStr: "Dec 6–12, 2026", location: "Vancouver, BC, Canada", url: "https://neurips.cc/", sponsors: "NeurIPS Foundation, DeepMind, OpenAI", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "crosscon", title: "Cross Con 2027", startDate: "2027-01-01", dateStr: "Jan 1–3, 2027", location: "Louisville, KY (KICC)", url: "https://crosscon.com/", sponsors: "Cross Network", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "ces-2027", title: "CES 2027", startDate: "2027-01-05", dateStr: "Jan 5–8, 2027", location: "Las Vegas, NV", url: "https://www.ces.tech/", sponsors: "CTA", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "eth-denver-2027", title: "ETHDenver 2027", startDate: "2027-02-23", dateStr: "Feb 2027", location: "Denver, CO", url: "https://www.ethdenver.com/", sponsors: "SporkDAO", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "exponential-2027", title: "Exponential Global 2027", startDate: "2027-03-01", dateStr: "Mar 1–4, 2027", location: "Orlando, FL (First Baptist)", url: "https://exponential.org/events", sponsors: "Exponential, Church Multiplication Networks", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "sxsw-2027", title: "SXSW Interactive 2027", startDate: "2027-03-12", dateStr: "Mar 12–20, 2027", location: "Austin, TX", url: "https://www.sxsw.com/", sponsors: "SXSW, Tech & Media Sponsors", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "missional-ai-2027", title: "Missional AI Summit 2027", startDate: "2027-03-30", dateStr: "Mar 30 – Apr 1, 2027", location: "Hyatt Regency SFO, SF Bay Area, CA", url: "https://missional.ai/", sponsors: "Missional.ai", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "cla-outcomes-2027", title: "Outcomes Conference 2027 (CLA)", startDate: "2027-04-13", dateStr: "Apr 13–15, 2027", location: "Dallas / Fort Worth, TX", url: "https://outcomesconference.org/", sponsors: "Christian Leadership Alliance", yAttendees: "", mAttendees: "", nAttendees: "" },
-      { id: "consensus-2027", title: "Consensus 2027", startDate: "2027-05-18", dateStr: "May 18–20, 2027", location: "Toronto, Canada", url: "https://consensus.coindesk.com/", sponsors: "CoinDesk, Institutional Web3", yAttendees: "", mAttendees: "", nAttendees: "" }
-    ];
-
-    let eventsData = [...FALLBACK_EVENTS];
-    let userInitials = (localStorage.getItem('radar_initials') || '').trim().toUpperCase();
-
-    function cleanArray(str) {
-      return String(str || '')
-        .replace(/['"]/g, '')
-        .split(';')
-        .map(s => s.trim().toUpperCase())
-        .filter(Boolean);
-    }
-
-    function renderEvents() {
-      const list = document.getElementById('event-list');
-      if (!list) return;
-
-      list.innerHTML = eventsData.map((ev, index) => {
-        const yArr = cleanArray(ev.yAttendees);
-        const mArr = cleanArray(ev.mAttendees);
-        const nArr = cleanArray(ev.nAttendees);
-
-        const isY = userInitials !== '' && yArr.includes(userInitials);
-        const isM = userInitials !== '' && mArr.includes(userInitials);
-        const isN = userInitials !== '' && nArr.includes(userInitials);
-
-        return `
-          <div class="bg-[#081321] border border-[#122842] hover:border-[#1d426d] px-3.5 py-2.5 rounded-md flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 transition-colors">
-            
-            <div class="min-w-0 flex-1">
-              <div class="flex flex-wrap items-center gap-2">
-                <a href="${ev.url || '#'}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-white hover:text-[#38bdf8] flex items-center gap-1">
-                  ${ev.title || 'Untitled'}
-                  <span class="text-[10px] text-slate-400">↗</span>
-                </a>
-                <span class="text-[10px] font-mono text-[#38bdf8] bg-[#0c2440] border border-[#164373] px-1.5 py-0.2 rounded">
-                  ${ev.dateStr || ev.startDate || 'TBD'}
-                </span>
-                <button 
-                  type="button"
-                  data-action="edit"
-                  data-index="${index}"
-                  class="text-[10px] font-mono text-slate-500 hover:text-[#38bdf8] hover:underline cursor-pointer"
-                >
-                  [edit]
-                </button>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-x-2 text-[11px] text-slate-400 mt-1">
-                <span class="flex items-center gap-1 text-slate-300">
-                  <span class="text-red-400 text-[10px]">📍</span>${ev.location || 'TBD'}
-                </span>
-                ${ev.sponsors ? `<span class="text-slate-600">•</span><span class="text-slate-400 font-mono text-[10px]">INFO: ${ev.sponsors}</span>` : ''}
-              </div>
-
-              <div class="flex items-center gap-2 text-[10px] font-mono mt-1.5 border-t border-[#0e2136] pt-1.5">
-                <div class="flex items-center gap-1">
-                  <span class="text-slate-400">Y:</span>
-                  ${yArr.length > 0 
-                    ? yArr.map(init => `<span class="bg-[#0d2a29] border border-[#155e56] text-[#00ffcc] font-bold px-1.5 py-0.2 rounded text-[10px]">${init}</span>`).join('')
-                    : `<span class="text-slate-600">--</span>`
-                  }
-                </div>
-                <span class="text-slate-700">|</span>
-                <div class="flex items-center gap-1">
-                  <span class="text-slate-400">M:</span>
-                  ${mArr.length > 0 
-                    ? mArr.map(init => `<span class="bg-[#2c2214] border border-[#6b4715] text-[#f59e0b] font-bold px-1.5 py-0.2 rounded text-[10px]">${init}</span>`).join('')
-                    : `<span class="text-slate-600">--</span>`
-                  }
-                </div>
-                ${nArr.length > 0 ? `
-                  <span class="text-slate-700">|</span>
-                  <div class="flex items-center gap-1">
-                    <span class="text-slate-400">N:</span>
-                    ${nArr.map(init => `<span class="bg-[#1a2333] border border-[#2b3a55] text-slate-400 px-1.5 py-0.2 rounded text-[10px]">${init}</span>`).join('')}
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-
-            <div class="shrink-0 self-end md:self-center">
-              <div class="flex items-center border border-[#163860] bg-[#06101d] rounded overflow-hidden">
-                <button 
-                  type="button"
-                  data-action="rsvp"
-                  data-status="Y"
-                  data-index="${index}"
-                  class="px-2.5 py-1 text-xs font-bold transition-colors cursor-pointer ${isY ? 'bg-[#00e699] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#00e699]'}"
-                >Y</button>
-                <button 
-                  type="button"
-                  data-action="rsvp"
-                  data-status="M"
-                  data-index="${index}"
-                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors cursor-pointer ${isM ? 'bg-[#f59e0b] text-[#050b14]' : 'text-slate-400 hover:bg-[#0c223a] hover:text-[#f59e0b]'}"
-                >M</button>
-                <button 
-                  type="button"
-                  data-action="rsvp"
-                  data-status="N"
-                  data-index="${index}"
-                  class="px-2.5 py-1 text-xs font-bold border-l border-[#163860] transition-colors cursor-pointer ${isN ? 'bg-slate-700 text-white' : 'text-slate-500 hover:bg-[#0c223a] hover:text-slate-300'}"
-                >N</button>
-              </div>
-            </div>
-
-          </div>
-        `;
-      }).join('');
-    }
-
-    async function loadEvents() {
-      const banner = document.getElementById('sync-banner');
-      try {
-        const res = await fetch(SHEET_API_URL);
-        if (res.ok) {
-          const liveRows = await res.json();
-          if (Array.isArray(liveRows) && liveRows.length > 0) {
-            eventsData = liveRows;
-            eventsData.sort((a, b) => String(a.startDate || '').localeCompare(String(b.startDate || '')));
-            if (banner) {
-              banner.textContent = '[LIVE]';
-              banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
-            }
-          }
-        }
-      } catch (err) {
-        if (banner) {
-          banner.textContent = '[OFFLINE / SEED]';
-          banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
-        }
-      }
-      renderEvents();
-    }
-
-    function openEdit(index) {
-      const ev = eventsData[index];
-      if (!ev) return;
-
-      document.getElementById('modal-event-index').value = String(index);
-      document.getElementById('modal-heading').textContent = 'EDIT EVENT';
-      document.getElementById('modal-save-btn').textContent = 'SAVE TO SHEET';
-
-      document.getElementById('modal-url').value = ev.url || '';
-      document.getElementById('modal-title').value = ev.title || '';
-      document.getElementById('modal-date-str').value = ev.dateStr || '';
-      document.getElementById('modal-start-date').value = ev.startDate || '';
-      document.getElementById('modal-location').value = ev.location || '';
-      document.getElementById('modal-sponsors').value = ev.sponsors || '';
-
-      const modal = document.getElementById('event-modal');
-      modal.style.display = 'flex';
-    }
-
-    function openAddModal() {
-      document.getElementById('modal-event-index').value = '';
-      document.getElementById('modal-heading').textContent = 'ADD NEW EVENT';
-      document.getElementById('modal-save-btn').textContent = 'ADD TO SHEET';
-
-      document.getElementById('modal-url').value = '';
-      document.getElementById('modal-title').value = '';
-      document.getElementById('modal-date-str').value = '';
-      document.getElementById('modal-start-date').value = '';
-      document.getElementById('modal-location').value = '';
-      document.getElementById('modal-sponsors').value = '';
-
-      const modal = document.getElementById('event-modal');
-      modal.style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('event-modal').style.display = 'none';
-    }
-
-   function postToSheet(payload) {
-  const banner = document.getElementById('sync-banner');
-  if (banner) {
-    banner.textContent = '[SAVING...]';
-    banner.className = 'text-[10px] text-amber-400 font-mono tracking-wide ml-1';
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RADAR // NET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050b14; --bg-1:#08111d; --bg-2:#0c1726; --line:#132338; --line-2:#1c3350;
+    --green:#00ffcc; --green-dim:rgba(0,255,204,.14);
+    --blue:#38bdf8; --blue-dim:rgba(56,189,248,.14);
+    --amber:#fbbf24; --amber-dim:rgba(251,191,36,.14);
+    --red:#f87171;
+    --text:#e2ecf5; --text-2:#93a7bd; --text-3:#5a7189; --text-4:#324965;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{margin:0;color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh;
+    background:
+      radial-gradient(900px 400px at 15% -10%, rgba(0,255,204,.07), transparent 60%),
+      radial-gradient(700px 300px at 90% 0%, rgba(56,189,248,.06), transparent 60%),
+      var(--bg)}
+  a{color:inherit;text-decoration:none}
+  button,input{font:inherit;color:inherit}
+  button{cursor:pointer;background:none;border:0;padding:0}
+  :focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:3px}
+  .mono{font-family:var(--mono)}
 
-  // Use URL-encoded parameters to guarantee Google Apps Script receives the full body
-  const formData = new URLSearchParams();
-  formData.append('payload', JSON.stringify(payload));
+  /* ===== command bar ===== */
+  .bar{position:sticky;top:0;z-index:5;background:rgba(5,11,20,.88);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line)}
+  .bar::after{content:"";display:block;height:1px;background:linear-gradient(90deg,var(--green),transparent 40%,transparent 60%,var(--blue));opacity:.6}
+  .bar-in{max-width:1060px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .brand{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.12em;color:var(--green);
+    text-shadow:0 0 14px rgba(0,255,204,.45);white-space:nowrap}
+  .brand i{font-style:normal;color:var(--text-3);text-shadow:none}
+  .brand b{display:inline-block;width:8px;height:15px;background:var(--green);vertical-align:-2px;margin-left:4px;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .sync{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--text-3);
+    padding:4px 9px;border:1px solid var(--line);border-radius:99px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--text-4)}
+  .dot.live{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .dot.local{background:var(--amber)}
+  .dot.err{background:var(--red)}
+  .spacer{flex:1}
+  .idwrap{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:.06em}
+  #initials{width:96px;padding:7px 10px;background:var(--bg-2);color:var(--green);font-family:var(--mono);font-weight:600;
+    border:1px solid var(--line-2);border-radius:5px;text-transform:uppercase;letter-spacing:.14em;text-align:center}
+  #initials::placeholder{color:var(--text-4);text-transform:none;letter-spacing:0;font-weight:400}
+  #initials.flash{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-dim)}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--line-2);border-radius:5px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--text-2);background:var(--bg-1)}
+  .btn:hover{border-color:var(--blue);color:var(--blue)}
+  .btn.primary{background:var(--green);border-color:var(--green);color:#03211b;font-weight:600}
+  .btn.primary:hover{filter:brightness(1.08);color:#03211b}
+  .btn.danger{color:var(--red);border-color:transparent;background:none}
+  .btn.danger:hover{border-color:var(--red);color:var(--red)}
 
-  fetch(SHEET_API_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    body: formData
-  }).then(() => {
-    if (banner) {
-      banner.textContent = '[SAVED]';
-      banner.className = 'text-[10px] text-[#00ffcc] font-mono tracking-wide ml-1';
-      setTimeout(() => { banner.textContent = '[LIVE]'; }, 2000);
+  /* ===== status line ===== */
+  main{max-width:1060px;margin:0 auto;padding:22px 20px 80px}
+  .status{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--text-3);
+    padding-bottom:16px;margin-bottom:6px;border-bottom:1px dashed var(--line)}
+  .status .k{color:var(--text-4)}
+  .status .v{color:var(--text-2)}
+  .status .v.hi{color:var(--green)}
+  .status .sp{flex:1}
+  .switch{display:inline-flex;align-items:center;gap:8px;color:var(--text-3)}
+  .switch .track{width:28px;height:16px;border-radius:99px;background:var(--line-2);position:relative;transition:background .15s}
+  .switch .track::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text-2);transition:transform .15s}
+  .switch.on .track{background:var(--green-dim);box-shadow:inset 0 0 0 1px var(--green)}
+  .switch.on .track::after{transform:translateX(12px);background:var(--green)}
+
+  /* ===== timeline ===== */
+  .month{display:grid;grid-template-columns:96px 1fr;column-gap:22px;margin-top:22px}
+  .month-rail{position:sticky;top:78px;align-self:start;font-family:var(--mono);line-height:1.1;padding-top:14px}
+  .month-rail .m{font-size:22px;font-weight:600;letter-spacing:.08em;color:var(--blue)}
+  .month-rail .y{font-size:11px;letter-spacing:.14em;color:var(--text-4);margin-top:3px}
+  .month-rail .c{font-size:11px;color:var(--text-4);margin-top:10px}
+  .events{border-left:1px solid var(--line);padding-left:0}
+
+  .row{position:relative;display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:start;
+    padding:14px 14px 14px 26px;border-bottom:1px solid var(--line);transition:background .12s}
+  .row:hover{background:var(--bg-1)}
+  .row::before{content:"";position:absolute;left:-5px;top:21px;width:9px;height:9px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--text-4)}
+  .row.me-y::before{border-color:var(--green);background:var(--green);box-shadow:0 0 8px var(--green)}
+  .row.me-m::before{border-color:var(--amber);background:var(--amber)}
+  .row.me-n::before{border-color:var(--text-4);background:var(--text-4)}
+  .row.past{opacity:.42}
+  .row.past:hover{opacity:.8}
+  .row.next{background:linear-gradient(90deg,var(--green-dim),transparent 55%)}
+  .when{font-family:var(--mono);font-size:12px;color:var(--blue);letter-spacing:.04em;display:flex;gap:10px;align-items:center}
+  .when .tag{font-size:10px;letter-spacing:.14em;color:#03211b;background:var(--green);padding:1px 6px;border-radius:3px;font-weight:600}
+  .when .days{color:var(--text-4)}
+  .title{font-size:16px;font-weight:600;line-height:1.3;margin-top:2px}
+  .title a:hover{color:var(--green)}
+  .title .ext{font-family:var(--mono);font-size:12px;color:var(--text-4);margin-left:6px;font-weight:400}
+  .title a:hover .ext{color:var(--green)}
+  .meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--text-2);font-size:13px;margin-top:3px}
+  .meta .loc{color:var(--text-2)}
+  .meta .hosts{color:var(--text-3)}
+  .edit{font-family:var(--mono);font-size:11px;color:var(--text-4);letter-spacing:.04em;opacity:0;transition:opacity .12s}
+  .row:hover .edit,.edit:focus-visible{opacity:1}
+  .edit:hover{color:var(--blue)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:9px;font-family:var(--mono);font-size:11px}
+  .grp{display:inline-flex;align-items:center;gap:5px}
+  .grp .lbl{color:var(--text-4);letter-spacing:.06em}
+  .chip{padding:2px 7px;border-radius:3px;font-weight:500;letter-spacing:.1em}
+  .chip.y{color:var(--green);background:var(--green-dim)}
+  .chip.m{color:var(--amber);background:var(--amber-dim)}
+  .chip.n{color:var(--text-3);background:rgba(90,113,137,.14);text-decoration:line-through}
+  .chip.me{outline:1px solid currentColor}
+  .planbar{margin-top:9px}
+  .planbtn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text-3);padding:3px 8px;border:1px solid var(--line-2);border-radius:4px;background:var(--bg-2)}
+  .planbtn:hover,.planbtn.open{color:var(--green);border-color:var(--green)}
+  .plan{grid-column:1/-1;margin-top:10px;padding:10px 12px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:6px;font-family:var(--mono);font-size:12px}
+  .plan .overlap{color:var(--green);margin-bottom:8px;letter-spacing:.04em}
+  .plan .overlap b{color:var(--text-3);font-weight:400;margin-right:6px}
+  .plan-row{display:grid;grid-template-columns:44px 1fr;gap:4px 10px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
+  .plan-row:first-of-type{border-top:0}
+  .plan-row .arrow{color:var(--text-4);margin:0 6px}
+  .plan-row .pn{color:var(--text-3);font-family:var(--sans);font-size:12px}
+  .plan-row .pd{color:var(--text-2)}
+  .plan-edit{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;color:var(--text-3)}
+  .plan-edit input,.plan-edit select{background:var(--bg);color:var(--text);border:1px solid var(--line-2);border-radius:4px;padding:4px 6px;font-family:var(--mono);font-size:12px}
+  .plan-edit input[type=date]{width:130px;color-scheme:dark}
+  .plan-edit .p-note{flex:1;min-width:160px;font-family:var(--sans)}
+  .plan-edit .btn{padding:4px 9px;font-size:11px}
+  .plan .hint{margin:6px 0 0}
+
+  .toggle{display:inline-flex;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:var(--bg-2);margin-top:2px}
+  .toggle button{width:40px;height:34px;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--text-3);
+    border-right:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1}
+  .toggle button small{font-size:8px;letter-spacing:.1em;font-weight:400;opacity:.7;margin-top:2px}
+  .toggle button:last-child{border-right:0}
+  .toggle button:hover{color:var(--text);background:var(--bg-1)}
+  .toggle button.on.y{background:var(--green);color:#03211b}
+  .toggle button.on.m{background:var(--amber);color:#2b1d00}
+  .toggle button.on.n{background:var(--text-4);color:var(--text)}
+  .empty{color:var(--text-3);padding:60px 0;text-align:center;font-family:var(--mono)}
+  .empty b{display:block;color:var(--text-2);font-size:16px;margin-bottom:6px;font-weight:500}
+
+  /* ===== modals ===== */
+  .modal{position:fixed;inset:0;background:rgba(3,7,13,.78);backdrop-filter:blur(4px);display:none;
+    align-items:flex-start;justify-content:center;padding:48px 16px;overflow:auto;z-index:10}
+  .modal.open{display:flex}
+  .panel{width:100%;max-width:540px;background:var(--bg-1);border:1px solid var(--line-2);border-radius:8px;padding:22px 22px 18px;
+    box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(0,255,204,.06)}
+  .panel h2{margin:0 0 18px;font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--green);font-weight:600}
+  .panel h2 span{color:var(--text-4);margin-right:8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  .field{display:block;margin-bottom:14px}
+  .field span{display:block;color:var(--text-3);font-size:12px;margin-bottom:5px}
+  .field span em{font-style:normal;color:var(--text-4)}
+  .field input{width:100%;padding:9px 11px;background:var(--bg);color:var(--text);border:1px solid var(--line-2);border-radius:5px}
+  .field input:focus{border-color:var(--green);outline:0;box-shadow:0 0 0 3px var(--green-dim)}
+  .actions{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin-top:8px}
+  .actions .danger{margin-right:auto}
+  .note p{margin:0 0 12px;color:var(--text-2);line-height:1.6}
+  .note p strong{color:var(--text);font-weight:500}
+  .err{color:var(--red);font-size:12px;min-height:16px;font-family:var(--mono)}
+  .fetchrow{display:flex;gap:8px}
+  .fetchrow input{flex:1}
+  .fetchrow .btn{white-space:nowrap}
+  .fetchrow .btn[disabled]{opacity:.5;cursor:default}
+  .hint{font-family:var(--mono);font-size:11px;color:var(--text-3);min-height:14px;margin-top:6px}
+  .hint.ok{color:var(--green)}
+  .hint.warn{color:var(--amber)}
+
+  @media (max-width:680px){
+    .bar-in{gap:10px;padding:10px 14px}
+    main{padding:16px 14px 80px}
+    .month{grid-template-columns:1fr;column-gap:0}
+    .month-rail{position:static;display:flex;align-items:baseline;gap:10px;padding:0 0 6px;border-bottom:1px solid var(--line)}
+    .month-rail .m{font-size:16px}
+    .month-rail .y,.month-rail .c{margin:0}
+    .month-rail .c{margin-left:auto}
+    .events{border-left:0}
+    .row{grid-template-columns:1fr;padding:12px 4px}
+    .row::before{display:none}
+    .edit{opacity:1}
+    .toggle{width:100%}
+    .toggle button{flex:1}
+    .grid2{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .brand b{opacity:1}
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="brand">RADAR<i>://</i>NET<b></b></span>
+    <span class="sync"><span class="dot" id="dot"></span><span id="syncText">connecting</span></span>
+    <span class="spacer"></span>
+    <label class="idwrap" for="initials">you are <input id="initials" maxlength="8" placeholder="e.g. JC" autocomplete="off" spellcheck="false"></label>
+    <button class="btn primary" id="addBtn">+ EVENT</button>
+    <button class="btn" id="whoBtn">📇 WHO DIS?</button>
+  </div>
+</header>
+
+<main>
+  <div class="status" id="status"></div>
+  <div id="feed"></div>
+</main>
+
+<div class="modal" id="editModal">
+  <div class="panel">
+    <h2 id="editTitle"><span>//</span>ADD EVENT</h2>
+    <label class="field"><span>Link <em>(paste the event page, then fetch to fill in the rest)</em></span>
+      <div class="fetchrow"><input id="fUrl" type="url" placeholder="https://" autocomplete="off"><button class="btn" id="fetchBtn" type="button">Fetch details</button></div>
+      <div class="hint" id="fetchHint"></div>
+    </label>
+    <label class="field"><span>Title</span><input id="fTitle" required placeholder="Event name"></label>
+    <div class="grid2">
+      <label class="field"><span>Start date <em>(YYYY-MM-DD, drives sorting)</em></span><input id="fStart" required placeholder="2026-10-14" inputmode="numeric"></label>
+      <label class="field"><span>Date as displayed</span><input id="fDateStr" placeholder="Oct 14–16, 2026"></label>
+    </div>
+    <label class="field"><span>Location</span><input id="fLoc" placeholder="City, ST (Venue) or Virtual"></label>
+    <label class="field"><span>Hosts / sponsors</span><input id="fSponsors" placeholder="Comma-separated"></label>
+    <div class="err" id="fErr"></div>
+    <div class="actions">
+      <button class="btn danger" id="deleteBtn" style="display:none">Delete event</button>
+      <button class="btn" id="cancelBtn">Cancel</button>
+      <button class="btn primary" id="saveBtn">Save event</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="whoModal">
+  <div class="panel note">
+    <h2><span>//</span>WHO DIS?</h2>
+    <p><strong>Rollcall is by initials or short handle only.</strong> No accounts, no names, no emails. Everyone on this board is part of a trusted circle, so two letters is usually enough.</p>
+    <p>Can't place a set of initials? Message Cobb via Text, Signal, WhatsApp, or Telegram to verify.</p>
+    <p>Y = going · M = maybe · N = out. Tap your choice again to clear it.</p>
+    <div class="actions"><button class="btn primary" id="whoClose">Got it</button></div>
+  </div>
+</div>
+
+<script>
+/* ================= CONFIG =================
+   Supabase > Project Settings > API. Paste both values; leave empty to run without a backend. */
+const SUPABASE_URL = "https://uchznwahycrtqfajhnau.supabase.co";        // e.g. "https://abcdefgh.supabase.co"
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjaHpud2FoeWNydHFmYWpobmF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MDE0MDcsImV4cCI6MjEwNDA3NzQwN30.QuX-_rf8hpDIyFlvGFX_iDWXWZXwm2xuvvTPChmyjYc";   // the long "anon public" key
+/* ========================================= */
+
+const KEY_EVENTS='radar_events_v1', KEY_INIT='radar_initials';
+const useSB = SUPABASE_URL && SUPABASE_ANON_KEY;
+const mem={};
+const hasKV = typeof window.storage?.get==='function';
+let hasLS=false; try{localStorage.setItem('_t','1');localStorage.removeItem('_t');hasLS=true}catch(e){}
+const store={
+  mode: useSB?'live':(hasKV?'live':(hasLS?'local':'memory')),
+  async get(key,shared){
+    if(hasKV){ try{const r=await window.storage.get(key,shared);return r?r.value:null}catch(e){return null} }
+    if(hasLS) return localStorage.getItem(key);
+    return mem[key]??null;
+  },
+  async set(key,val,shared){
+    if(hasKV){ const r=await window.storage.set(key,val,shared); if(!r) throw new Error('save failed'); return }
+    if(hasLS){ localStorage.setItem(key,val); return }
+    mem[key]=val;
+  }
+};
+
+/* ---------- Supabase REST (no SDK needed) ---------- */
+const toRow=e=>({id:e.id,title:e.title,start_date:e.startDate,date_str:e.dateStr,location:e.location,url:e.url,sponsors:e.sponsors,
+  y_attendees:e.yAttendees||'',m_attendees:e.mAttendees||'',n_attendees:e.nAttendees||''});
+const fromRow=r=>({id:r.id,title:r.title,startDate:r.start_date,dateStr:r.date_str||'',location:r.location||'',url:r.url||'',sponsors:r.sponsors||'',
+  yAttendees:r.y_attendees||'',mAttendees:r.m_attendees||'',nAttendees:r.n_attendees||''});
+async function sb(path,opts={}){
+  const r=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{...opts,headers:{
+    apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json',...(opts.headers||{})}});
+  if(!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+  return r.status===204?null:r.json();
+}
+const sbAll=()=>sb('events?select=*');
+const sbUpsert=rows=>sb('events',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(rows)});
+const sbDelete=id=>sb(`events?id=eq.${encodeURIComponent(id)}`,{method:'DELETE'});
+const toPlanRow=p=>({event_id:p.eventId,initials:p.initials,arrive_date:p.arriveDate||null,arrive_ampm:p.arriveAmpm||'',depart_date:p.departDate||null,depart_ampm:p.departAmpm||'',note:p.note||''});
+const fromPlanRow=r=>({eventId:r.event_id,initials:r.initials,arriveDate:r.arrive_date||'',arriveAmpm:r.arrive_ampm||'',departDate:r.depart_date||'',departAmpm:r.depart_ampm||'',note:r.note||''});
+const sbPlans=()=>sb('plans?select=*');
+const sbPlanUpsert=p=>sb('plans',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([toPlanRow(p)])});
+const sbPlanDelete=p=>sb(`plans?event_id=eq.${encodeURIComponent(p.eventId)}&initials=eq.${encodeURIComponent(p.initials)}`,{method:'DELETE'});
+
+/* ---------- seed data ---------- */
+const SEED=[
+{"id":"ignite-pdx","title":"Ignite PDX Hackathon (Brilliance Labs)","startDate":"2026-09-30","dateStr":"Sep 30 – Oct 2, 2026","location":"Portland, OR","url":"https://brilliancelabs.org/ignite-pdx.html","sponsors":"Brilliance Labs, Ignite AI, Frontier Labs"},
+{"id":"missio-nexus-2026","title":"Missio Nexus Annual Leaders Conference","startDate":"2026-09-30","dateStr":"Sep 30 – Oct 2, 2026","location":"Orlando, FL (Caribe Royale)","url":"https://web.cvent.com/event/654a1d2b-f757-4491-a480-fc3f68a2ccc5/websitePage:3bf16a10-e965-4de4-88df-84d98c5be47d?environment=P2&RefId=homepage","sponsors":"World Vision, Crossworld, Pioneer Bible"},
+{"id":"gloo-hackathon-2026","title":"Gloo AI Hackathon 2026","startDate":"2026-10-14","dateStr":"Oct 14–16, 2026","location":"Boulder, CO","url":"https://www.gloo.com/hackathon","sponsors":"Gloo, AI Innovation Guild, Kingdom Ops"},
+{"id":"missionary-2026","title":"Missionary 2026 National Conference","startDate":"2026-10-14","dateStr":"Oct 14–16, 2026","location":"Dallas-Fort Worth, TX (SWBTS)","url":"https://www.missionary.com/2026","sponsors":"Missionary.com, Radius International, John Piper, Mark Dever"},
+{"id":"indigitous-hack-2026","title":"Indigitous #HACK 2026","startDate":"2026-10-16","dateStr":"Oct 16–18, 2026","location":"Global (50+ Cities & Online)","url":"https://indigitous.org/hack","sponsors":"Indigitous, Cru, Global Tech Networks"},
+{"id":"emnlp-2026","title":"EMNLP 2026 (Empirical Methods in NLP)","startDate":"2026-10-24","dateStr":"Oct 24–29, 2026","location":"Budapest, Hungary","url":"https://2026.emnlp.org/","sponsors":"ACL, SIGDAT, Google, Meta"},
+{"id":"the-builder-2026","title":"The Builder Conference (Stackhouse Ventures)","startDate":"2026-11-02","dateStr":"Nov 2–5, 2026","location":"Jackson Hole, WY (SpringHill Suites)","url":"https://stackhouseventures.com/builder-conference","sponsors":"Stackhouse Ventures, Igniter Media, Church Media Squad"},
+{"id":"reach-2026","title":"Reach Conference 2026","startDate":"2026-11-05","dateStr":"Nov 5–7, 2026","location":"Orlando, FL","url":"https://www.reachconf.org/","sponsors":"Reach Network"},
+{"id":"web-summit-2026","title":"Web Summit 2026","startDate":"2026-11-09","dateStr":"Nov 9–12, 2026","location":"Lisbon, Portugal","url":"https://websummit.com/","sponsors":"Web Summit, Global Tech & Ventures"},
+{"id":"neurips-2026","title":"NeurIPS 2026 (Neural Information Processing)","startDate":"2026-12-06","dateStr":"Dec 6–12, 2026","location":"Vancouver, BC, Canada","url":"https://neurips.cc/","sponsors":"NeurIPS Foundation, DeepMind, OpenAI"},
+{"id":"crosscon","title":"Cross Con 2027","startDate":"2027-01-01","dateStr":"Jan 1–3, 2027","location":"Louisville, KY (KICC)","url":"https://crosscon.com/","sponsors":"Cross Network"},
+{"id":"ces-2027","title":"CES 2027","startDate":"2027-01-05","dateStr":"Jan 5–8, 2027","location":"Las Vegas, NV","url":"https://www.ces.tech/","sponsors":"CTA"},
+{"id":"eth-denver-2027","title":"ETHDenver 2027","startDate":"2027-02-23","dateStr":"Feb 2027","location":"Denver, CO","url":"https://www.ethdenver.com/","sponsors":"SporkDAO"},
+{"id":"exponential-2027","title":"Exponential Global 2027","startDate":"2027-03-01","dateStr":"Mar 1–4, 2027","location":"Orlando, FL (First Baptist)","url":"https://exponential.org/events","sponsors":"Exponential, Church Multiplication Networks"},
+{"id":"sxsw-2027","title":"SXSW Interactive 2027","startDate":"2027-03-12","dateStr":"Mar 12–20, 2027","location":"Austin, TX","url":"https://www.sxsw.com/","sponsors":"SXSW, Tech & Media Sponsors"},
+{"id":"missional-ai-2027","title":"Missional AI Summit 2027","startDate":"2027-03-30","dateStr":"Mar 30 – Apr 1, 2027","location":"Hyatt Regency SFO, SF Bay Area, CA","url":"https://missional.ai/","sponsors":"Missional.ai"},
+{"id":"cla-outcomes-2027","title":"Outcomes Conference 2027 (CLA)","startDate":"2027-04-13","dateStr":"Apr 13–15, 2027","location":"Dallas / Fort Worth, TX","url":"https://outcomesconference.org/","sponsors":"Christian Leadership Alliance"},
+{"id":"consensus-2027","title":"Consensus 2027","startDate":"2027-05-18","dateStr":"May 18–20, 2027","location":"Toronto, Canada","url":"https://consensus.coindesk.com/","sponsors":"CoinDesk, Institutional Web3"}
+].map(e=>({yAttendees:"",mAttendees:"",nAttendees:"",...e}));
+
+/* ---------- state ---------- */
+let events=[], plans=[], me='', showPast=false; const openPlans=new Set();
+const KEY_PLANS='radar_plans_v1';
+const $=id=>document.getElementById(id);
+const feed=$('feed'), dot=$('dot'), syncText=$('syncText'), init=$('initials'), status=$('status');
+const today=new Date().toISOString().slice(0,10);
+const MONTHS=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+function setSync(state,text){dot.className='dot '+state;syncText.textContent=text}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const split=s=>s?s.split(';').filter(Boolean):[];
+const join=a=>a.join(';');
+function sortEvents(){events.sort((a,b)=>a.startDate.localeCompare(b.startDate)||a.title.localeCompare(b.title))}
+function daysUntil(d){return Math.round((new Date(d+'T00:00:00')-new Date(today+'T00:00:00'))/864e5)}
+
+/* ---------- persistence ---------- */
+async function load(){
+  try{
+    if(useSB){
+      let rows=await sbAll();
+      if(!rows.length){ await sbUpsert(SEED.map(toRow)); rows=await sbAll(); }
+      events=rows.map(fromRow);
+      try{ plans=(await sbPlans()).map(fromPlanRow); }catch(e){ console.warn('plans table missing?',e); }
+      setSync('live','live');
+    }else{
+      const raw=await store.get(KEY_EVENTS,true);
+      events=raw?JSON.parse(raw):SEED.map(e=>({...e}));
+      if(!raw) await saveAll();
+      const pr=await store.get(KEY_PLANS,true); plans=pr?JSON.parse(pr):[];
+      setSync(store.mode==='live'?'live':'local', store.mode==='live'?'live':(store.mode==='local'?'this device only':'session only'));
     }
-  }).catch(err => {
-    if (banner) {
-      banner.textContent = '[SYNC ERROR]';
-      banner.className = 'text-[10px] text-red-400 font-mono tracking-wide ml-1';
-    }
-  });
+  }catch(e){ console.error(e); events=events.length?events:SEED.map(e=>({...e})); setSync('err','offline'); }
+  me=(hasLS?localStorage.getItem(KEY_INIT):await store.get(KEY_INIT,false))||''; init.value=me;
+  sortEvents(); render();
+}
+async function saveAll(){ await store.set(KEY_EVENTS,JSON.stringify(events),true); await store.set(KEY_PLANS,JSON.stringify(plans),true) }
+async function savePlan(p){
+  const i=plans.findIndex(x=>x.eventId===p.eventId&&x.initials===p.initials);
+  if(i>=0) plans[i]=p; else plans.push(p);
+  try{ if(useSB) await sbPlanUpsert(p); else await saveAll(); setSync(store.mode==='live'?'live':'local','plan saved'); }
+  catch(err){ console.error(err); setSync('err','plan save failed'); }
+}
+async function deletePlan(p){
+  plans=plans.filter(x=>!(x.eventId===p.eventId&&x.initials===p.initials));
+  try{ if(useSB) await sbPlanDelete(p); else await saveAll(); setSync(store.mode==='live'?'live':'local','saved'); }
+  catch(err){ console.error(err); setSync('err','save failed'); }
+}
+async function saveEvent(e){
+  try{ if(useSB) await sbUpsert([toRow(e)]); else await saveAll(); setSync(store.mode==='live'?'live':'local', store.mode==='live'?'saved':'saved locally'); }
+  catch(err){ console.error(err); setSync('err','save failed'); }
+}
+async function deleteEvent(id){
+  try{ if(useSB) await sbDelete(id); else await saveAll(); setSync(store.mode==='live'?'live':'local','saved'); }
+  catch(err){ console.error(err); setSync('err','delete failed'); }
+}
+async function refresh(){
+  if(document.hidden) return;
+  if(document.activeElement && document.activeElement.closest('.plan-edit, .modal')) return; // don't clobber typing
+  try{
+    let ne=events, np=plans;
+    if(useSB){ ne=(await sbAll()).map(fromRow); try{ np=(await sbPlans()).map(fromPlanRow) }catch(e){} }
+    else if(hasKV){ const raw=await store.get(KEY_EVENTS,true); if(raw) ne=JSON.parse(raw); const pr=await store.get(KEY_PLANS,true); if(pr) np=JSON.parse(pr); }
+    else return;
+    const changed=JSON.stringify([ne,np])!==JSON.stringify([events,plans]);
+    events=ne; plans=np; sortEvents(); if(changed) render(); setSync('live','live');
+  }catch(e){ setSync('err','offline') }
+}
+setInterval(refresh,8000);
+
+/* ---------- render ---------- */
+const shortDate=d=>{ if(!d) return ''; const x=new Date(d+'T00:00:00'); return `${MONTHS[x.getMonth()].charAt(0)+MONTHS[x.getMonth()].slice(1).toLowerCase()} ${x.getDate()}` };
+const planCount=e=>plans.filter(p=>p.eventId===e.id&&(p.arriveDate||p.departDate||p.note)).length;
+const half=(d,ap)=>d?new Date(d+'T00:00:00').getTime()+(ap==='PM'?0.5:0)*864e5:null;
+function planPanel(e,y,m,mine){
+  const attending=new Set([...y,...m]);
+  const rows=plans.filter(p=>p.eventId===e.id&&attending.has(p.initials)&&p.initials!==me)
+    .sort((a,b)=>(a.arriveDate||'').localeCompare(b.arriveDate||''));
+  const mineP=plans.find(p=>p.eventId===e.id&&p.initials===me)||{arriveDate:e.startDate,departDate:e.startDate,arriveAmpm:'AM',departAmpm:'PM'};
+  // overlap window across everyone with both dates
+  const all=plans.filter(p=>p.eventId===e.id&&attending.has(p.initials)&&p.arriveDate&&p.departDate);
+  let overlap='';
+  if(all.length>=2){
+    const lastIn=all.reduce((a,p)=>Math.max(a,half(p.arriveDate,p.arriveAmpm)),-Infinity);
+    const firstOut=all.reduce((a,p)=>Math.min(a,half(p.departDate,p.departAmpm)),Infinity);
+    const f=t=>{const d=new Date(t);const ap=(t/864e5)%1?'PM':'AM';return `${shortDate(d.toISOString().slice(0,10))} ${ap}`};
+    overlap=lastIn<firstOut?`<div class="overlap"><b>everyone in town</b>${f(lastIn)} → ${f(firstOut)} · ${all.length} people</div>`
+                          :`<div class="overlap" style="color:var(--amber)"><b>heads up</b>no window where all ${all.length} overlap</div>`;
+  }
+  const fmt=p=>(p.arriveDate||p.departDate)?`${shortDate(p.arriveDate)||'?'} ${p.arriveAmpm}<span class="arrow">→</span>${shortDate(p.departDate)||'?'} ${p.departAmpm}`:'<span style="color:var(--text-4)">dates tbd</span>';
+  const others=rows.map(p=>`<div class="plan-row"><span class="chip ${y.includes(p.initials)?'y':'m'}">${esc(p.initials)}</span><div><span class="pd">${fmt(p)}</span>${p.note?` <span class="pn">— ${esc(p.note)}</span>`:''}</div></div>`).join('');
+  let mineRow='';
+  if(me && (mine==='y'||mine==='m')){
+    mineRow=`<div class="plan-row plan-edit" data-pid="${esc(e.id)}"><span class="chip ${mine} me">${esc(me)}</span><div class="plan-edit">
+      <span>arrive</span><input type="date" class="p-ad" value="${esc(mineP.arriveDate||'')}" min="${e.startDate.slice(0,4)}-01-01"><select class="p-ap"><option${mineP.arriveAmpm!=='PM'?' selected':''}>AM</option><option${mineP.arriveAmpm==='PM'?' selected':''}>PM</option></select>
+      <span>depart</span><input type="date" class="p-dd" value="${esc(mineP.departDate||'')}"><select class="p-dp"><option${mineP.departAmpm==='AM'?' selected':''}>AM</option><option${mineP.departAmpm!=='AM'?' selected':''}>PM</option></select>
+      <input class="p-note" maxlength="120" placeholder="note — hotel, ride share, dinner…" value="${esc(mineP.note||'')}">
+      <button class="btn primary p-save" data-psave="${esc(e.id)}">Save</button>${mineP.initials?`<button class="btn p-clear" data-pclear="${esc(e.id)}">Clear</button>`:''}
+    </div></div>`;
+  }
+  const hint=!me?`<div class="hint">Set your initials to add your plan.</div>`:(mine!=='y'&&mine!=='m')?`<div class="hint">Mark yourself Y or M to add your dates.</div>`:'';
+  return `<div class="plan">${overlap}${others}${mineRow}${(!others&&!mineRow)?'<div class="hint">No plans yet.</div>':''}${hint}</div>`;
+}
+function myStatus(e){const g=split(e.yAttendees),m=split(e.mAttendees),n=split(e.nAttendees);return g.includes(me)?'y':m.includes(me)?'m':n.includes(me)?'n':''}
+
+function renderStatus(){
+  const upcoming=events.filter(e=>e.startDate>=today);
+  const next=upcoming[0];
+  const mine=events.filter(e=>myStatus(e)==='y').length;
+  const past=events.length-upcoming.length;
+  status.innerHTML=`
+    <span><span class="k">upcoming</span> <span class="v">${upcoming.length}</span></span>
+    ${next?`<span><span class="k">next</span> <span class="v hi">${esc(next.title)}</span> <span class="k">in ${daysUntil(next.startDate)}d</span></span>`:''}
+    ${me?`<span><span class="k">${esc(me)} going to</span> <span class="v">${mine}</span></span>`:''}
+    <span class="sp"></span>
+    ${past?`<button class="switch ${showPast?'on':''}" id="pastToggle" aria-pressed="${showPast}"><span class="track"></span>show ${past} past</button>`:''}`;
+  const t=$('pastToggle'); if(t) t.onclick=()=>{showPast=!showPast;render()};
 }
 
-    function saveEventChanges() {
-      const idxStr = document.getElementById('modal-event-index').value;
-      const url = document.getElementById('modal-url').value.trim();
-      let title = document.getElementById('modal-title').value.trim() || 'New Event';
-      let dateStr = document.getElementById('modal-date-str').value.trim();
-      let startDate = document.getElementById('modal-start-date').value.trim() || '2026-12-31';
-      let location = document.getElementById('modal-location').value.trim();
-      let sponsors = document.getElementById('modal-sponsors').value.trim();
+function render(){
+  renderStatus();
+  const list=showPast?events:events.filter(e=>e.startDate>=today);
+  if(!list.length){feed.innerHTML='<div class="empty"><b>Nothing on the radar</b>Add an event with + EVENT.</div>';return}
+  const nextId=(events.find(e=>e.startDate>=today)||{}).id;
+  const groups=[]; 
+  for(const e of list){const k=e.startDate.slice(0,7); const g=groups[groups.length-1]; if(g&&g.k===k) g.items.push(e); else groups.push({k,items:[e]});}
+  feed.innerHTML=groups.map(g=>{
+    const [y,m]=g.k.split('-');
+    return `<section class="month">
+      <div class="month-rail"><div class="m">${MONTHS[+m-1]}</div><div class="y">${y}</div><div class="c">${g.items.length} event${g.items.length>1?'s':''}</div></div>
+      <div class="events">${g.items.map(row).join('')}</div>
+    </section>`;
+  }).join('');
 
-      if (!dateStr) dateStr = startDate;
+  function row(e){
+    const y=split(e.yAttendees),m=split(e.mAttendees),n=split(e.nAttendees);
+    const mine=myStatus(e), d=daysUntil(e.startDate);
+    const chip=(arr,c,lbl)=>arr.length?`<span class="grp"><span class="lbl">${lbl}</span>${arr.map(a=>`<span class="chip ${c} ${a===me?'me':''}">${esc(a)}</span>`).join('')}</span>`:'';
+    const chips=chip(y,'y','going')+chip(m,'m','maybe')+chip(n,'n','out');
+    const when=d<0?`${-d}d ago`:d===0?'today':`in ${d}d`;
+    return `<div class="row ${mine?'me-'+mine:''} ${e.startDate<today?'past':''} ${e.id===nextId?'next':''}" data-id="${esc(e.id)}">
+      <div>
+        <div class="when">${e.id===nextId?'<span class="tag">NEXT</span>':''}${esc(e.dateStr||e.startDate)} <span class="days">${when}</span></div>
+        <div class="title">${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.title)}<span class="ext">↗</span></a>`:esc(e.title)}</div>
+        <div class="meta"><span class="loc">📍 ${esc(e.location||'TBD')}</span>${e.sponsors?`<span class="hosts">${esc(e.sponsors)}</span>`:''}<button class="edit" data-edit="${esc(e.id)}">edit</button></div>
+        ${chips?`<div class="chips">${chips}</div>`:''}
+        ${y.length?`<div class="planbar"><button class="planbtn ${openPlans.has(e.id)?'open':''}" data-plan="${esc(e.id)}">${openPlans.has(e.id)?'▾':'▸'} PLAN${planCount(e)?` · ${planCount(e)}`:''}</button></div>`:''}
+      </div>
+      <div class="toggle" role="group" aria-label="Rollcall">
+        <button class="y ${mine==='y'?'on':''}" data-rc="y" aria-pressed="${mine==='y'}">Y<small>GOING</small></button>
+        <button class="m ${mine==='m'?'on':''}" data-rc="m" aria-pressed="${mine==='m'}">M<small>MAYBE</small></button>
+        <button class="n ${mine==='n'?'on':''}" data-rc="n" aria-pressed="${mine==='n'}">N<small>OUT</small></button>
+      </div>
+      ${y.length&&openPlans.has(e.id)?planPanel(e,y,m,mine):''}
+    </div>`;
+  }
+}
 
-      if (idxStr !== '') {
-        const ev = eventsData[Number(idxStr)];
-        if (ev) {
-          ev.url = url;
-          ev.title = title;
-          ev.dateStr = dateStr;
-          ev.startDate = startDate;
-          ev.location = location;
-          ev.sponsors = sponsors;
-          
-          renderEvents();
-          closeModal();
+/* ---------- rollcall ---------- */
+feed.addEventListener('click',async ev=>{
+  const rc=ev.target.closest('[data-rc]'); const ed=ev.target.closest('[data-edit]');
+  const pl=ev.target.closest('[data-plan]'), ps=ev.target.closest('[data-psave]'), pc=ev.target.closest('[data-pclear]');
+  if(ed){openEdit(ed.dataset.edit);return}
+  if(pl){ const id=pl.dataset.plan; openPlans.has(id)?openPlans.delete(id):openPlans.add(id); render(); return }
+  if(ps){
+    const box=ps.closest('.plan-edit'), q=c=>box.querySelector(c);
+    const p={eventId:ps.dataset.psave,initials:me,arriveDate:q('.p-ad').value,arriveAmpm:q('.p-ap').value,departDate:q('.p-dd').value,departAmpm:q('.p-dp').value,note:q('.p-note').value.trim()};
+    if(p.arriveDate&&p.departDate&&half(p.departDate,p.departAmpm)<half(p.arriveDate,p.arriveAmpm)){ setSync('err','depart is before arrive'); return }
+    await savePlan(p); render(); return
+  }
+  if(pc){ await deletePlan({eventId:pc.dataset.pclear,initials:me}); render(); return }
+  if(!rc) return;
+  if(!me){ init.focus(); init.classList.add('flash'); setTimeout(()=>init.classList.remove('flash'),1200); return; }
+  const id=rc.closest('.row').dataset.id, choice=rc.dataset.rc;
+  const e=events.find(x=>x.id===id); if(!e) return;
+  const key=c=>c+'Attendees';
+  const was=split(e[key(choice)]).includes(me);
+  for(const c of ['y','m','n']) e[key(c)]=join(split(e[key(c)]).filter(a=>a!==me));
+  if(!was) e[key(choice)]=join([...split(e[key(choice)]),me]);
+  render(); await saveEvent(e);
+});
 
-          postToSheet({
-            action: 'edit',
-            id: ev.id,
-            title,
-            startDate,
-            dateStr,
-            location,
-            url,
-            sponsors
-          });
-        }
-      } else {
-        closeModal();
-        postToSheet({
-          action: 'add',
-          title,
-          startDate,
-          dateStr,
-          location,
-          url,
-          sponsors,
-          yAttendees: userInitials || ''
-        });
-        setTimeout(loadEvents, 1500);
-      }
-    }
+/* ---------- initials ---------- */
+init.addEventListener('input',()=>{
+  const v=init.value.toUpperCase().replace(/\s+/g,'').slice(0,8);
+  if(init.value!==v) init.value=v;
+  me=v; render(); if(hasLS) localStorage.setItem(KEY_INIT,me); else store.set(KEY_INIT,me,false).catch(()=>{});
+});
 
-    function setRSVP(index, status) {
-      const initialsBox = document.getElementById('user-initials');
-      if (!userInitials) {
-        if (initialsBox) {
-          initialsBox.focus();
-          initialsBox.classList.add('ring-2', 'ring-[#00ffcc]');
-          setTimeout(() => initialsBox.classList.remove('ring-2', 'ring-[#00ffcc]'), 1500);
-        }
-        return;
-      }
+/* ---------- add / edit modal ---------- */
+let editingId=null;
+const editModal=$('editModal');
+const f={title:$('fTitle'),url:$('fUrl'),start:$('fStart'),dateStr:$('fDateStr'),loc:$('fLoc'),sponsors:$('fSponsors')};
+function openAdd(){
+  editingId=null; $('editTitle').innerHTML='<span>//</span>ADD EVENT'; $('deleteBtn').style.display='none';
+  Object.values(f).forEach(i=>i.value=''); $('fErr').textContent=''; setHint('');
+  editModal.classList.add('open'); f.url.focus();
+}
+function openEdit(id){
+  const e=events.find(x=>x.id===id); if(!e) return;
+  editingId=id; $('editTitle').innerHTML='<span>//</span>EDIT EVENT'; $('deleteBtn').style.display='';
+  f.title.value=e.title; f.url.value=e.url||''; f.start.value=e.startDate; f.dateStr.value=e.dateStr||'';
+  f.loc.value=e.location||''; f.sponsors.value=e.sponsors||''; $('fErr').textContent=''; setHint('');
+  editModal.classList.add('open'); f.title.focus();
+}
+function closeEdit(){editModal.classList.remove('open')}
+const fetchBtn=$('fetchBtn'), fetchHint=$('fetchHint');
+function setHint(t,c=''){fetchHint.textContent=t;fetchHint.className='hint '+c}
+async function fetchDetails(){
+  let url=f.url.value.trim(); if(!url) {setHint('Paste a link first.','warn');f.url.focus();return}
+  if(!/^https?:\/\//i.test(url)){url='https://'+url;f.url.value=url}
+  if(!useSB){setHint('Auto-fill needs the Supabase backend.','warn');return}
+  fetchBtn.disabled=true; setHint('Reading the page…');
+  try{
+    const r=await fetch(`${SUPABASE_URL}/functions/v1/event-preview`,{method:'POST',
+      headers:{'Content-Type':'application/json',apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`},
+      body:JSON.stringify({url})});
+    const d=await r.json();
+    if(!r.ok||d.error) throw new Error(d.error||`HTTP ${r.status}`);
+    const fill=(inp,v)=>{if(v&&!inp.value.trim()) inp.value=v};
+    fill(f.title,d.title); fill(f.start,d.startDate); fill(f.dateStr,d.dateStr); fill(f.loc,d.location); fill(f.sponsors,d.sponsors);
+    if(d.startDate) setHint('Filled from the page. Check the details, then save.','ok');
+    else setHint('Got the title, but no date was found on the page. Add it below.','warn');
+    (d.startDate?f.loc:f.start).focus();
+  }catch(e){ setHint(`Couldn't read that page (${e.message}). Fill in the details below.`,'warn'); f.title.focus(); }
+  fetchBtn.disabled=false;
+}
+fetchBtn.onclick=fetchDetails;
+f.url.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();fetchDetails()}});
+f.url.addEventListener('paste',()=>{ if(!editingId && !f.title.value.trim()) setTimeout(fetchDetails,50) });
+function slug(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)||'event'}
+$('saveBtn').onclick=async()=>{
+  const title=f.title.value.trim(), start=f.start.value.trim();
+  if(!title){$('fErr').textContent='Title is required.';return}
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(start)){$('fErr').textContent='Start date must look like 2026-10-14.';return}
+  const data={title,url:f.url.value.trim(),startDate:start,dateStr:f.dateStr.value.trim()||start,
+    location:f.loc.value.trim(),sponsors:f.sponsors.value.trim()};
+  let saved;
+  if(editingId){ saved=events.find(x=>x.id===editingId); Object.assign(saved,data); }
+  else{
+    let id=slug(title),b=id,i=2; while(events.some(x=>x.id===id)) id=`${b}-${i++}`;
+    saved={id,...data,yAttendees:'',mAttendees:'',nAttendees:''}; events.push(saved);
+  }
+  sortEvents(); render(); closeEdit(); await saveEvent(saved);
+};
+$('deleteBtn').onclick=async()=>{
+  if(!editingId||!confirm('Delete this event for everyone?')) return;
+  const id=editingId; events=events.filter(x=>x.id!==id); render(); closeEdit(); await deleteEvent(id);
+};
+$('cancelBtn').onclick=closeEdit;
+$('addBtn').onclick=openAdd;
 
-      const ev = eventsData[index];
-      if (!ev) return;
+/* ---------- who dis ---------- */
+const whoModal=$('whoModal');
+$('whoBtn').onclick=()=>whoModal.classList.add('open');
+$('whoClose').onclick=()=>whoModal.classList.remove('open');
+[editModal,whoModal].forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeEdit();whoModal.classList.remove('open')}});
 
-      let y = cleanArray(ev.yAttendees);
-      let m = cleanArray(ev.mAttendees);
-      let n = cleanArray(ev.nAttendees);
-
-      const isCurrentY = y.includes(userInitials);
-      const isCurrentM = m.includes(userInitials);
-      const isCurrentN = n.includes(userInitials);
-
-      y = y.filter(i => i !== userInitials);
-      m = m.filter(i => i !== userInitials);
-      n = n.filter(i => i !== userInitials);
-
-      if (status === 'Y' && !isCurrentY) y.push(userInitials);
-      if (status === 'M' && !isCurrentM) m.push(userInitials);
-      if (status === 'N' && !isCurrentN) n.push(userInitials);
-
-      ev.yAttendees = y.join(';');
-      ev.mAttendees = m.join(';');
-      ev.nAttendees = n.join(';');
-
-      renderEvents();
-
-      postToSheet({
-        action: 'rsvp',
-        id: ev.id,
-        title: ev.title,
-        yAttendees: ev.yAttendees,
-        mAttendees: ev.mAttendees,
-        nAttendees: ev.nAttendees
-      });
-    }
-
-    // Attach all event handlers once DOM is fully parsed
-    window.addEventListener('DOMContentLoaded', () => {
-      const initialsInput = document.getElementById('user-initials');
-      if (initialsInput) {
-        initialsInput.value = userInitials;
-        initialsInput.addEventListener('input', (e) => {
-          userInitials = e.target.value.trim().toUpperCase();
-          localStorage.setItem('radar_initials', userInitials);
-          renderEvents();
-        });
-      }
-
-      const listContainer = document.getElementById('event-list');
-      if (listContainer) {
-        listContainer.addEventListener('click', (e) => {
-          const btn = e.target.closest('button');
-          if (!btn) return;
-
-          const action = btn.dataset.action;
-          const index = Number(btn.dataset.index);
-
-          if (action === 'edit') {
-            openEdit(index);
-          } else if (action === 'rsvp') {
-            const status = btn.dataset.status;
-            setRSVP(index, status);
-          }
-        });
-      }
-
-      const btnAdd = document.getElementById('btn-add-event');
-      if (btnAdd) btnAdd.addEventListener('click', openAddModal);
-
-      const btnWhoDis = document.getElementById('btn-who-dis');
-      const whoDisModal = document.getElementById('who-dis-modal');
-      if (btnWhoDis && whoDisModal) {
-        btnWhoDis.addEventListener('click', () => { whoDisModal.style.display = 'flex'; });
-      }
-
-      const whoDisClose = document.getElementById('who-dis-close');
-      if (whoDisClose && whoDisModal) {
-        whoDisClose.addEventListener('click', () => { whoDisModal.style.display = 'none'; });
-      }
-
-      const modalCloseX = document.getElementById('modal-close-x');
-      if (modalCloseX) modalCloseX.addEventListener('click', closeModal);
-
-      const modalCancelBtn = document.getElementById('modal-cancel-btn');
-      if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
-
-      const modalSaveBtn = document.getElementById('modal-save-btn');
-      if (modalSaveBtn) modalSaveBtn.addEventListener('click', saveEventChanges);
-
-      // Render default seed data immediately, then sync with Sheets
-      renderEvents();
-      loadEvents();
-    });
-  </script>
+load();
+</script>
 </body>
 </html>
