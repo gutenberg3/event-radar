@@ -114,23 +114,35 @@
   .chip.m{color:var(--amber);background:var(--amber-dim)}
   .chip.n{color:var(--text-3);background:rgba(90,113,137,.14);text-decoration:line-through}
   .chip.me{outline:1px solid currentColor}
-  .planbar{margin-top:9px}
-  .planbtn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text-3);padding:3px 8px;border:1px solid var(--line-2);border-radius:4px;background:var(--bg-2)}
-  .planbtn:hover,.planbtn.open{color:var(--green);border-color:var(--green)}
-  .plan{grid-column:1/-1;margin-top:10px;padding:10px 12px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:6px;font-family:var(--mono);font-size:12px}
-  .plan .overlap{color:var(--green);margin-bottom:8px;letter-spacing:.04em}
-  .plan .overlap b{color:var(--text-3);font-weight:400;margin-right:6px}
-  .plan-row{display:grid;grid-template-columns:44px 1fr;gap:4px 10px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
-  .plan-row:first-of-type{border-top:0}
-  .plan-row .arrow{color:var(--text-4);margin:0 6px}
-  .plan-row .pn{color:var(--text-3);font-family:var(--sans);font-size:12px}
-  .plan-row .pd{color:var(--text-2)}
+  .planlink{font-family:var(--mono);font-size:11px;color:var(--text-4);letter-spacing:.06em;margin-left:2px}
+  .planlink:hover,.planlink.open{color:var(--green)}
+  .cal{margin-top:9px;display:inline-grid;grid-auto-rows:16px;gap:2px 2px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em}
+  .cal .h{text-align:center;color:var(--text-4);line-height:1}
+  .cal .h.all{color:var(--green)}
+  .cal .h.ev{color:var(--blue)}
+  .cal .h b{display:block;font-weight:500;font-size:9px;color:var(--text-4)}
+  .cal .h.all b{color:var(--green)}
+  .cal .h.wk{border-left:1px solid var(--line-2)}
+  .cal .who{color:var(--text-3);padding-right:4px;font-weight:500}
+  .cal .who.me{color:var(--text)}
+  .cal .d{height:12px;border-radius:2px;background:transparent}
+  .cal .d.wk{border-left:1px solid var(--line-2);border-radius:0 2px 2px 0}
+  .cal .d.y.full{background:var(--green)}
+  .cal .d.y.pm{background:linear-gradient(90deg,transparent 50%,var(--green) 50%)}
+  .cal .d.y.am{background:linear-gradient(90deg,var(--green) 50%,transparent 50%)}
+  .cal .d.m.full{background:var(--amber)}
+  .cal .d.m.pm{background:linear-gradient(90deg,transparent 50%,var(--amber) 50%)}
+  .cal .d.m.am{background:linear-gradient(90deg,var(--amber) 50%,transparent 50%)}
+  .cal .d.none{background:var(--line)}
+  .calnotes{margin-top:5px;font-family:var(--sans);font-size:11px;color:var(--text-3)}
+  .calnotes b{font-family:var(--mono);font-weight:500;color:var(--text-2);margin-right:4px}
+  .plan{grid-column:1/-1;margin-top:8px;padding:8px 10px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:6px;font-family:var(--mono);font-size:12px}
   .plan-edit{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;color:var(--text-3)}
   .plan-edit input,.plan-edit select{background:var(--bg);color:var(--text);border:1px solid var(--line-2);border-radius:4px;padding:4px 6px;font-family:var(--mono);font-size:12px}
   .plan-edit input[type=date]{width:130px;color-scheme:dark}
   .plan-edit .p-note{flex:1;min-width:160px;font-family:var(--sans)}
   .plan-edit .btn{padding:4px 9px;font-size:11px}
-  .plan .hint{margin:6px 0 0}
+  .plan .hint{margin:0}
 
   .toggle{display:inline-flex;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:var(--bg-2);margin-top:2px}
   .toggle button{width:40px;height:34px;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--text-3);
@@ -383,36 +395,45 @@ setInterval(refresh,8000);
 
 /* ---------- render ---------- */
 const shortDate=d=>{ if(!d) return ''; const x=new Date(d+'T00:00:00'); return `${MONTHS[x.getMonth()].charAt(0)+MONTHS[x.getMonth()].slice(1).toLowerCase()} ${x.getDate()}` };
-const planCount=e=>plans.filter(p=>p.eventId===e.id&&(p.arriveDate||p.departDate||p.note)).length;
 const half=(d,ap)=>d?new Date(d+'T00:00:00').getTime()+(ap==='PM'?0.5:0)*864e5:null;
-function planPanel(e,y,m,mine){
+const addDays=(d,n)=>{const x=new Date(d+'T00:00:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
+function planCalendar(e,y,m){
   const attending=new Set([...y,...m]);
-  const rows=plans.filter(p=>p.eventId===e.id&&attending.has(p.initials)&&p.initials!==me)
-    .sort((a,b)=>(a.arriveDate||'').localeCompare(b.arriveDate||''));
+  const ps=plans.filter(p=>p.eventId===e.id&&attending.has(p.initials)&&(p.arriveDate||p.departDate));
+  if(!ps.length) return '';
+  const dates=ps.flatMap(p=>[p.arriveDate,p.departDate].filter(Boolean)).concat(e.startDate).sort();
+  let start=dates[0], end=dates[dates.length-1];
+  start=addDays(start,-new Date(start+'T00:00:00').getDay());            // back to Sunday
+  end=addDays(end,6-new Date(end+'T00:00:00').getDay());                 // forward to Saturday
+  const days=[]; for(let d=start; d<=end && days.length<28; d=addDays(d,1)) days.push(d);
+  const state=(p,d)=>{
+    const a=p.arriveDate||d, b=p.departDate||d;
+    if(d<a||d>b) return 'none';
+    if(d===a&&d===b) return (p.arriveAmpm==='PM'&&p.departAmpm==='AM')?'none':(p.arriveAmpm==='PM'?'pm':p.departAmpm==='AM'?'am':'full');
+    if(d===a) return p.arriveAmpm==='PM'?'pm':'full';
+    if(d===b) return p.departAmpm==='AM'?'am':'full';
+    return 'full';
+  };
+  const withDates=ps.filter(p=>p.arriveDate&&p.departDate);
+  const allHere=d=>withDates.length>=2&&withDates.every(p=>state(p,d)==='full');
+  const W=['S','M','T','W','T','F','S'];
+  const head=days.map((d,i)=>{const x=new Date(d+'T00:00:00');const wk=i>0&&x.getDay()===0?' wk':'';
+    return `<div class="h${wk}${allHere(d)?' all':d===e.startDate?' ev':''}" title="${d}"><b>${W[x.getDay()]}</b>${x.getDate()}</div>`}).join('');
+  const rows=[...ps].sort((a,b)=>(a.initials===me?-1:b.initials===me?1:0)||(a.arriveDate||'').localeCompare(b.arriveDate||'')).map(p=>
+    `<div class="who ${p.initials===me?'me':''}">${esc(p.initials)}</div>`+
+    days.map((d,i)=>`<div class="d ${y.includes(p.initials)?'y':'m'} ${state(p,d)}${i>0&&new Date(d+'T00:00:00').getDay()===0?' wk':''}" title="${esc(p.initials)} ${d}"></div>`).join('')).join('');
+  const notes=ps.filter(p=>p.note).map(p=>`<b>${esc(p.initials)}</b>${esc(p.note)}`).join(' · ');
+  return `<div class="cal" style="grid-template-columns:auto repeat(${days.length},18px)"><div></div>${head}${rows}</div>${notes?`<div class="calnotes">${notes}</div>`:''}`;
+}
+function planPanel(e,y,m,mine){
+  if(!(me&&(mine==='y'||mine==='m'))) return '';
   const mineP=plans.find(p=>p.eventId===e.id&&p.initials===me)||{arriveDate:e.startDate,departDate:e.startDate,arriveAmpm:'AM',departAmpm:'PM'};
-  // overlap window across everyone with both dates
-  const all=plans.filter(p=>p.eventId===e.id&&attending.has(p.initials)&&p.arriveDate&&p.departDate);
-  let overlap='';
-  if(all.length>=2){
-    const lastIn=all.reduce((a,p)=>Math.max(a,half(p.arriveDate,p.arriveAmpm)),-Infinity);
-    const firstOut=all.reduce((a,p)=>Math.min(a,half(p.departDate,p.departAmpm)),Infinity);
-    const f=t=>{const d=new Date(t);const ap=(t/864e5)%1?'PM':'AM';return `${shortDate(d.toISOString().slice(0,10))} ${ap}`};
-    overlap=lastIn<firstOut?`<div class="overlap"><b>everyone in town</b>${f(lastIn)} → ${f(firstOut)} · ${all.length} people</div>`
-                          :`<div class="overlap" style="color:var(--amber)"><b>heads up</b>no window where all ${all.length} overlap</div>`;
-  }
-  const fmt=p=>(p.arriveDate||p.departDate)?`${shortDate(p.arriveDate)||'?'} ${p.arriveAmpm}<span class="arrow">→</span>${shortDate(p.departDate)||'?'} ${p.departAmpm}`:'<span style="color:var(--text-4)">dates tbd</span>';
-  const others=rows.map(p=>`<div class="plan-row"><span class="chip ${y.includes(p.initials)?'y':'m'}">${esc(p.initials)}</span><div><span class="pd">${fmt(p)}</span>${p.note?` <span class="pn">— ${esc(p.note)}</span>`:''}</div></div>`).join('');
-  let mineRow='';
-  if(me && (mine==='y'||mine==='m')){
-    mineRow=`<div class="plan-row plan-edit" data-pid="${esc(e.id)}"><span class="chip ${mine} me">${esc(me)}</span><div class="plan-edit">
-      <span>arrive</span><input type="date" class="p-ad" value="${esc(mineP.arriveDate||'')}" min="${e.startDate.slice(0,4)}-01-01"><select class="p-ap"><option${mineP.arriveAmpm!=='PM'?' selected':''}>AM</option><option${mineP.arriveAmpm==='PM'?' selected':''}>PM</option></select>
+  return `<div class="plan"><div class="plan-edit" data-pid="${esc(e.id)}"><span class="chip ${mine} me">${esc(me)}</span>
+      <span>arrive</span><input type="date" class="p-ad" value="${esc(mineP.arriveDate||'')}"><select class="p-ap"><option${mineP.arriveAmpm!=='PM'?' selected':''}>AM</option><option${mineP.arriveAmpm==='PM'?' selected':''}>PM</option></select>
       <span>depart</span><input type="date" class="p-dd" value="${esc(mineP.departDate||'')}"><select class="p-dp"><option${mineP.departAmpm==='AM'?' selected':''}>AM</option><option${mineP.departAmpm!=='AM'?' selected':''}>PM</option></select>
       <input class="p-note" maxlength="120" placeholder="note — hotel, ride share, dinner…" value="${esc(mineP.note||'')}">
       <button class="btn primary p-save" data-psave="${esc(e.id)}">Save</button>${mineP.initials?`<button class="btn p-clear" data-pclear="${esc(e.id)}">Clear</button>`:''}
-    </div></div>`;
-  }
-  const hint=!me?`<div class="hint">Set your initials to add your plan.</div>`:(mine!=='y'&&mine!=='m')?`<div class="hint">Mark yourself Y or M to add your dates.</div>`:'';
-  return `<div class="plan">${overlap}${others}${mineRow}${(!others&&!mineRow)?'<div class="hint">No plans yet.</div>':''}${hint}</div>`;
+  </div></div>`;
 }
 function myStatus(e){const g=split(e.yAttendees),m=split(e.mAttendees),n=split(e.nAttendees);return g.includes(me)?'y':m.includes(me)?'m':n.includes(me)?'n':''}
 
@@ -456,8 +477,8 @@ function render(){
         <div class="when">${e.id===nextId?'<span class="tag">NEXT</span>':''}${esc(e.dateStr||e.startDate)} <span class="days">${when}</span></div>
         <div class="title">${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.title)}<span class="ext">↗</span></a>`:esc(e.title)}</div>
         <div class="meta"><span class="loc">📍 ${esc(e.location||'TBD')}</span>${e.sponsors?`<span class="hosts">${esc(e.sponsors)}</span>`:''}<button class="edit" data-edit="${esc(e.id)}">edit</button></div>
-        ${chips?`<div class="chips">${chips}</div>`:''}
-        ${y.length?`<div class="planbar"><button class="planbtn ${openPlans.has(e.id)?'open':''}" data-plan="${esc(e.id)}">${openPlans.has(e.id)?'▾':'▸'} PLAN${planCount(e)?` · ${planCount(e)}`:''}</button></div>`:''}
+        ${chips?`<div class="chips">${chips}${y.length&&(mine==='y'||mine==='m')?`<button class="planlink ${openPlans.has(e.id)?'open':''}" data-plan="${esc(e.id)}">${plans.some(p=>p.eventId===e.id&&p.initials===me)?'edit plan':'plan'}</button>`:''}</div>`:''}
+        ${y.length?planCalendar(e,y,m):''}
       </div>
       <div class="toggle" role="group" aria-label="Rollcall">
         <button class="y ${mine==='y'?'on':''}" data-rc="y" aria-pressed="${mine==='y'}">Y<small>GOING</small></button>
@@ -479,9 +500,9 @@ feed.addEventListener('click',async ev=>{
     const box=ps.closest('.plan-edit'), q=c=>box.querySelector(c);
     const p={eventId:ps.dataset.psave,initials:me,arriveDate:q('.p-ad').value,arriveAmpm:q('.p-ap').value,departDate:q('.p-dd').value,departAmpm:q('.p-dp').value,note:q('.p-note').value.trim()};
     if(p.arriveDate&&p.departDate&&half(p.departDate,p.departAmpm)<half(p.arriveDate,p.arriveAmpm)){ setSync('err','depart is before arrive'); return }
-    await savePlan(p); render(); return
+    await savePlan(p); openPlans.delete(p.eventId); render(); return
   }
-  if(pc){ await deletePlan({eventId:pc.dataset.pclear,initials:me}); render(); return }
+  if(pc){ await deletePlan({eventId:pc.dataset.pclear,initials:me}); openPlans.delete(pc.dataset.pclear); render(); return }
   if(!rc) return;
   if(!me){ init.focus(); init.classList.add('flash'); setTimeout(()=>init.classList.remove('flash'),1200); return; }
   const id=rc.closest('.row').dataset.id, choice=rc.dataset.rc;
