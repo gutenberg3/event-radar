@@ -140,6 +140,7 @@
   .plan-edit .p-note{width:180px;font-family:var(--sans)}
   .plan-edit .btn{padding:4px 9px;font-size:11px}
   .plan .hint{margin:0;color:var(--text-4)}
+  .plan>.planlink{margin:2px 0 0;align-self:center}
 
   .toggle{display:inline-flex;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:var(--bg-2);margin-top:2px}
   .toggle button{width:40px;height:34px;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--text-3);
@@ -322,7 +323,7 @@ const SEED=[
 ].map(e=>({yAttendees:"",mAttendees:"",nAttendees:"",...e}));
 
 /* ---------- state ---------- */
-let events=[], plans=[], me='', showPast=false; const openPlans=new Set();
+let events=[], plans=[], me='', showPast=false; const openPlans=new Set(), editPlans=new Set();
 const KEY_PLANS='radar_plans_v1';
 const $=id=>document.getElementById(id);
 const feed=$('feed'), dot=$('dot'), syncText=$('syncText'), init=$('initials'), status=$('status');
@@ -428,12 +429,14 @@ function planCalendar(e,y,m){
 function planPanel(e,y,m,mine){
   const cal=planCalendar(e,y,m);
   if(!(me&&(mine==='y'||mine==='m'))) return `<div class="plan">${cal||'<div class="hint">No plans yet.</div>'}<div class="hint">${me?'Mark yourself Y or M to add your dates.':'Set your initials to add your dates.'}</div></div>`;
-  const mineP=plans.find(p=>p.eventId===e.id&&p.initials===me)||{arriveDate:e.startDate,departDate:e.startDate,arriveAmpm:'AM',departAmpm:'PM'};
+  const saved=plans.find(p=>p.eventId===e.id&&p.initials===me);
+  if(saved && !editPlans.has(e.id)) return `<div class="plan">${cal}<button class="planlink" data-pedit="${esc(e.id)}">edit plan</button></div>`;
+  const mineP=saved||{arriveDate:e.startDate,departDate:e.startDate,arriveAmpm:'AM',departAmpm:'PM'};
   return `<div class="plan">${cal}<div class="plan-edit" data-pid="${esc(e.id)}"><span class="chip ${mine} me">${esc(me)}</span>
       <span>arrive</span><input type="date" class="p-ad" value="${esc(mineP.arriveDate||'')}"><select class="p-ap"><option${mineP.arriveAmpm!=='PM'?' selected':''}>AM</option><option${mineP.arriveAmpm==='PM'?' selected':''}>PM</option></select>
       <span>depart</span><input type="date" class="p-dd" value="${esc(mineP.departDate||'')}"><select class="p-dp"><option${mineP.departAmpm==='AM'?' selected':''}>AM</option><option${mineP.departAmpm!=='AM'?' selected':''}>PM</option></select>
       <input class="p-note" maxlength="120" placeholder="note — hotel, ride share, dinner…" value="${esc(mineP.note||'')}">
-      <button class="btn primary p-save" data-psave="${esc(e.id)}">Save</button>${mineP.initials?`<button class="btn p-clear" data-pclear="${esc(e.id)}">Clear</button>`:''}
+      <button class="btn primary p-save" data-psave="${esc(e.id)}">Save</button>${saved?`<button class="btn p-clear" data-pcancel="${esc(e.id)}">Cancel</button><button class="btn p-clear" data-pclear="${esc(e.id)}">Remove</button>`:''}
   </div></div>`;
 }
 function myStatus(e){const g=split(e.yAttendees),m=split(e.mAttendees),n=split(e.nAttendees);return g.includes(me)?'y':m.includes(me)?'m':n.includes(me)?'n':''}
@@ -494,15 +497,18 @@ function render(){
 feed.addEventListener('click',async ev=>{
   const rc=ev.target.closest('[data-rc]'); const ed=ev.target.closest('[data-edit]');
   const pl=ev.target.closest('[data-plan]'), ps=ev.target.closest('[data-psave]'), pc=ev.target.closest('[data-pclear]');
+  const pe=ev.target.closest('[data-pedit]'), px=ev.target.closest('[data-pcancel]');
+  if(pe){ editPlans.add(pe.dataset.pedit); render(); return }
+  if(px){ editPlans.delete(px.dataset.pcancel); render(); return }
   if(ed){openEdit(ed.dataset.edit);return}
   if(pl){ const id=pl.dataset.plan; openPlans.has(id)?openPlans.delete(id):openPlans.add(id); render(); return }
   if(ps){
     const box=ps.closest('.plan-edit'), q=c=>box.querySelector(c);
     const p={eventId:ps.dataset.psave,initials:me,arriveDate:q('.p-ad').value,arriveAmpm:q('.p-ap').value,departDate:q('.p-dd').value,departAmpm:q('.p-dp').value,note:q('.p-note').value.trim()};
     if(p.arriveDate&&p.departDate&&half(p.departDate,p.departAmpm)<half(p.arriveDate,p.arriveAmpm)){ setSync('err','depart is before arrive'); return }
-    await savePlan(p); render(); return
+    await savePlan(p); editPlans.delete(p.eventId); render(); return
   }
-  if(pc){ await deletePlan({eventId:pc.dataset.pclear,initials:me}); render(); return }
+  if(pc){ await deletePlan({eventId:pc.dataset.pclear,initials:me}); editPlans.delete(pc.dataset.pclear); render(); return }
   if(!rc) return;
   if(!me){ init.focus(); init.classList.add('flash'); setTimeout(()=>init.classList.remove('flash'),1200); return; }
   const id=rc.closest('.row').dataset.id, choice=rc.dataset.rc;
